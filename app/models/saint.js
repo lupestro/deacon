@@ -67,7 +67,7 @@ export default Ember.Object.extend({
 	},
 	passPlate: function(plate, neighbor){
 		if (neighbor) {
-			if (!neighbor.receivePlate(plate, this)) {
+			if (!neighbor.receivePlate(plate)) {
 				plate.direction = 0;
 			}
 		} else {
@@ -78,11 +78,12 @@ export default Ember.Object.extend({
 			}
 		}
 	},
-	receivePlate: function(plate, from) {
+	receivePlate: function(plate) {
+		var oldSeat = plate.seat;
 		plate.move(this.pew, this.seat);
-		if (from.seat < this.seat) {
+		if (oldSeat < this.seat) {
 			plate.direction = 1;
-		} else if (from.seat > this.seat) {
+		} else if (oldSeat > this.seat) {
 			plate.direction = -1;
 		}
 		this.fed = true;

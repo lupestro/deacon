@@ -48,17 +48,25 @@ export default Ember.Object.extend({
 					break;
 				}
 			}
-		} else if (!plate.pew.hasPlateInMotion() &&this.plates.indexOf(plate) >= 0 && !this._passed[this.plates.indexOf(plate)]) { // ready to pass
-			if (this.seat < 0) {
-				plate.direction = 1;
-			} else {
-				plate.direction = -1;
+		} else if (!plate.pew.hasPlateInMotion() && this.plates.indexOf(plate) >= 0) {
+			var somethingPassed = false;
+			for (var m = 0, mLen = this.plates.length; m < mLen; m++) {
+				if (this._passed[m]) {
+					somethingPassed = true;
+				}
 			}
-			var saint = plate.pew.findSaint(plate.seat + plate.direction);
-			if (saint) {
-				this.passPlate(plate, saint);
-			} else {
-				plate.direction = 0;
+			if (!somethingPassed) {
+				if (this.seat < 0) {
+					plate.direction = 1;
+				} else {
+					plate.direction = -1;
+				}
+				var saint = plate.pew.findSaint(plate.seat + plate.direction);
+				if (saint) {
+					this.passPlate(plate, saint);
+				} else {
+					plate.direction = 0;
+				}
 			}
 		}
 	},
@@ -92,7 +100,7 @@ export default Ember.Object.extend({
 				} else {
 					plate.direction = -1;
 				}
-				if (neighbor.receivePlate(plate, this)) {
+				if (neighbor.receivePlate(plate)) {
 					var index = this.plates.indexOf(plate);
 					if (index >= 0) {
 						this.plates.splice(index,index+1);
@@ -102,7 +110,7 @@ export default Ember.Object.extend({
 			}
 		}
 	},
-	receivePlate: function(plate, from) {
+	receivePlate: function(plate) {
 		plate.move(this.pew, this.seat);
 		plate.direction = 0;
 		this.plates.push(plate);
