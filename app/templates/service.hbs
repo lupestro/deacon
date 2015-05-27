@@ -1,0 +1,8 @@
+<p>Stage: {{model.stageName}}</p>
+{{sanctuary-diagram layoutx=model.layout deacons=model.deacons plates=model.plates width=model.width height=model.height}}
+<div class="control">
+	<button {{action 'start'}} >Start</button>
+	<button {{action 'restart'}} >Restart</button>
+	<button {{action 'next'}} >Next</button>
+</div>
+

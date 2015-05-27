@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<svg width="22" height="22" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg">
+ <g>
+  <title>Layer 1</title>
+  <g class="plate" id="svg_1">
+   <circle id="svg_3" class="outer-plate" r="10" cy="11" cx="11" stroke="#000000" fill="#CCCCCC"/>
+   <circle id="svg_4" class="outer-plate" r="8" cy="11" cx="11" stroke="#000000" fill="#CCCCCC"/>
+  </g>
+ </g>
+</svg>
