@@ -1,7 +1,10 @@
 # Deacon
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+This application simulates the process of passing the plate and the communion elements with a variety of arrangements 
+of saints in the pews, in order to explore various rules-of-thumb and see how they work out. Most of the responsible 
+decisions in the code reside in the deacon and saint models, based on information provided by the pew models. As this 
+develops, it should allow for a variety of deacon models trying different approaches and saint models providing the
+deacons with interesting opportunities and challenges. Hopefully, this should also be a lot of fun.
 
 ## Prerequisites
 
@@ -15,7 +18,7 @@ You will need the following things properly installed on your computer.
 
 ## Installation
 
-* `git clone <repository-url>` this repository
+* `git clone https://github.com/lupestro/deacon.git` this repository
 * change into the new directory
 * `npm install`
 * `bower install`
