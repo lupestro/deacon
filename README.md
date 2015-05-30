@@ -62,7 +62,7 @@ Deliver the contents of the `dist` tree to the website.
 
 ## Recent Changes:
 
-0.1.0 - Added YUIdoc documentation support - more is needed, especially in the model areas. Cleaned up existing unit tests.
+0.1.0 - Finished initial YUIdoc documentation support. Cleaned up existing unit tests.
 
 ## Needs Work:
 
