@@ -1,6 +1,20 @@
 import Ember from 'ember';
 import ServiceModel from '../models/service';
+/**
+* @module Deacon.Routes
+*/
 
+/**
+* Route leading to the service controller - initial route in application.
+*
+* This generates the model using a pattern of the form [ row, row, row, ... ]. Each row is itself an array with one of three forms:
+* *	[# seats,"*"] - if you are filling the pew
+* * [# seats, 1, 3, 5] - if you are partially seating a pew - first position is 0
+* * [# seats] - if you are leaving the pew empty
+* 
+* @class ServiceRoute
+* @extends Ember.Route
+*/
 export default Ember.Route.extend({
 	model: function() {
 		/*var pattern = [

@@ -1,12 +1,45 @@
 import Ember from 'ember';
 import Saint from './saint';
 import Pew from './pew';
+/**
+* @module Deacon.Models
+*/
 
-
+/**
+* Model of a sanctuary layout.
+* 
+* @class LayoutModel
+* @extends Ember.Object
+*/
 export default Ember.Object.extend({
+	/**
+	* Models of the {{#crossLink "PewModel"}}pews{{/crossLink}} defined 
+	* @property pews
+	* @type Array of PewModel
+	* @default Number and arrangement of pews determined by the pattern
+	*/
 	pews: null,
+	/**
+	* Models of the {{#crossLink "SaintModel"}}saints{{/crossLink}} defined 
+	* @property saints
+	* @type Array of SaintModel
+	* @default Number and arrangement of saints determined by the pattern
+	*/
 	saints: null,
+	/**
+	* The pattern of pews and the arrangement of saints in those pews. 
+	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
+	* @property pattern
+	* @type string
+	* @default two pews filled with five saints each
+	*/
 	pattern: null,
+	/**
+	* Initialize the model with defaults for any information not supplied
+	* @function init
+	* @private
+	* @return whatever its parent returns
+	*/
 	init: function() {
 		if (this.pattern === null) {
 			this.pattern = [ [5,0,1,2,3,4], [5,0,1,2,3,4] ];
@@ -46,16 +79,10 @@ export default Ember.Object.extend({
 			this.set('saints',newsaints);
 		}
 	},
-	findSaint: function (pew, seat) {
-		var saint = this.get('saints').filter(function(elem) {
-			return (elem.pew === pew && elem.seat === seat);
-		});
-		if (saint.length === 0) { 
-			return null;
-		} else { 
-			return saint[0];
-		}
-	},
+	/**
+	* Reset the "fed" state of all the saints in the layout
+	* @function resetFed
+	*/
 	resetFed: function() {
 		for (var s = 0, sLen = this.saints.length; s < sLen; s++) {
 			this.saints[s].set('fed', false);

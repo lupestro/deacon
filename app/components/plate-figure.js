@@ -2,7 +2,8 @@ import Ember from 'ember';
 /**
 * Ember component representing a plate in an SVG diagram
 *
-* @module plate-figure
+* @module Deacon.Components
+* @submodule plate-figure
 * @example
 * 	{{plate-figure x="30" y="50"}}
 */
@@ -19,13 +20,13 @@ export default Ember.Component.extend({
 	classNames: ['plate'],
 	attributeBindings: ['transform'],
 	/**
-	* <b>attr:</b> used to position the plate SVG group
+	* <i>attribute:</i> used to position the plate SVG group
 	* @property x
 	* @type number
 	*/
 	x: null,
 	/**
-	* <b>attr:</b> used to position the plate SVG group
+	* <i>attribute:</i> used to position the plate SVG group
 	* @property y
 	* @type number
 	*/

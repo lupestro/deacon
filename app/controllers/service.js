@@ -1,23 +1,64 @@
 import Ember from 'ember';
+/**
+* @module Deacon.Controllers
+*/
 
+/**
+* Controller for the service path. This handles all the button clicks and provides the timer loop to drive the dynamics. 
+*
+* N.B. The controller presents the deacons and saints with situations, but behavior should be left strictly to the implementation of 
+* these moral agents. Discovering those effective behaviors is the central point of this whole exercise.
+* 
+* @class ServiceController
+* @extends Ember.Controller
+*/
 export default Ember.Controller.extend({
+	/**
+	* The interval timer that drives the animation
+	* @property timer
+	* @private
+	* @type Timer
+	*/
 	timer: null,
+	/**
+	* The names of the three cycles of deacons going up the rows
+	* @property stageNames
+	* @final
+	* @type Array of String
+	*/
 	stageNames: ['Offertory','Communion: Bread','Communion: Wine'],
+	/**
+	* Simulate the behavior of deacons - starting a timer to drive the simulation
+	* @function simulate
+	*/
 	simulate: function() {
 		var self=this;
 		this.timer = setInterval(function() {
-			self.iterate();
+			self._iterate();
 		}, 500);
 	},
+	/**
+	* Stop the simulation 
+	* @function ţerminate
+	*/
 	terminate: function(){
 		clearInterval(this.timer);
 		this.timer = null;
 	},
+	/**
+	* Reset the state of the simulation. This doesn't affect whether it continues. 
+	* Resetting while the simulation is running may have unintended consequences, since no protections are in place.
+	* @function reset
+	*/
 	reset: function() {
 		this.model.resetPlatesAndDeacons();
 		this.model.layout.resetFed();
 	},
-	iterate: function() {
+	/**
+	* Perform one cycle of the simulation. Called by the interval timer. Currently doesn't detect completion and act on it.
+	* @function _iterate
+	*/
+	_iterate: function() {
 		for (var p = 0, pLen = this.model.plates.length; p < pLen; p++) {
 			var plate = this.model.plates[p];
 			// Give the deacons opportunity to respond to plates about to finish their journey
@@ -37,6 +78,10 @@ export default Ember.Controller.extend({
 		}
 	},
 	actions: {
+		/**
+		* <i>Action:</i> Start button click. Set the simulation to the first stage, resets the simulation, and if it isn't already running, it starts it.
+		* @function start
+		*/
 		start: function() {
 			this.model.set('stageName', this.stageNames[0]);
 			this.reset();
@@ -44,12 +89,20 @@ export default Ember.Controller.extend({
 				this.simulate();
 			}
 		},
+		/**
+		* <i>Action:</i> Restart button click. Reset the simulation in the current stage, and if it isn't already running, it starts it.
+		* @function restart
+		*/
 		restart: function() {
 			this.reset();
 			if (!this.timer) {
 				this.simulate();
 			}
 		},
+		/**
+		* <i>Action:</i> Next button click. Move on to the next stage and continues the simulation. Stops the simulation if it is in the last stage.
+		* @function next
+		*/
 		next: function() {
 			for (var i=0,iLen=this.stageNames.length; i< iLen; i++) {
 				if (this.model.get('stageName') === this.stageNames[i]) {

@@ -2,7 +2,8 @@ import Ember from 'ember';
 /**
 * Ember component representing a deacon in an SVG diagram
 *
-* @module deacon-figure
+* @module Deacon.Components
+* @submodule deacon-figure
 * @example
 * 	{deacon-figure x="12" y="24"}
 */
@@ -19,13 +20,13 @@ export default Ember.Component.extend({
 	classNames: ['deacon'],
 	attributeBindings: ['transform'],
 	/**
-	* <b>attr:</b> used to position the deacon SVG group
+	* <i>attribute:</i> used to position the deacon SVG group
 	* @property x
 	* @type number
 	*/
 	x: null,
 	/**
-	* <b>attr:</b> used to position the deacon SVG group
+	* <i>attribute:</i> used to position the deacon SVG group
 	* @property y
 	* @type number
 	*/

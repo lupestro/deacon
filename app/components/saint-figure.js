@@ -2,7 +2,8 @@ import Ember from 'ember';
 /**
 * Ember component representing a saint (parishioner) in an SVG diagram
 *
-* @module saint-figure
+* @module Deacon.Components
+* @submodule saint-figure
 * @example
 * 	{{saint-figure x="30" y="50"}}
 */
@@ -19,13 +20,13 @@ export default Ember.Component.extend({
 	classNames: ['saint'],
 	attributeBindings: ['transform'],
 	/**
-	* <b>attr:</b> used to position the saint SVG group
+	* <i>attribute:</i> used to position the saint SVG group
 	* @property x
 	* @type number
 	*/
 	x: null,
 	/**
-	* <b>attr:</b> used to position the saint SVG group
+	* <i>attribute:</i> used to position the saint SVG group
 	* @property y
 	* @type number
 	*/

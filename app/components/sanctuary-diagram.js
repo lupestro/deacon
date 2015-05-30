@@ -8,7 +8,8 @@ import Ember from 'ember';
 * {{#crossLinkModule "deacon-figure"}}{{/crossLinkModule}},and 
 * {{#crossLinkModule "plate-figure"}}{{/crossLinkModule}}.
 *
-* @module sanctuary-diagram
+* @module Deacon.Components
+* @submodule sanctuary-diagram
 * @example
 * 	{{sanctuary-diagram pews=[model:pew...] saints=[model:saint...] 
 *                       deacons=[model:deacon...] plates=[model:plate...] 
@@ -27,37 +28,37 @@ export default Ember.Component.extend({
 	classNames: ['sanctuary'],
 	attributeBindings: ['width','height'],
 	/**
-	* <b>attr:</b> the width of the SVG diagram
+	* <i>attribute:</i> the width of the SVG diagram
 	* @property width
 	* @type number
 	*/	
 	width: null,
 	/**
-	* <b>attr:</b> the height of the SVG diagram
+	* <i>attribute:</i> the height of the SVG diagram
 	* @property height
 	* @type number
 	*/	
 	height: null,
 	/**
-	* <b>attr:</b> the array of pews to include in the SVG diagram
+	* <i>attribute:</i> the array of {{#crossLink "PewModel"}}pews{{/crossLink}} to include in the SVG diagram
 	* @property pews 
 	* @type Array of PewModel
 	*/	
 	pews: null,
 	/**
-	* <b>attr:</b> the array of saints to include in the SVG diagram
+	* <i>attribute:</i> the array of {{#crossLink "SaintModel"}}saints{{/crossLink}} to include in the SVG diagram
 	* @property saints
 	* @type Array of SaintModel
 	*/	
 	saints: null,
 	/**
-	* <b>attr:</b> the array of deacons to include in the SVG diagram
+	* <i>attribute:</i> the array of {{#crossLink "DeaconModel"}}deacons{{/crossLink}} to include in the SVG diagram
 	* @property deacons
 	* @type Array of DeaconModel
 	*/	
 	deacons: null,
 	/**
-	* <b>attr:</b> the array of plates to include in the SVG diagram
+	* <i>attribute:</i> the array of {{#crossLink "PlateModel"}}plates{{/crossLink}} to include in the SVG diagram
 	* @property plates
 	* @type Array of PlateModel
 	*/	

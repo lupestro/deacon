@@ -2,7 +2,8 @@ import Ember from 'ember';
 /**
 * Ember component representing a pew in an SVG diagram
 *
-* @module pew-figure
+* @module Deacon.Components
+* @submodule pew-figure
 * @example
 * 	{{pew-figure x="30" y="50" width="200"}}
 */
@@ -19,19 +20,19 @@ export default Ember.Component.extend({
 	classNames: ['pew'],
 	attributeBindings: ['transform'],
 	/**
-	* <b>attr:</b> used to position the pew SVG group
+	* <i>attribute:</i> used to position the pew SVG group
 	* @property x
 	* @type number
 	*/
 	x: null,
 	/**
-	* <b>attr:</b> used to position the pew SVG group
+	* <i>attribute:</i> used to position the pew SVG group
 	* @property y
 	* @type number
 	*/
 	y: null,
 	/**
-	* <b>attr:</b> used to set the width of the elements in the pew SVG group
+	* <i>attribute:</i> used to set the width of the elements in the pew SVG group
 	* @property width
 	* @type number
 	*/
