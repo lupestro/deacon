@@ -1,0 +1,25 @@
+{
+  "name": "deacon",
+  "description": "Small description for deacon goes here",
+  "version": "0.1.0",
+  "options": {
+    "linkNatives": true,
+    "paths": [
+      "app"
+    ],
+    "exclude": "vendor",
+    "outdir": "docs"
+  },
+  "external": {
+    "data": [
+      {
+        "base": "http://emberjs.com/api/",
+        "json": "http://builds.emberjs.com/tags/v1.12.0/ember-docs.json"
+      },
+      {
+        "base": "http://emberjs.com/api/",
+        "json": "http://builds.emberjs.com.s3.amazonaws.com/beta/daily/20130929/ember-data-docs.json"
+      }
+    ]
+  }
+}

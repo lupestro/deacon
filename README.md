@@ -42,15 +42,29 @@ Make use of the many generators for code, try `ember help generate` for more det
 * `ember build` (development)
 * `ember build --environment production` (production)
 
+### Building documentation
+
+* `ember ember-cli-yuidoc`
+
 ### Deploying
 
-Specify what it takes to deploy your app.
+Deliver the contents of the `dist` tree to the website.
 
 ## Further Reading / Useful Links
 
 * [ember.js](http://emberjs.com/)
 * [ember-cli](http://www.ember-cli.com/)
+* [QUnit](https://qunitjs.com/) (Also see [Ember.Test](http://emberjs.com/api/classes/Ember.Test.html) class.)
+* [YUIDoc](http://yui.github.io/yuidoc/)
 * Development Browser Extensions
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
 
+## Recent Changes:
+
+0.1.0 - Added YUIdoc documentation support - more is needed, especially in the model areas. Cleaned up existing unit tests.
+
+## Needs Work:
+
+* Come up with strategies for deacons to apply.
+* Unit tests for models, since this is where the change is going to be focused.
