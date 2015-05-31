@@ -63,7 +63,7 @@ export default Ember.Object.extend({
 	plates: null,
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @function init
+	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
@@ -97,7 +97,7 @@ export default Ember.Object.extend({
 	/**
 	* Get the x,y position to apply to a saint at a specified seat in the pew.
 	* Result is supplied as a hash with x and y keys.
-	* @function getSaintPosition
+	* @method getSaintPosition
 	* @param {number} seat - The seat at which the saint will be placed
 	* @return {hash}
 	*/
@@ -114,7 +114,7 @@ export default Ember.Object.extend({
 	/**
 	* Get the x.y position to apply to a deacon at a specified seat in the pew.
 	* Result is supplied as a hash with x and y keys.
-	* @function getDeaconPosition
+	* @method getDeaconPosition
 	* @param {number} seat - The seat at which the deacon will be placed
 	* @return {hash}
 	*/
@@ -132,7 +132,7 @@ export default Ember.Object.extend({
 	/**
 	* Get the x.y position to apply to a plate at a specified seat in the pew.
 	* Result is supplied as a hash with x and y keys.
-	* @function getPlatePosition
+	* @method getPlatePosition
 	* @param {number} seat - The seat at which the plate will be placed
 	* @return {hash} 
 	*/
@@ -149,7 +149,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Get the seat position for a deacon on the end of the row, given where the deacon was before. Adjusts for rows of different widths.
-	* @function getDeaconSeat
+	* @method getDeaconSeat
 	* @param {DeaconModel} deacon - The deacon in question
 	* @return {number}
 	*/
@@ -162,7 +162,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Test whether all saints in this pew are fed.
-	* @function allAreFed
+	* @method allAreFed
 	* @return {boolean}
 	*/
 	allAreFed: function() {
@@ -173,7 +173,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Test whether there is a plate in motion in this pew.
-	* @function hasPlateInMotion
+	* @method hasPlateInMotion
 	* @return {boolean}
 	*/
 	hasPlateInMotion: function () {
@@ -186,7 +186,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Add a saint to this row.
-	* @function addSaint
+	* @method addSaint
 	* @param {SaintModel} saint - The saint to add
 	*/
 	addSaint: function(saint) {
@@ -196,7 +196,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Remove a saint from this row if present.
-	* @function removeSaint
+	* @method removeSaint
 	* @param {SaintModel} saint - The saint to remove
 	*/
 	removeSaint: function(saint) {
@@ -207,7 +207,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Find a saint in the specified seat of this row if present or null if not.
-	* @function findSaint
+	* @method findSaint
 	* @param {number} - The seat to look in
 	* @return {SaintModel} 
 	*/
@@ -223,7 +223,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Add a deacon to this row.
-	* @function addDeacon
+	* @method addDeacon
 	* @param {DeaconModel} deacon - The deacon to add
 	*/
 	addDeacon: function(deacon) {
@@ -233,7 +233,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Remove a deacon from this row if present.
-	* @function removeDeacon
+	* @method removeDeacon
 	* @param {DeaconModel} deacon - The deacon to remove
 	*/
 	removeDeacon: function(deacon) {
@@ -244,7 +244,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Find a deacon in the specified seat of this row if present or null if not.
-	* @function findDeacon
+	* @method findDeacon
 	* @param {number} seat - The seat to look in
 	* @return {DeaconModel}
 	*/
@@ -260,7 +260,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Add a plate to this row.
-	* @function addPlate
+	* @method addPlate
 	* @param {PlateModel} plate - The plate to add
 	*/
 	addPlate: function (plate) {
@@ -270,7 +270,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Remove a plate from this row if present.
-	* @function removePlate
+	* @method removePlate
 	* @param {PlateModel} plate - The plate to remove
 	*/
 	removePlate: function(plate) {

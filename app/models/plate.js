@@ -50,7 +50,7 @@ export default Ember.Object.extend({
 	direction: null, 
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @function init
+	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
@@ -69,14 +69,14 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Reset the behavior of the plate - set it to no longer be moving
-	* @function reset
+	* @method reset
 	*/
 	reset: function() {
 		this.direction = 0;
 	},
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @function move
+	* @method move
 	* @param {PewModel} pew - the pew to move it to
 	* @param {number} seat - the seat to move it to 
 	*/	

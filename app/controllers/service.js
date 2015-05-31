@@ -29,7 +29,7 @@ export default Ember.Controller.extend({
 	stageNames: ['Offertory','Communion: Bread','Communion: Wine'],
 	/**
 	* Simulate the behavior of deacons - starting a timer to drive the simulation
-	* @function simulate
+	* @method simulate
 	*/
 	simulate: function() {
 		var self=this;
@@ -39,7 +39,7 @@ export default Ember.Controller.extend({
 	},
 	/**
 	* Stop the simulation 
-	* @function ţerminate
+	* @method ţerminate
 	*/
 	terminate: function(){
 		clearInterval(this.timer);
@@ -48,7 +48,7 @@ export default Ember.Controller.extend({
 	/**
 	* Reset the state of the simulation. This doesn't affect whether it continues. 
 	* Resetting while the simulation is running may have unintended consequences, since no protections are in place.
-	* @function reset
+	* @method reset
 	*/
 	reset: function() {
 		this.model.resetPlatesAndDeacons();
@@ -56,7 +56,7 @@ export default Ember.Controller.extend({
 	},
 	/**
 	* Perform one cycle of the simulation. Called by the interval timer. Currently doesn't detect completion and act on it.
-	* @function _iterate
+	* @method _iterate
 	*/
 	_iterate: function() {
 		for (var p = 0, pLen = this.model.plates.length; p < pLen; p++) {
@@ -80,7 +80,7 @@ export default Ember.Controller.extend({
 	actions: {
 		/**
 		* <i>Action:</i> Start button click. Set the simulation to the first stage, resets the simulation, and if it isn't already running, it starts it.
-		* @function start
+		* @method start
 		*/
 		start: function() {
 			this.model.set('stageName', this.stageNames[0]);
@@ -91,7 +91,7 @@ export default Ember.Controller.extend({
 		},
 		/**
 		* <i>Action:</i> Restart button click. Reset the simulation in the current stage, and if it isn't already running, it starts it.
-		* @function restart
+		* @method restart
 		*/
 		restart: function() {
 			this.reset();
@@ -101,7 +101,7 @@ export default Ember.Controller.extend({
 		},
 		/**
 		* <i>Action:</i> Next button click. Move on to the next stage and continues the simulation. Stops the simulation if it is in the last stage.
-		* @function next
+		* @method next
 		*/
 		next: function() {
 			for (var i=0,iLen=this.stageNames.length; i< iLen; i++) {

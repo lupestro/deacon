@@ -44,7 +44,7 @@ export default Ember.Object.extend({
 	fed: null,
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @function init
+	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
@@ -73,7 +73,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* <i>Behavior:</i> Move to the specified pew and seat
-	* @function move
+	* @method move
 	* @param {PewModel} pew - The pew to which to move
 	* @param {number} seat - The seat to which to move
 	*/
@@ -98,7 +98,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* <i>Behavior:</i> Pass the plate to a neighbor, whether a saint or a deacon
-	* @function passPlate
+	* @method passPlate
 	* @param {PlateModel} plate - The plate that the saint is passing
 	* @param {SaintModel|DeaconModel} neighbor - The neighbor being offered the plate
 	*/
@@ -117,7 +117,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* <i>Opportunity:</i> The saint has a plate in hand this iteration and has the opportunity to act
-	* @function plateInHands
+	* @method plateInHands
 	* @param {PlateModel} plate - The plate that the saint can act upon
 	*/
 	plateInHands: function (plate) {
@@ -139,7 +139,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* <i>Opportunity:</i> The saint has been offered a plate and has the opportunity to act
-	* @function receivePlate
+	* @method receivePlate
 	* @param {PlateModel} plate - The plate that the saint can act upon
 	*/
 	receivePlate: function(plate) {

@@ -36,7 +36,7 @@ export default Ember.Object.extend({
 	pattern: null,
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @function init
+	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
@@ -81,7 +81,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Reset the "fed" state of all the saints in the layout
-	* @function resetFed
+	* @method resetFed
 	*/
 	resetFed: function() {
 		for (var s = 0, sLen = this.saints.length; s < sLen; s++) {

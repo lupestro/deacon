@@ -66,7 +66,7 @@ export default Ember.Object.extend({
 	pattern: null,
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @function init
+	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
@@ -106,7 +106,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Get the number of seats in the pew with the specified index
-	* @function getPewSeats
+	* @method getPewSeats
 	* @deprecated Use the pew directly to get its seats
 	* @param {number} index of the pew
 	* @return {number} the number of seats in the pew
@@ -121,7 +121,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Reset the position and condition of the deacons and the plates
-	* @function resetPlatesAndDeacons
+	* @method resetPlatesAndDeacons
 	*/
 	resetPlatesAndDeacons: function() {
 		var pews = this.get('layout').pews;

@@ -50,7 +50,7 @@ export default Ember.Object.extend({
 	_passed: null,
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @function init
+	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
@@ -75,7 +75,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* Reset state to supplied state
-	* @function reset
+	* @method reset
 	* @param {Array of PlateModel} plates - The {{#crossLink "PlateModel"}}plates{{/crossLink}} to hold
 	* @param {PewModel} pew - The pew to stand next to
 	*/
@@ -89,7 +89,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* <i>Behavior:</i> Move to a specfic pew
-	* @function move
+	* @method move
 	* @param {PewModel} pew - The pew to which to move
 	*/
 	move: function(pew){
@@ -109,7 +109,7 @@ export default Ember.Object.extend({
 	}, 
 	/**
 	* <i>Behavior:</i> Pass the plate to a neighbor, presumably a saint
-	* @function passPlate
+	* @method passPlate
 	* @param {PlateModel} plate - The plate to pass
 	* @param {SaintModel|DeaconModel} neighbor - The neighbor to which to pass the plate
 	*/
@@ -140,7 +140,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* <i>Opportunity:</i> A plate has reached the end of a pew - Do you go retrieve it?
-	* @function plateArriving
+	* @method plateArriving
 	* @param {PlateModel} plate - The plate that's arriving
 	*/
 	plateArriving: function (plate) {
@@ -150,7 +150,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* <i>Opportunity:</i> A plate is in your hands - What are you going to do about it?
-	* @function plateInHands
+	* @method plateInHands
 	* @param {PlateModel} plate - The plate in question
 	* @param {Array of PewModel} pews = The full set of {{#crossLink "PewModel"}}pews{{/crossLink}} 
 	* in which you might do something with the plate.
@@ -188,7 +188,7 @@ export default Ember.Object.extend({
 	},
 	/**
 	* <i>Opportunity:</i> A plate is being passed to you - Do you accept it?
-	* @function receivePlate
+	* @method receivePlate
 	* @param {PlateModel} plate - The plate you're being offered
 	*/
 	receivePlate: function(plate) {
