@@ -110,7 +110,7 @@ export default Ember.Object.extend({
 		} else {
 			// if we aren't falling off the end of a row, reverse direction
 			if (! ((this.seat === 0 && plate.direction === -1) || 
-				   (this.seat === this.pew.seats && plate.direction === 1))) { 
+					(this.seat === this.pew.seats && plate.direction === 1))) { 
 				plate.direction = - plate.direction;
 			}
 		}

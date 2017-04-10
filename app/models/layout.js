@@ -50,7 +50,7 @@ export default Ember.Object.extend({
 				var curr = 1, high=this.pattern[pt][0];
 				this.pattern[pt][1] = 0;
 				while(curr < high){
-				   this.pattern[pt].push(curr++);
+					this.pattern[pt].push(curr++);
 				}
 			}
 		}
