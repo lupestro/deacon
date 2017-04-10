@@ -1,15 +1,12 @@
 import Ember from 'ember';
 /**
-* Ember component representing a saint (parishioner) in an SVG diagram
-*
 * @module Deacon.Components
-* @submodule saint-figure
-* @example
-* 	{{saint-figure x="30" y="50"}}
 */
 
 /**
 * Component to implement the GUI representation of a saint within the SVG canvas.
+*
+* 	{{saint-figure x="30" y="50"}}
 *
 * @class SaintFigure
 * @extends Ember.Component

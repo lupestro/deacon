@@ -1,15 +1,12 @@
 import Ember from 'ember';
 /**
-* Ember component representing a pew in an SVG diagram
-*
 * @module Deacon.Components
-* @submodule pew-figure
-* @example
-* 	{{pew-figure x="30" y="50" width="200"}}
 */
 
 /**
 * Component to implement the GUI representation of a pew within the SVG canvas.
+*
+* 	{{pew-figure x="30" y="50" width="200"}}
 *
 * @class PewFigure
 * @extends Ember.Component

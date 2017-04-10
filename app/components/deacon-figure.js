@@ -1,15 +1,12 @@
 import Ember from 'ember';
 /**
-* Ember component representing a deacon in an SVG diagram
-*
 * @module Deacon.Components
-* @submodule deacon-figure
-* @example
-* 	{deacon-figure x="12" y="24"}
 */
 
 /**
 * Component to implement the GUI representation of a deacon within the SVG canvas.
+*
+* 	{deacon-figure x="12" y="24"}
 *
 * @class DeaconFigure
 * @extends Ember.Component

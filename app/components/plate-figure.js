@@ -1,15 +1,12 @@
 import Ember from 'ember';
 /**
-* Ember component representing a plate in an SVG diagram
-*
 * @module Deacon.Components
-* @submodule plate-figure
-* @example
-* 	{{plate-figure x="30" y="50"}}
 */
 
 /**
 * Component to implement the GUI representation of a plate within the SVG canvas.
+*
+* 	{{plate-figure x="30" y="50"}}
 *
 * @class PlateFigure
 * @extends Ember.Component

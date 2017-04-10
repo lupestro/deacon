@@ -1,24 +1,24 @@
 import Ember from 'ember';
 /**
-* Ember component representing an SVG diagram of a collection of pews in a sanctuary.
-*
-* This module's template uses components 
-* {{#crossLinkModule "pew-figure"}}{{/crossLinkModule}}, 
-* {{#crossLinkModule "saint-figure"}}{{/crossLinkModule}}, 
-* {{#crossLinkModule "deacon-figure"}}{{/crossLinkModule}},and 
-* {{#crossLinkModule "plate-figure"}}{{/crossLinkModule}}.
-*
+* Components for depicting the animated congregation in SVG
+* 
 * @module Deacon.Components
-* @submodule sanctuary-diagram
-* @example
-* 	{{sanctuary-diagram pews=[model:pew...] saints=[model:saint...] 
-*                       deacons=[model:deacon...] plates=[model:plate...] 
-*                       width="500" height="600"}}
 */
 
 /**
 * Component to implement the GUI representation of the sanctuary as an SVG canvas.
+*
+* This module's template uses components 
+* {{#crossLink "PewFigure"}}{{/crossLink}}, 
+* {{#crossLink "SaintFigure"}}{{/crossLink}}, 
+* {{#crossLink "DeaconFigure"}}{{/crossLink}},and 
+* {{#crossLink "PlateFigure"}}{{/crossLink}}.
+*
 * 
+* 	{{sanctuary-diagram pews=[model:pew...] saints=[model:saint...] 
+*                       deacons=[model:deacon...] plates=[model:plate...] 
+*                       width="500" height="600"}}
+*
 * @class SanctuaryDiagram
 * @extends Ember.Component
 */
