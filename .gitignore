@@ -11,6 +11,7 @@
 
 # misc
 /.sass-cache
+/.ntvs_analysis.*
 /connect.lock
 /coverage/*
 /libpeerconnection.log
