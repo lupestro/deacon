@@ -1,7 +1,14 @@
 import EmberObject from '@ember/object';
+import Pew from 'deacon/models/pew';
+import DeaconModel from 'deacon/models/deacon';
+import Plate from 'deacon/models/plate';
 /**
 * @module Deacon.Models
 */
+
+export interface INeighbor {
+	receivePlate(plate: Plate) : boolean
+}
 
 /**
 * Model of a saint.
@@ -9,40 +16,40 @@ import EmberObject from '@ember/object';
 * @class SaintModel
 * @extends Ember.Object
 */
-export default class SaintModel extends EmberObject {
+export default class Saint extends EmberObject {
 	/**
 	* The horizontal position of the saint within the diagram.
 	* @property x
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	x = this.x || 0;
+	x : number = this.x || 0;
 	/**
 	* The vertical position of the saint within the diagram.
 	* @property y
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	y = this.y || 0;
+	y : number = this.y || 0;
 	/**
 	* The pew in which the saint currently resides.
 	* @property pew
 	* @type PewModel
 	*/
-	pew = this.pew || null;
+	pew : Pew | null = this.pew || null;
 	/**
 	* The seat in the pew where the saint currently resides. Between 0 and pew.seats-1, inclusive.
 	* @property seat
 	* @type number
 	*/
 	// Note that 0, a legitimate value, is falsy, so we need to check explicitly against undefined
-	seat = (typeof this.seat !== 'undefined') ? this.seat : null;
+	seat : number | null = (typeof this.seat !== 'undefined') ? this.seat : null;
 	/**
 	* Whether the saint has had access to the plate 
 	* @property fed
 	* @type boolean
 	*/
-	fed = this.fed || false;
+	fed : boolean = this.fed || false;
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method init
@@ -65,10 +72,11 @@ export default class SaintModel extends EmberObject {
 	/**
 	* <i>Behavior:</i> Move to the specified pew and seat
 	* @method move
-	* @param {PewModel} pew - The pew to which to move
+	* @param {Pew} pew - The pew to which to move
 	* @param {number} seat - The seat to which to move
 	*/
-	move (pew, seat) {
+	move (pew : Pew, seat:number) {
+		var thismodel: Saint = this;
 		var realseat;
 		if (seat > this.pew.get('seats')) {
 			realseat = this.pew.get('seats');
@@ -80,20 +88,20 @@ export default class SaintModel extends EmberObject {
 		if (this.pew !== null) {
 			this.pew.removeSaint(this);
 		}
-		this.set('pew', pew);
-		this.set('seat', realseat);
+		thismodel.set('pew', pew);
+		thismodel.set('seat', realseat);
 		var coords = pew.getSaintPosition(realseat);
-		this.set('x', coords.x);
-		this.set('y', coords.y);
+		thismodel.set('x', coords.x);
+		thismodel.set('y', coords.y);
 		this.pew.addSaint(this);
 	}
 	/**
 	* <i>Behavior:</i> Pass the plate to a neighbor, whether a saint or a deacon
 	* @method passPlate
-	* @param {PlateModel} plate - The plate that the saint is passing
-	* @param {SaintModel|DeaconModel} neighbor - The neighbor being offered the plate
+	* @param {Plate} plate - The plate that the saint is passing
+	* @param {Saint|DeaconModel} neighbor - The neighbor being offered the plate
 	*/
-	passPlate(plate, neighbor){
+	passPlate(plate : Plate, neighbor : INeighbor){
 		if (neighbor) {
 			if (!neighbor.receivePlate(plate)) {
 				plate.direction = 0;
@@ -109,9 +117,9 @@ export default class SaintModel extends EmberObject {
 	/**
 	* <i>Opportunity:</i> The saint has a plate in hand this iteration and has the opportunity to act
 	* @method plateInHands
-	* @param {PlateModel} plate - The plate that the saint can act upon
+	* @param {Plate} plate - The plate that the saint can act upon
 	*/
-	plateInHands(plate) {
+	plateInHands(plate: Plate) {
 		var neighbor;
 		if (this.seat === 0 && plate.direction < 0) {
 			neighbor = this.pew.findDeacon(-1);
@@ -131,9 +139,9 @@ export default class SaintModel extends EmberObject {
 	/**
 	* <i>Opportunity:</i> The saint has been offered a plate and has the opportunity to act
 	* @method receivePlate
-	* @param {PlateModel} plate - The plate that the saint can act upon
+	* @param {Plate} plate - The plate that the saint can act upon
 	*/
-	receivePlate(plate) {
+	receivePlate(plate: Plate) : boolean {
 		var oldSeat = plate.seat;
 		plate.move(this.pew, this.seat);
 		if (oldSeat < this.seat) {

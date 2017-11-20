@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+import Pew from 'deacon/models/pew';
 /**
 * @module Deacon.Models
 */
@@ -9,21 +10,21 @@ import EmberObject from '@ember/object';
 * @class PlateModel
 * @extends Ember.Object
 */
-export default class PlateModel extends EmberObject {
+export default class Plate extends EmberObject {
 	/**
 	* The horizontal position of the plate within the diagram.
 	* @property x
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	x = this.x || null;
+	x : number | null = this.x || null;
 	/**
 	* The vertical position of the plate within the diagram.
 	* @property y
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	y = this.y || null;
+	y : number | null = this.y || null;
 	/**
 	* The pew in which the plate currently resides.
 	* @property pew
@@ -38,7 +39,7 @@ export default class PlateModel extends EmberObject {
 	* @property seat
 	* @type number
 	*/
-	seat = this.seat || null;
+	seat : number | null = this.seat || null;
 	/**
 	* The direction in which the plate is moving: 
 	* * -1 : To the left.
@@ -47,7 +48,7 @@ export default class PlateModel extends EmberObject {
 	* @property direction
 	* @type number
 	*/
-	direction = this.direction || 0;
+	direction : number = this.direction || 0;
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method constructor
@@ -74,19 +75,20 @@ export default class PlateModel extends EmberObject {
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method move
-	* @param {PewModel} pew - the pew to move it to
+	* @param {Pew} pew - the pew to move it to
 	* @param {number} seat - the seat to move it to 
 	*/	
-	move(pew, seat) {
+	move(pew : Pew, seat : number) {
+		var thismodel: Plate = this;
 		var movingPews = (this.pew !== pew);
 		if (movingPews && this.pew) {
 			this.pew.removePlate(this);
 		}
 		var coord = pew.getPlatePosition(seat);
-		this.set('x',coord.x);
-		this.set('y',coord.y);
-		this.set('pew', pew);
-		this.set('seat', seat);
+		thismodel.set('x',coord.x);
+		thismodel.set('y',coord.y);
+		thismodel.set('pew', pew);
+		thismodel.set('seat', seat);
 		if (movingPews && this.pew) {			
 			this.pew.addPlate(this);
 		}

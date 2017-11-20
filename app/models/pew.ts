@@ -1,8 +1,20 @@
 import EmberObject from '@ember/object';
+import Saint from 'deacon/models/saint';
+import Deacon from 'deacon/models/deacon';
+import Plate from 'deacon/models/plate';
 /**
 * @module Deacon.Models
 */
 
+interface IPewPosition { 
+	x:number 
+	y:number 
+	seat:number
+ }
+ interface IPosition {
+	 x:number
+	 y:number
+ }
 /**
 * Model of a pew. While the pew has no actual behavior, the pew drives and tracks the visible geometry of the elements in the 
 * animation. In consequence, it knows all of the deacons, saints, and plates associated with it. The pews keep the context
@@ -10,28 +22,28 @@ import EmberObject from '@ember/object';
 * 
 * @class PewModel
 * @extends Ember.Object
-*/export default class PewModel extends EmberObject {
+*/export default class Pew extends EmberObject {
 	/**
 	* The horizontal position of the pew within the diagram.
 	* @property x
 	* @type number
 	* @default 0
 	*/
-	x = this.x || 0;
+	x : number = this.x || 0;
 	/**
 	* The vertical position of the pew within the diagram.
 	* @property y
 	* @type number
 	* @default 0
 	*/
-	y = this.y || 0;
+	y : number = this.y || 0;
 	/**
 	* The horizontal space taken by the pew.
 	* @property y
 	* @type number
 	* @default based on seats, if provided - otherwise 6 seats worth
 	*/
-	width = this.width || null;
+	width : number | null = this.width || null;
 	/**
 	* The vertical space taken by the pew.
 	* @property y
@@ -45,28 +57,28 @@ import EmberObject from '@ember/object';
 	* @type number
 	* @default based on width, if provided - otherwise 6 seats
 	*/
-	seats = (typeof this.seats !== 'undefined') ? this.seats : null;;
+	seats : number | null = (typeof this.seats !== 'undefined') ? this.seats : null;;
 	/**
 	* The {{#crossLink "SaintModel"}}saints{{/crossLink}} to include in the pew.
 	* @property saints
 	* @type Array of SaintModel
 	* @default an empty array
 	*/
-	saints = this.saints || [];
+	saints : Saint[] = this.saints || [];
 	/**
 	* The {{#crossLink "DeaconModel"}}deacons{{/crossLink}} to associate with the pew.
 	* @property deacons
 	* @type Array of DeaconModel
 	* @default an empty array
 	*/
-	deacons = this.deacons || [];
+	deacons : Deacon[] = this.deacons || [];
 	/**
 	* The {{#crossLink "PlateModel"}}plates{{/crossLink}} to associate with the pew.
 	* @property plates
 	* @type Array of PlateModel
 	* @default an empty array
 	*/
-	plates = this.plates || [];
+	plates : Plate[] = this.plates || [];
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method init
@@ -92,7 +104,7 @@ import EmberObject from '@ember/object';
 	* @param {number} seat - The seat at which the saint will be placed
 	* @return {hash}
 	*/
-	getSaintPosition(seat) {
+	getSaintPosition(seat : number) : IPewPosition{
 		var realSeat = seat;
 		if (seat > this.seats) {
 			realSeat = this.seats-1;
@@ -109,7 +121,7 @@ import EmberObject from '@ember/object';
 	* @param {number} seat - The seat at which the deacon will be placed
 	* @return {hash}
 	*/
-	getDeaconPosition(seat) {
+	getDeaconPosition(seat:number) : IPosition {
 		var result = {x: 0, y: this.y };
 		if (seat < 0) {
 			result.x = this.x - 30;
@@ -127,7 +139,7 @@ import EmberObject from '@ember/object';
 	* @param {number} seat - The seat at which the plate will be placed
 	* @return {hash} 
 	*/
-	getPlatePosition(seat) {
+	getPlatePosition(seat:number) : IPosition {
 		var result = {x: 0, y: this.y + 5};
 		if (seat < 0) {
 			result.x = this.x - 10;
@@ -141,13 +153,14 @@ import EmberObject from '@ember/object';
 	/**
 	* Get the seat position for a deacon on the end of the row, given where the deacon was before. Adjusts for rows of different widths.
 	* @method getDeaconSeat
-	* @param {DeaconModel} deacon - The deacon in question
+	* @param {Deacon} deacon - The deacon in question
 	* @return {number}
 	*/
-	getDeaconSeat(deacon) {
+	getDeaconSeat(deacon: Deacon): number {
 		if (deacon.seat < 0) {
 			return deacon.seat;
-		} else {
+		}
+		else {
 			return this.seats;
 		}
 	}
@@ -156,8 +169,8 @@ import EmberObject from '@ember/object';
 	* @method allAreFed
 	* @return {boolean}
 	*/
-	allAreFed() {
-		var unfed = this.saints.filter(function(elem) {
+	allAreFed(): boolean {
+		var unfed = this.saints.filter(function (elem) {
 			return (elem.fed === false);
 		});
 		return unfed.length === 0;
@@ -167,7 +180,7 @@ import EmberObject from '@ember/object';
 	* @method hasPlateInMotion
 	* @return {boolean}
 	*/
-	hasPlateInMotion() {
+	hasPlateInMotion(): boolean {
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
 			if (this.plates[p].direction !== 0 && (this.plates[p].seat >= 0 || this.plates[p].seat < this.seats)) {
 				return true;
@@ -178,9 +191,9 @@ import EmberObject from '@ember/object';
 	/**
 	* Add a saint to this row.
 	* @method addSaint
-	* @param {SaintModel} saint - The saint to add
+	* @param {Saint} saint - The saint to add
 	*/
-	addSaint(saint) {
+	addSaint(saint:Saint) {
 		if (-1 === this.saints.indexOf(saint)) {
 			this.saints.push(saint);
 		}
@@ -188,9 +201,9 @@ import EmberObject from '@ember/object';
 	/**
 	* Remove a saint from this row if present.
 	* @method removeSaint
-	* @param {SaintModel} saint - The saint to remove
+	* @param {Saint} saint - The saint to remove
 	*/
-	removeSaint(saint) {
+	removeSaint(saint:Saint) {
 		var index = this.saints.indexOf(saint);
 		if (index >= 0) {
 			this.saints.splice(index,index+1);
@@ -200,9 +213,9 @@ import EmberObject from '@ember/object';
 	* Find a saint in the specified seat of this row if present or null if not.
 	* @method findSaint
 	* @param {number} - The seat to look in
-	* @return {SaintModel} 
+	* @return {Saint} 
 	*/
-	findSaint(seat) {
+	findSaint(seat:number) : Saint | null {
 		var saint = this.saints.filter(function(elem) {
 			return (elem.seat === seat);
 		});
@@ -215,9 +228,9 @@ import EmberObject from '@ember/object';
 	/**
 	* Add a deacon to this row.
 	* @method addDeacon
-	* @param {DeaconModel} deacon - The deacon to add
+	* @param {Deacon} deacon - The deacon to add
 	*/
-	addDeacon(deacon) {
+	addDeacon(deacon: Deacon) {
 		if (-1 === this.deacons.indexOf(deacon)) {
 			this.deacons.push(deacon);
 		}
@@ -225,9 +238,9 @@ import EmberObject from '@ember/object';
 	/**
 	* Remove a deacon from this row if present.
 	* @method removeDeacon
-	* @param {DeaconModel} deacon - The deacon to remove
+	* @param {Deacon} deacon - The deacon to remove
 	*/
-	removeDeacon(deacon) {
+	removeDeacon(deacon: Deacon) {
 		var index = this.deacons.indexOf(deacon);
 		if (index >= 0) {
 			this.deacons.splice(index,index+1);
@@ -237,9 +250,9 @@ import EmberObject from '@ember/object';
 	* Find a deacon in the specified seat of this row if present or null if not.
 	* @method findDeacon
 	* @param {number} seat - The seat to look in
-	* @return {DeaconModel}
+	* @return {Deacon}
 	*/
-	findDeacon(seat) {
+	findDeacon(seat:number): Deacon | null {
 		var deacon = this.deacons.filter(function(elem) {
 			return (elem.seat === seat);
 		});
@@ -252,9 +265,9 @@ import EmberObject from '@ember/object';
 	/**
 	* Add a plate to this row.
 	* @method addPlate
-	* @param {PlateModel} plate - The plate to add
+	* @param {Plate} plate - The plate to add
 	*/
-	addPlate(plate) {
+	addPlate(plate: Plate) {
 		if (-1 === this.plates.indexOf(plate)) {
 			this.plates.push(plate);
 		}		
@@ -262,9 +275,9 @@ import EmberObject from '@ember/object';
 	/**
 	* Remove a plate from this row if present.
 	* @method removePlate
-	* @param {PlateModel} plate - The plate to remove
+	* @param {Plate} plate - The plate to remove
 	*/
-	removePlate(plate) {
+	removePlate(plate: Plate) {
 		var index = this.plates.indexOf(plate);
 		if (index >= 0) {
 			this.plates.splice(index,index+1);
