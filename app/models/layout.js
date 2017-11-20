@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import Saint from './saint';
 import Pew from './pew';
 /**
@@ -11,7 +11,7 @@ import Pew from './pew';
 * @class LayoutModel
 * @extends Ember.Object
 */
-export default Ember.Object.extend({
+export default EmberObject.extend({
 	/**
 	* Models of the {{#crossLink "PewModel"}}pews{{/crossLink}} defined 
 	* @property pews

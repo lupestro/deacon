@@ -2,9 +2,15 @@
 'use strict';
 
 module.exports = function(environment) {
-  let ENV = {
+<<<<<<< HEAD
+  var ENV = {
     modulePrefix: 'deacon',
+    environment: environment,
+=======
+  let ENV = {
+    modulePrefix: 'my-app',
     environment,
+>>>>>>> 5345f0b... message
     rootURL: '/',
     locationType: 'auto',
     EmberENV: {

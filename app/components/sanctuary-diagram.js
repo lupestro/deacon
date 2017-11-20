@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Component from '@ember/component';
 /**
 * Components for depicting the animated congregation in SVG
 * 
@@ -22,7 +22,7 @@ import Ember from 'ember';
 * @class SanctuaryDiagram
 * @extends Ember.Component
 */
-export default Ember.Component.extend({
+export default Component.extend({
 	// Tag generation bindings
 	tagName: 'svg',
 	classNames: ['sanctuary'],

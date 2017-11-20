@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 /**
 * @module Deacon.Models
 */
@@ -11,7 +11,7 @@ import Ember from 'ember';
 * @class PewModel
 * @extends Ember.Object
 */
-export default Ember.Object.extend({
+export default EmberObject.extend({
 	/**
 	* The horizontal position of the pew within the diagram.
 	* @property x

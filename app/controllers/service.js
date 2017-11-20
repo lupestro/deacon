@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Controller from '@ember/controller';
 /**
 * @module Deacon.Controllers
 */
@@ -12,7 +12,7 @@ import Ember from 'ember';
 * @class ServiceController
 * @extends Ember.Controller
 */
-export default Ember.Controller.extend({
+export default Controller.extend({
 	/**
 	* The interval timer that drives the animation
 	* @property timer

@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 import Deacon from './deacon';
 import Plate from './plate';
 import Layout from './layout';
@@ -12,7 +12,7 @@ import Layout from './layout';
 * @class ServiceModel
 * @extends Ember.Object
 */
-export default Ember.Object.extend({
+export default EmberObject.extend({
 	/**
 	* Name of current stage of service 
 	* @property stageName

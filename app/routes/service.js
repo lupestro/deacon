@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import Route from '@ember/routing/route';
 import ServiceModel from '../models/service';
 /**
 * @module Deacon.Routes
@@ -15,7 +15,7 @@ import ServiceModel from '../models/service';
 * @class ServiceRoute
 * @extends Ember.Route
 */
-export default Ember.Route.extend({
+export default Route.extend({
 	/**
 	* Provide the model to use for the service controller that drives everything.
 	* @method model

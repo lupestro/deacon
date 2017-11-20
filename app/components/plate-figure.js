@@ -1,4 +1,5 @@
-import Ember from 'ember';
+import { computed } from '@ember/object';
+import Component from '@ember/component';
 /**
 * @module Deacon.Components
 */
@@ -11,7 +12,7 @@ import Ember from 'ember';
 * @class PlateFigure
 * @extends Ember.Component
 */
-export default Ember.Component.extend({
+export default Component.extend({
 	// Tag generation bindings
 	tagName: 'g',
 	classNames: ['plate'],
@@ -34,7 +35,7 @@ export default Ember.Component.extend({
 	* @property transform
 	* @type string
 	*/	
-	transform: Ember.computed('x','y', function() {
+	transform: computed('x','y', function() {
 			return "translate(" + this.x + "," + this.y + ")";
 	})
 });

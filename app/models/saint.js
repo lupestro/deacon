@@ -1,4 +1,4 @@
-import Ember from 'ember';
+import EmberObject from '@ember/object';
 /**
 * @module Deacon.Models
 */
@@ -9,7 +9,7 @@ import Ember from 'ember';
 * @class SaintModel
 * @extends Ember.Object
 */
-export default Ember.Object.extend({
+export default EmberObject.extend({
 	/**
 	* The horizontal position of the saint within the diagram.
 	* @property x
