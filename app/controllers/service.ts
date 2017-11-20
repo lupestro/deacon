@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import {action} from 'ember-decorators/object';
+import { action } from 'ember-decorators/object';
 /**
 * @module Deacon.Controllers
 */
@@ -20,7 +20,7 @@ export default class ServiceController extends Controller {
 	* @private
 	* @type Timer
 	*/
-	timer = null;
+	timer : number | null = null;
 	/**
 	* The names of the three cycles of deacons going up the rows
 	* @property stageNames

@@ -22,26 +22,26 @@ export default class PewFigure extends Component {
 	* @property x
 	* @type number
 	*/
-	x = this.x || null;
+	x : number | null = this.x || null;
 	/**
 	* <i>attribute:</i> used to position the pew SVG group
 	* @property y
 	* @type number
 	*/
-	y = this.y || null;
+	y : number | null = this.y || null;
 	/**
 	* <i>attribute:</i> used to set the width of the elements in the pew SVG group
 	* @property width
 	* @type number
 	*/
-	width = this.width || null;
+	width : number | null = this.width || null;
 	/**
 	* transform SVG attribute for pew SVG group - computed from x and y attributes 
 	* 
 	* @property transform
 	* @type string
 	*/	
-	@attribute @computed('x','y') get transform() {
+	@attribute @computed('x','y') get transform() : string {
 			return "translate(" + this.x + "," + this.y + ")";
 	}
 }

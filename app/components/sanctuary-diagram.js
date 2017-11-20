@@ -1,9 +1,11 @@
 import Component from '@ember/component';
-import { 
-	tagName,
-	classNames,
-	attribute
-  } from 'ember-decorators/component';
+import { tagName, classNames, attribute} from 'ember-decorators/component';
+//import { argument } from '@ember-decorators/argument';
+
+//import Pew from 'deacon/models/pew';
+//import Saint from 'deacon/models/saint';
+//import Deacon from 'deacon/models/deacon';
+//import Plate from 'deacon/models/plate';
   
 /**
 * Components for depicting the animated congregation in SVG
@@ -29,7 +31,7 @@ import {
 * @extends Ember.Component
 */
 @tagName('svg')
-@classNames('sancutary')
+@classNames('sanctuary')
 export default class SanctuaryDiagram extends Component {
 
 		// Tag generation bindings
@@ -38,13 +40,13 @@ export default class SanctuaryDiagram extends Component {
 	* @property width
 	* @type number
 	*/	
-	@attribute width = null;
+	@attribute width = 400;
 	/**
 	* <i>attribute:</i> the height of the SVG diagram
 	* @property height
 	* @type number
 	*/	
-	@attribute height= null;
+	@attribute height = 300;
 	/**
 	* <i>attribute:</i> the array of {{#crossLink "PewModel"}}pews{{/crossLink}} to include in the SVG diagram
 	* @property pews 
@@ -56,17 +58,17 @@ export default class SanctuaryDiagram extends Component {
 	* @property saints
 	* @type Array of SaintModel
 	*/	
-	saints = this.saints || [];
+	saints  = this.saints || [];
 	/**
 	* <i>attribute:</i> the array of {{#crossLink "DeaconModel"}}deacons{{/crossLink}} to include in the SVG diagram
 	* @property deacons
 	* @type Array of DeaconModel
 	*/	
-	deacons = this.deacons || [];
+	deacons  = this.deacons || [];
 	/**
 	* <i>attribute:</i> the array of {{#crossLink "PlateModel"}}plates{{/crossLink}} to include in the SVG diagram
 	* @property plates
 	* @type Array of PlateModel
 	*/	
-	plates = this.plates || [];
+	plates  = this.plates || [];
 }

@@ -21,20 +21,20 @@ export default class DeaconFigure extends Component {
 	* @property x
 	* @type number
 	*/
-	x = (typeof this.x !== 'undefined') ? this.x : null;
+	x : number | null = (typeof this.x !== 'undefined') ? this.x : null;
 	/**
 	* <i>attribute:</i> used to position the deacon SVG group
 	* @property y
 	* @type number
 	*/
-	y = (typeof this.y !== 'undefined') ? this.y : null;
+	y : number | null = (typeof this.y !== 'undefined') ? this.y : null;
 	/**
 	* transform SVG attribute for deacon SVG group - computed from supplied x and y attributes (also rotates 90 degrees)
 	* 
 	* @property transform
 	* @type string
 	*/	
-	@attribute @computed('x','y') get transform() {
+	@attribute @computed('x','y') get transform() : string {
 			return "translate(" + this.x + "," + this.y + ") rotate(90,16,16)";
 	}
 }

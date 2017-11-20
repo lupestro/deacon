@@ -21,20 +21,20 @@ export default class PlateFigure extends Component {
 	* @property x
 	* @type number
 	*/
-	x = this.x || null;
+	x : number | null = this.x || null;
 	/**
 	* <i>attribute:</i> used to position the plate SVG group
 	* @property y
 	* @type number
 	*/
-	y = this.y || null;
+	y : number | null = this.y || null;
 	/**
 	* transform SVG attribute for plate SVG group - computed from supplied x and y attributes
 	* 
 	* @property transform
 	* @type string
 	*/	
-	@attribute @computed('x','y') get transform() {
+	@attribute @computed('x','y') get transform() : string {
 			return "translate(" + this.x + "," + this.y + ")";
 	}
 }
