@@ -15,36 +15,35 @@ import ServiceModel from '../models/service';
 * @class ServiceRoute
 * @extends Ember.Route
 */
-export default class ModelRoute extends Route {
+export default class ServiceRoute extends Route {
 	/**
 	* Provide the model to use for the service controller that drives everything.
 	* @method model
 	* @return {ServiceModel}
 	*/
-	model() {
+	model(): ServiceModel {
 		/*var pattern = [
 			[12,"*"],
 			[11,"*"],
 			[10,"*"],
 			[9,"*"],
-			[8,"*"], 
+			[8,"*"],
 			[7,0,1,5,6],
 			[6,2,3,4,5],
 			[5,"*"],
 			[4,2,3],
-			[4,0,1], 
+			[4,0,1],
 			[3,2],
-			[3,0,1] 
+			[3,0,1]
 		];*/
 		var pattern = [
-			[7,0,1,5,6],
-			[6,"*"],
-			[5,2,3,4],
-			[4,0,1],
-			[3,"*"],
-			[2,"*"]
+			[7, 0, 1, 5, 6],
+			[6, "*"],
+			[5, 2, 3, 4],
+			[4, 0, 1],
+			[3, "*"],
+			[2, "*"]
 		];
-		return ServiceModel.create({ pattern: pattern});
-		//return ServiceModel.create();
+		return ServiceModel.create({ pattern: pattern });
 	}
 }
