@@ -15,13 +15,13 @@ import ServiceModel from '../models/service';
 * @class ServiceRoute
 * @extends Ember.Route
 */
-export default Route.extend({
+export default class ModelRoute extends Route {
 	/**
 	* Provide the model to use for the service controller that drives everything.
 	* @method model
 	* @return {ServiceModel}
 	*/
-	model: function() {
+	model() {
 		/*var pattern = [
 			[12,"*"],
 			[11,"*"],
@@ -47,4 +47,4 @@ export default Route.extend({
 		return ServiceModel.create({ pattern: pattern});
 		//return ServiceModel.create();
 	}
-});
+}

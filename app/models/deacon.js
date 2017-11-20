@@ -9,52 +9,53 @@ import EmberObject from '@ember/object';
 * @class DeaconModel
 * @extends Ember.Object
 */
-export default EmberObject.extend({
+export default class DeaconModel extends EmberObject {
 	/**
 	* The horizontal position of the deacon within the diagram.
 	* @property x
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	x: null,
+	x = (typeof this.x !== 'undefined') ? this.x : null;
 	/**
 	* The vertical position of the deacon within the diagram.
 	* @property y
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	y: null,
+	y = (typeof this.y !== 'undefined') ? this.y : null;
 	/**
 	* The pew by which the deacon currently resides.
 	* @property pew
 	* @type PewModel
 	*/
-	pew: null,
+	pew = this.pew || null;
 	/**
 	* The seat in the pew where the deacon currently resides. Typically -1 or pew.seats.
 	* @property seat
 	* @type number
 	*/
-	seat: null,
+	seat = (typeof this.seat !== 'undefined') ? this.seat : null;
 	/**
 	* The {{#crossLink "PlateModel"}}plates{{/crossLink}} that the deacon is currently holding 
 	* @property plates
 	* @type Array of PlateModel
 	*/
-	plates: null,
+	plates = this.plates || [];
 	/**
 	* For each plate, whether this deacon received it on this row. Internal bookkeeping
 	* @property _passed
 	* @type Array of boolean
 	*/
-	_passed: null,
+	_passed = this._passed || [];
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
-	init: function() {
+	constructor() {
+		super(...arguments);		
 		if (this.seat !== null && this.pew !== null) {
 			if (this.seat > this.pew.get('seats')) {
 				this.seat = this.pew.get('seats');
@@ -70,29 +71,28 @@ export default EmberObject.extend({
 		}
 		if (this.x === null || this.y === null) {
 			this.move(this.pew, this.seat);
-		}		
-		return this._super();
-	},
+		}
+	}
 	/**
 	* Reset state to supplied state
 	* @method reset
 	* @param {Array of PlateModel} plates - The {{#crossLink "PlateModel"}}plates{{/crossLink}} to hold
 	* @param {PewModel} pew - The pew to stand next to
 	*/
-	reset: function (plates, pew) {
+	reset(plates, pew) {
 		this.set('plates', plates);
 		this._passed = [];
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
 			this._passed.push(false);
 		}
 		this.move(pew);
-	},
+	}
 	/**
 	* <i>Behavior:</i> Move to a specfic pew
 	* @method move
 	* @param {PewModel} pew - The pew to which to move
 	*/
-	move: function(pew){
+	move(pew){
 		if (this.pew !== null) {		
 			this.pew.removeDeacon(this);
 		}
@@ -106,14 +106,14 @@ export default EmberObject.extend({
 			this.plates[p].move(pew, this.seat);
 			this._passed[p] = false;
 		}
-	}, 
+	} 
 	/**
 	* <i>Behavior:</i> Pass the plate to a neighbor, presumably a saint
 	* @method passPlate
 	* @param {PlateModel} plate - The plate to pass
 	* @param {SaintModel|DeaconModel} neighbor - The neighbor to which to pass the plate
 	*/
-	passPlate: function(plate, neighbor){
+	passPlate(plate, neighbor){
 		var idx = -1;
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
 			if (plate === this.plates[p]) {
@@ -137,17 +137,17 @@ export default EmberObject.extend({
 				}
 			}
 		}
-	},
+	}
 	/**
 	* <i>Opportunity:</i> A plate has reached the end of a pew - Do you go retrieve it?
 	* @method plateArriving
 	* @param {PlateModel} plate - The plate that's arriving
 	*/
-	plateArriving: function (plate) {
+	plateArriving(plate) {
 		if (plate.pew !== this.pew) {
 			this.move(plate.pew);			
 		}
-	},
+	}
 	/**
 	* <i>Opportunity:</i> A plate is in your hands - What are you going to do about it?
 	* @method plateInHands
@@ -155,7 +155,7 @@ export default EmberObject.extend({
 	* @param {Array of PewModel} pews = The full set of {{#crossLink "PewModel"}}pews{{/crossLink}} 
 	* in which you might do something with the plate.
 	*/
-	plateInHands: function (plate, pews) {
+	plateInHands(plate, pews) {
 		if (plate.pew.allAreFed()) { // Time to move on to another pew
 			var p = pews.indexOf(plate.pew);
 			while (--p >= 0) {
@@ -185,17 +185,17 @@ export default EmberObject.extend({
 				}
 			}
 		}
-	},
+	}
 	/**
 	* <i>Opportunity:</i> A plate is being passed to you - Do you accept it?
 	* @method receivePlate
 	* @param {PlateModel} plate - The plate you're being offered
 	*/
-	receivePlate: function(plate) {
+	receivePlate(plate) {
 		plate.move(this.pew, this.seat);
 		plate.direction = 0;
 		this.plates.push(plate);
 		this._passed.push(true);		
 		return true;
 	}
-});
+}

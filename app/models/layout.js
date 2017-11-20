@@ -9,23 +9,23 @@ import Pew from './pew';
 * Model of a sanctuary layout.
 * 
 * @class LayoutModel
-* @extends Ember.Object
+* @extends ember/object
 */
-export default EmberObject.extend({
+export default class LayoutModel extends EmberObject {
 	/**
 	* Models of the {{#crossLink "PewModel"}}pews{{/crossLink}} defined 
 	* @property pews
 	* @type Array of PewModel
 	* @default Number and arrangement of pews determined by the pattern
 	*/
-	pews: null,
+	pews = this.pews || null;
 	/**
 	* Models of the {{#crossLink "SaintModel"}}saints{{/crossLink}} defined 
 	* @property saints
 	* @type Array of SaintModel
 	* @default Number and arrangement of saints determined by the pattern
 	*/
-	saints: null,
+	saints = this.saints || null;
 	/**
 	* The pattern of pews and the arrangement of saints in those pews. 
 	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
@@ -33,17 +33,15 @@ export default EmberObject.extend({
 	* @type string
 	* @default two pews filled with five saints each
 	*/
-	pattern: null,
+	pattern = this.pattern || [ [5,0,1,2,3,4], [5,0,1,2,3,4] ];
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @method init
+	* @method constructor
 	* @private
 	* @return whatever its parent returns
 	*/
-	init: function() {
-		if (this.pattern === null) {
-			this.pattern = [ [5,0,1,2,3,4], [5,0,1,2,3,4] ];
-		}
+	constructor() {
+		super(...arguments);
 		// Clean out "*" shorthand
 		for (var pt = 0, ptLen = this.pattern.length; pt < ptLen; pt++) {
 			if (this.pattern[pt].length === 2 && this.pattern[pt][1]==='*') {
@@ -61,7 +59,7 @@ export default EmberObject.extend({
 			for (var ptp = 0, ptpLen=pattern.length; ptp < ptpLen; ptp++) {
 				newpews.push(Pew.create({x:30, y: 20 + ptp*40, seats: pattern[ptp][0]}));
 			}
-			this.set('pews',newpews);
+			this.pews = newpews;
 		}
 		var pews = this.get('pews');
 
@@ -78,15 +76,15 @@ export default EmberObject.extend({
 			}
 			this.set('saints',newsaints);
 		}
-	},
+	} 
 	/**
 	* Reset the "fed" state of all the saints in the layout
 	* @method resetFed
 	*/
-	resetFed: function() {
+	resetFed() {
 		for (var s = 0, sLen = this.saints.length; s < sLen; s++) {
 			this.saints[s].set('fed', false);
 		}
 	}
 
-});
+}

@@ -1,5 +1,7 @@
-import { computed } from '@ember/object';
 import Component from '@ember/component';
+import { tagName, classNames, attribute } from 'ember-decorators/component';
+import { computed } from 'ember-decorators/object';
+
 /**
 * @module Deacon.Components
 */
@@ -12,30 +14,29 @@ import Component from '@ember/component';
 * @class SaintFigure
 * @extends Ember.Component
 */
-export default Component.extend({
+@tagName('g')
+@classNames('saint')
+export default class SaintFigure extends Component {
 	// Tag generation bindings
-	tagName: 'g',
-	classNames: ['saint'],
-	attributeBindings: ['transform'],
 	/**
 	* <i>attribute:</i> used to position the saint SVG group
 	* @property x
 	* @type number
 	*/
-	x: null,
+	x = this.x || null;
 	/**
 	* <i>attribute:</i> used to position the saint SVG group
 	* @property y
 	* @type number
 	*/
-	y: null,
+	y = this.y || null;
 	/**
 	* transform SVG attribute for saint SVG group - computed from supplied x and y attributes
 	* 
 	* @property transform
 	* @type string
 	*/	
-	transform: computed('x','y', function() {
+	@attribute @computed('x','y') get transform() {
 			return "translate(" + this.x + "," + this.y + ")";
-	})
-});
+	}
+}

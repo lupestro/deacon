@@ -9,55 +9,48 @@ import EmberObject from '@ember/object';
 * @class SaintModel
 * @extends Ember.Object
 */
-export default EmberObject.extend({
+export default class SaintModel extends EmberObject {
 	/**
 	* The horizontal position of the saint within the diagram.
 	* @property x
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	x: null,
+	x = this.x || 0;
 	/**
 	* The vertical position of the saint within the diagram.
 	* @property y
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	y: null,
+	y = this.y || 0;
 	/**
 	* The pew in which the saint currently resides.
 	* @property pew
 	* @type PewModel
 	*/
-	pew: null,
+	pew = this.pew || null;
 	/**
 	* The seat in the pew where the saint currently resides. Between 0 and pew.seats-1, inclusive.
 	* @property seat
 	* @type number
 	*/
-	seat: null,
+	// Note that 0, a legitimate value, is falsy, so we need to check explicitly against undefined
+	seat = (typeof this.seat !== 'undefined') ? this.seat : null;
 	/**
 	* Whether the saint has had access to the plate 
 	* @property fed
 	* @type boolean
 	*/
-	fed: null,
+	fed = this.fed || false;
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
-	init: function() {
-		if (this.x === null) {
-			this.x = 0;
-		}
-		if (this.y === null) {
-			this.y = 0;
-		}
-		if (this.fed === null) {
-			this.fed = false;
-		}
+	constructor() {
+		super(...arguments);
 		if (this.seat !== null && this.pew !== null) {
 			if (this.seat > this.pew.get('seats')) {
 				this.seat = this.pew.get('seats');
@@ -68,16 +61,14 @@ export default EmberObject.extend({
 		if (this.pew !== null) {
 			this.pew.addSaint(this);
 		}
-
-		return this._super();
-	},
+	}
 	/**
 	* <i>Behavior:</i> Move to the specified pew and seat
 	* @method move
 	* @param {PewModel} pew - The pew to which to move
 	* @param {number} seat - The seat to which to move
 	*/
-	move: function(pew, seat) {
+	move (pew, seat) {
 		var realseat;
 		if (seat > this.pew.get('seats')) {
 			realseat = this.pew.get('seats');
@@ -95,14 +86,14 @@ export default EmberObject.extend({
 		this.set('x', coords.x);
 		this.set('y', coords.y);
 		this.pew.addSaint(this);
-	},
+	}
 	/**
 	* <i>Behavior:</i> Pass the plate to a neighbor, whether a saint or a deacon
 	* @method passPlate
 	* @param {PlateModel} plate - The plate that the saint is passing
 	* @param {SaintModel|DeaconModel} neighbor - The neighbor being offered the plate
 	*/
-	passPlate: function(plate, neighbor){
+	passPlate(plate, neighbor){
 		if (neighbor) {
 			if (!neighbor.receivePlate(plate)) {
 				plate.direction = 0;
@@ -114,13 +105,13 @@ export default EmberObject.extend({
 				plate.direction = - plate.direction;
 			}
 		}
-	},
+	}
 	/**
 	* <i>Opportunity:</i> The saint has a plate in hand this iteration and has the opportunity to act
 	* @method plateInHands
 	* @param {PlateModel} plate - The plate that the saint can act upon
 	*/
-	plateInHands: function (plate) {
+	plateInHands(plate) {
 		var neighbor;
 		if (this.seat === 0 && plate.direction < 0) {
 			neighbor = this.pew.findDeacon(-1);
@@ -136,13 +127,13 @@ export default EmberObject.extend({
 		if (neighbor) {
 			this.passPlate(plate, neighbor);
 		}
-	},
+	}
 	/**
 	* <i>Opportunity:</i> The saint has been offered a plate and has the opportunity to act
 	* @method receivePlate
 	* @param {PlateModel} plate - The plate that the saint can act upon
 	*/
-	receivePlate: function(plate) {
+	receivePlate(plate) {
 		var oldSeat = plate.seat;
 		plate.move(this.pew, this.seat);
 		if (oldSeat < this.seat) {
@@ -153,4 +144,4 @@ export default EmberObject.extend({
 		this.fed = true;
 		return true;
 	}
-});
+}

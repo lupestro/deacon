@@ -1,5 +1,7 @@
-import { computed } from '@ember/object';
 import Component from '@ember/component';
+import { tagName, classNames, attribute } from 'ember-decorators/component';
+import { computed } from 'ember-decorators/object';
+
 /**
 * @module Deacon.Components
 */
@@ -12,36 +14,34 @@ import Component from '@ember/component';
 * @class PewFigure
 * @extends Ember.Component
 */
-export default Component.extend({
-	// Tag generation bindings
-	tagName: 'g',
-	classNames: ['pew'],
-	attributeBindings: ['transform'],
+@tagName('g')
+@classNames('pew')
+export default class PewFigure extends Component {
 	/**
 	* <i>attribute:</i> used to position the pew SVG group
 	* @property x
 	* @type number
 	*/
-	x: null,
+	x = this.x || null;
 	/**
 	* <i>attribute:</i> used to position the pew SVG group
 	* @property y
 	* @type number
 	*/
-	y: null,
+	y = this.y || null;
 	/**
 	* <i>attribute:</i> used to set the width of the elements in the pew SVG group
 	* @property width
 	* @type number
 	*/
-	width: null,
+	width = this.width || null;
 	/**
 	* transform SVG attribute for pew SVG group - computed from x and y attributes 
 	* 
 	* @property transform
 	* @type string
 	*/	
-	transform: computed('x','y', function() {
+	@attribute @computed('x','y') get transform() {
 			return "translate(" + this.x + "," + this.y + ")";
-	})
-});
+	}
+}

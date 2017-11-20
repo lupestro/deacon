@@ -9,27 +9,27 @@ import EmberObject from '@ember/object';
 * @class PlateModel
 * @extends Ember.Object
 */
-export default EmberObject.extend({
+export default class PlateModel extends EmberObject {
 	/**
 	* The horizontal position of the plate within the diagram.
 	* @property x
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	x: null,
+	x = this.x || null;
 	/**
 	* The vertical position of the plate within the diagram.
 	* @property y
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	y: null,
+	y = this.y || null;
 	/**
 	* The pew in which the plate currently resides.
 	* @property pew
 	* @type PewModel
 	*/
-	pew: null,
+	pew = this.pew ||  null;
 	/**
 	* The seat in the pew which the plate currently resides: 
 	* * A seat of -1 is to the left of the pew (hint: where a deacon might be standing).
@@ -38,7 +38,7 @@ export default EmberObject.extend({
 	* @property seat
 	* @type number
 	*/
-	seat: null,
+	seat = this.seat || null;
 	/**
 	* The direction in which the plate is moving: 
 	* * -1 : To the left.
@@ -47,17 +47,15 @@ export default EmberObject.extend({
 	* @property direction
 	* @type number
 	*/
-	direction: null, 
+	direction = this.direction || 0;
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @method init
+	* @method constructor
 	* @private
 	* @return whatever its parent returns
 	*/
-	init: function() {
-		if (this.direction === null) {
-			this.direction = 0;
-		}
+	constructor() {
+		super(...arguments);
 		if (this.seat !== null && this.pew !== null) {
 			this.seat = Math.min(this.seat, this.pew.get('seats'));
 			this.seat = Math.max(this.seat, -1);
@@ -65,22 +63,21 @@ export default EmberObject.extend({
 		if (this.x === null || this.y === null) {
 			this.move(this.pew, this.seat);
 		}
-		return this._super();
-	},
+	}
 	/**
 	* Reset the behavior of the plate - set it to no longer be moving
 	* @method reset
 	*/
-	reset: function() {
+	reset() {
 		this.direction = 0;
-	},
+	}
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method move
 	* @param {PewModel} pew - the pew to move it to
 	* @param {number} seat - the seat to move it to 
 	*/	
-	move: function(pew, seat) {
+	move(pew, seat) {
 		var movingPews = (this.pew !== pew);
 		if (movingPews && this.pew) {
 			this.pew.removePlate(this);
@@ -94,4 +91,4 @@ export default EmberObject.extend({
 			this.pew.addPlate(this);
 		}
 	}
-});
+}

@@ -1,5 +1,6 @@
-import { computed } from '@ember/object';
 import Component from '@ember/component';
+import { tagName, classNames, attribute } from 'ember-decorators/component';
+import { computed } from 'ember-decorators/object';
 /**
 * @module Deacon.Components
 */
@@ -12,30 +13,28 @@ import Component from '@ember/component';
 * @class PlateFigure
 * @extends Ember.Component
 */
-export default Component.extend({
-	// Tag generation bindings
-	tagName: 'g',
-	classNames: ['plate'],
-	attributeBindings: ['transform'],
+@tagName('g')
+@classNames('plate')
+export default class PlateFigure extends Component {	
 	/**
 	* <i>attribute:</i> used to position the plate SVG group
 	* @property x
 	* @type number
 	*/
-	x: null,
+	x = this.x || null;
 	/**
 	* <i>attribute:</i> used to position the plate SVG group
 	* @property y
 	* @type number
 	*/
-	y: null,
+	y = this.y || null;
 	/**
 	* transform SVG attribute for plate SVG group - computed from supplied x and y attributes
 	* 
 	* @property transform
 	* @type string
 	*/	
-	transform: computed('x','y', function() {
+	@attribute @computed('x','y') get transform() {
 			return "translate(" + this.x + "," + this.y + ")";
-	})
-});
+	}
+}
