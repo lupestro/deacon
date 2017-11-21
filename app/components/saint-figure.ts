@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { tagName, classNames, attribute } from 'ember-decorators/component';
+import { tagName, classNames} from 'ember-decorators/component';
 import { computed } from 'ember-decorators/object';
 
 /**
@@ -16,27 +16,29 @@ import { computed } from 'ember-decorators/object';
 */
 @tagName('g')
 @classNames('saint')
-export default class SaintFigure extends Component {
+export default class SaintFigure extends Component.extend({
+	attributeBindings: ['x','y','transform']
+}) {
 	// Tag generation bindings
 	/**
 	* <i>attribute:</i> used to position the saint SVG group
 	* @property x
 	* @type number
 	*/
-	@attribute x ;
+	x : number;
 	/**
 	* <i>attribute:</i> used to position the saint SVG group
 	* @property y
 	* @type number
 	*/
-	@attribute y ;
+	y : number;
 	/**
 	* transform SVG attribute for saint SVG group - computed from supplied x and y attributes
 	* 
 	* @property transform
 	* @type string
 	*/	
-	@attribute @computed('x','y') get transform() {
+	@computed('x','y') get transform() : string {
 			return "translate(" + this.x + "," + this.y + ")";
 	}
 }

@@ -1,7 +1,7 @@
 import Component from '@ember/component';
-import { tagName, classNames, attribute } from 'ember-decorators/component';
+import { tagName, classNames } from 'ember-decorators/component';
 import { computed } from 'ember-decorators/object';
-import { argument } from '@ember-decorators/argument';
+//import { argument } from '@ember-decorators/argument';
 
 /**
 * @module Deacon.Components
@@ -17,32 +17,34 @@ import { argument } from '@ember-decorators/argument';
 */
 @tagName('g')
 @classNames('pew')
-export default class PewFigure extends Component {
+export default class PewFigure extends Component.extend({
+	attributeBindings:['x','y','transform']
+}) {
 	/**
 	* <i>attribute:</i> used to position the pew SVG group
 	* @property x
 	* @type number
 	*/
-	@attribute x;
+	x : number;
 	/**
 	* <i>attribute:</i> used to position the pew SVG group
 	* @property y
 	* @type number
 	*/
-	@attribute y;
+	y : number;
 	/**
 	* <i>attribute:</i> used to set the width of the elements in the pew SVG group
 	* @property width
 	* @type number
 	*/
-	@argument width;
+	/*@argument*/ width;
 	/**
 	* transform SVG attribute for pew SVG group - computed from x and y attributes 
 	* 
 	* @property transform
 	* @type string
 	*/	
-	@attribute @computed('x','y') get transform() {
+	@computed('x','y') get transform() : string {
 			return "translate(" + this.x + "," + this.y + ")";
 	}
 }
