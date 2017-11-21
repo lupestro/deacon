@@ -23,20 +23,20 @@ export default class SaintFigure extends Component {
 	* @property x
 	* @type number
 	*/
-	x : number | null = this.x || null;
+	@attribute x ;
 	/**
 	* <i>attribute:</i> used to position the saint SVG group
 	* @property y
 	* @type number
 	*/
-	y : number | null = this.y || null;
+	@attribute y ;
 	/**
 	* transform SVG attribute for saint SVG group - computed from supplied x and y attributes
 	* 
 	* @property transform
 	* @type string
 	*/	
-	@attribute @computed('x','y') get transform() : string {
+	@attribute @computed('x','y') get transform() {
 			return "translate(" + this.x + "," + this.y + ")";
 	}
 }

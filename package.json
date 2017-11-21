@@ -16,6 +16,7 @@
     "test": "ember test"
   },
   "devDependencies": {
+    "@ember-decorators/argument": "^0.8.0",
     "@types/ember": "^2.8.2",
     "@types/ember-testing-helpers": "0.0.3",
     "@types/rsvp": "^4.0.0",
