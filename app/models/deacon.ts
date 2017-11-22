@@ -6,6 +6,11 @@ import { INeighbor } from 'deacon/models/saint';
 * @module Deacon.Models
 */
 
+interface IDeaconStart {
+	pew: Pew,
+	seat: number,
+	plates: Plate[]
+}
 /**
 * Model of a deacon.
 * 
@@ -14,37 +19,37 @@ import { INeighbor } from 'deacon/models/saint';
 */
 export default class Deacon extends EmberObject {
 	/**
+	* The pew by which the deacon currently resides.
+	* @property pew
+	* @type PewModel
+	*/
+	pew : Pew;
+	/**
+	* The seat in the pew where the deacon currently resides. Typically -1 or pew.seats.
+	* @property seat
+	* @type number
+	*/
+	seat : number;
+	/**
+	* The {{#crossLink "PlateModel"}}plates{{/crossLink}} that the deacon is currently holding 
+	* @property plates
+	* @type Array of PlateModel
+	*/
+	plates : Plate[];
+	/**
 	* The horizontal position of the deacon within the diagram.
 	* @property x
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	x : number | null = (typeof this.x !== 'undefined') ? this.x : null;
+	x : number;
 	/**
 	* The vertical position of the deacon within the diagram.
 	* @property y
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	y : number | null = (typeof this.y !== 'undefined') ? this.y : null;
-	/**
-	* The pew by which the deacon currently resides.
-	* @property pew
-	* @type PewModel
-	*/
-	pew : Pew | null = this.pew || null;
-	/**
-	* The seat in the pew where the deacon currently resides. Typically -1 or pew.seats.
-	* @property seat
-	* @type number
-	*/
-	seat : number | null = (typeof this.seat !== 'undefined') ? this.seat : null;
-	/**
-	* The {{#crossLink "PlateModel"}}plates{{/crossLink}} that the deacon is currently holding 
-	* @property plates
-	* @type Array of PlateModel
-	*/
-	plates : Plate[] = this.plates || [];
+	y : number;
 	/**
 	* For each plate, whether this deacon received it on this row. Internal bookkeeping
 	* @property _passed
@@ -57,24 +62,24 @@ export default class Deacon extends EmberObject {
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor() {
-		super(...arguments);		
-		if (this.seat !== null && this.pew !== null) {
-			if (this.seat > this.pew.get('seats')) {
-				this.seat = this.pew.get('seats');
-			} else if (this.seat < -1) {
-				this.seat = -1;
-			}
+	constructor(position : IDeaconStart ) {
+		super(...arguments);
+		this.pew = position.pew;
+		this.plates = position.plates;
+		
+		if (position.seat > this.pew.get('seats')) {
+			this.seat = this.pew.get('seats');
+		} else if (position.seat < -1) {
+			this.seat = -1;
+		} else {
+			this.seat = position.seat;
 		}
-		if (this.plates !== null) {
-			this._passed = [];
-			for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
-				this._passed.push(false);
-			}
+
+		this._passed = [];
+		for (let p = 0, pLen = position.plates.length; p < pLen; p++) {
+			this._passed.push(false);
 		}
-		if (this.x === null || this.y === null) {
-			this.move(this.pew);
-		}
+		this.move(this.pew); /* sets x & y */
 	}
 	/**
 	* Reset state to supplied state
@@ -116,7 +121,7 @@ export default class Deacon extends EmberObject {
 	* <i>Behavior:</i> Pass the plate to a neighbor, presumably a saint
 	* @method passPlate
 	* @param {Plate} plate - The plate to pass
-	* @param {SaintModel|Deacon} neighbor - The neighbor to which to pass the plate
+	* @param {Saint|Deacon} neighbor - The neighbor to which to pass the plate
 	*/
 	passPlate(plate: Plate, neighbor : INeighbor){
 		var idx = -1;

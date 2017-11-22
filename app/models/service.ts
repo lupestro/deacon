@@ -6,7 +6,7 @@ import Pew from 'deacon/models/pew';
 /**
 * @module Deacon.Models
 */
-
+type ExternalLayoutPattern = (number | string)[][];
 /**
 * Master model for the service controller and route.
 * 
@@ -20,21 +20,21 @@ export default class ServiceModel extends EmberObject {
 	* @type string
 	* @default "Offertory"
 	*/
-	stageName : string = this.stageName || "Offertory";
+	stageName : string = "Offertory";
 	/**
 	* Height on screen of the entire service 
 	* @property height
 	* @type number
 	* @default determined by geometry of pews
 	*/
-	height : number | null = this.height || null;
+	height : number;
 	/**
 	* Width on screen of the entire service  
 	* @property width
 	* @type string
 	* @default determined by geometry of pews
 	*/
-	width : number | null = this.width || null;
+	width : number;
 	/**
 	* The pattern of pews and the arrangement of saints in those pews. 
 	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
@@ -42,7 +42,7 @@ export default class ServiceModel extends EmberObject {
 	* @type string
 	* @default two pews filled with five saints each
 	*/
-	pattern : (number | string)[][] = this.pattern || [ [5,"*"], [5,"*"]];
+	pattern : ExternalLayoutPattern;
 	/**
 	* Model of internal layout of the service, including all pews and saints
 	* @property layout
@@ -50,53 +50,46 @@ export default class ServiceModel extends EmberObject {
 	* @private
 	* @default Whatever layout is specified by the pattern
 	*/
-	layout : Layout = this.layout || Layout.create({pattern: this.pattern});
+	layout : Layout;
 	/**
 	* Models of the {{#crossLink "DeaconModel"}}deacons{{/crossLink}} defined 
 	* @property deacons
 	* @type Array of DeaconModel
 	* @default Deacon to the left of the front row and one to the right of the row behind it
 	*/
-	deacons : Deacon[] | null = this.deacons || null;
+	deacons : Deacon[];
 	/**
 	* Models of the {{#crossLink "PlateModel"}}plates{{/crossLink}} defined 
 	* @property plates
 	* @type Array of Plate
 	* @default A plate in the hands of each deacon
 	*/
-	plates : Plate[] | null = this.plates || null;
+	plates : Plate[];
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method constructor
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor () {
+	constructor (pattern : ExternalLayoutPattern) {
 		super(...arguments);
 
+		this.pattern = pattern || [ [5,"*"], [5,"*"]];
+		this.layout = new Layout(this.pattern);
 		var pews = this.layout.pews;
-		this.height = this.height || 40 + pews.length * 40;
-		this.width = this.width || 60 + pews.reduce( (prev, pew) => { 
-				return Math.max(prev, pew.get('width')); 
-			}, 0);
+		this.height = 40 + pews.length * 40;
+		this.width = 60 + pews.reduce( (prev, pew) => { return Math.max(prev, pew.get('width')); }, 0);
 
 		var pew0 =  pews[pews.length-1],
 			pew1 = pews[pews.length-2];
-		this.plates = this.plates || [
-			Plate.create({ seat: -1, pew: pew0}),
-			Plate.create({ seat: 1000000, pew: pew1})
-		];
-		this.deacons = this.deacons || [
-			Deacon.create({ 
-				seat: -1,
-				pew: pew0, 
-				plates: [ this.plates[0] ]
-			}),
-			Deacon.create({
-				seat: 1000000, 
-				pew: pew1, 
-				plates: [ this.plates[1] ]
-			})
+
+		var plate0 = new Plate({pew:pew0, seat:-1}),
+			plate1 = new Plate({pew: pew1, seat:1000000});
+		this.plates = [ plate0, plate1 ];
+
+		this.deacons = [
+			new Deacon({pew: pew0, seat: -1, plates:[ plate0 ]}),
+			new Deacon({pew: pew1, seat: 1000000, plates: [ plate1 ]})
 		]; 
 	}
 	/**
@@ -106,14 +99,14 @@ export default class ServiceModel extends EmberObject {
 	* @param {number} index of the pew
 	* @return {number} the number of seats in the pew
 	*/
-	getPewSeats(pew: number): number {
+	getPewSeats(pewIndex: number): number {
 		var thismodel : ServiceModel = this;
 		var pews = thismodel.get('layout').pews;
-		if (pew < 0 || pew >= pews.length) {
+		if (pewIndex < 0 || pewIndex >= pews.length) {
 			return 0;
 		}
 		else {
-			return pews[pew].get('seats');
+			return pews[pewIndex].get('seats');
 		}
 	}
 	/**

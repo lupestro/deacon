@@ -9,7 +9,10 @@ import Plate from 'deacon/models/plate';
 export interface INeighbor {
 	receivePlate(plate: Plate) : boolean
 }
-
+interface ILocation {
+	pew : Pew
+	seat: number
+}
 /**
 * Model of a saint.
 * 
@@ -23,51 +26,43 @@ export default class Saint extends EmberObject {
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	x : number = this.x || 0;
+	x : number ;
 	/**
 	* The vertical position of the saint within the diagram.
 	* @property y
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	y : number = this.y || 0;
+	y : number ;
 	/**
 	* The pew in which the saint currently resides.
 	* @property pew
 	* @type PewModel
 	*/
-	pew : Pew | null = this.pew || null;
+	pew : Pew;
 	/**
 	* The seat in the pew where the saint currently resides. Between 0 and pew.seats-1, inclusive.
 	* @property seat
 	* @type number
 	*/
 	// Note that 0, a legitimate value, is falsy, so we need to check explicitly against undefined
-	seat : number | null = (typeof this.seat !== 'undefined') ? this.seat : null;
+	seat : number;
 	/**
 	* Whether the saint has had access to the plate 
 	* @property fed
 	* @type boolean
 	*/
-	fed : boolean = this.fed || false;
+	fed : boolean = false;
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor() {
+	constructor(location: ILocation) {
 		super(...arguments);
-		if (this.seat !== null && this.pew !== null) {
-			if (this.seat > this.pew.get('seats')) {
-				this.seat = this.pew.get('seats');
-			} else if (this.seat < -1) {
-				this.seat = -1;
-			}
-		}
-		if (this.pew !== null) {
-			this.pew.addSaint(this);
-		}
+		this.pew.addSaint(this);
+		this.move(location.pew, location.seat);
 	}
 	/**
 	* <i>Behavior:</i> Move to the specified pew and seat

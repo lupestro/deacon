@@ -1,11 +1,13 @@
 import EmberObject from '@ember/object';
 import Saint from './saint';
 import Pew from './pew';
-import { computed } from 'ember-decorators/object';
 
 /**
 * @module Deacon.Models
 */
+
+type ExternalLayoutPattern = (number | string)[][];
+type InternalLayoutPattern = number[][];
 
 /**
 * Model of a sanctuary layout.
@@ -20,14 +22,14 @@ export default class Layout extends EmberObject {
 	* @type Array of PewModel
 	* @default Number and arrangement of pews determined by the pattern
 	*/
-	pews : Pew[] | null = this.pews || null;
+	pews : Pew[];
 	/**
 	* Models of the {{#crossLink "SaintModel"}}saints{{/crossLink}} defined 
 	* @property saints
 	* @type Array of SaintModel
 	* @default Number and arrangement of saints determined by the pattern
 	*/
-	saints : Saint[] | null = this.saints || null;
+	saints : Saint[];
 	/**
 	* The pattern of pews and the arrangement of saints in those pews. 
 	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
@@ -35,67 +37,55 @@ export default class Layout extends EmberObject {
 	* @type string
 	* @default two pews filled with five saints each
 	*/
-	pattern : (number|string)[][] = this.pattern || [ [5,0,1,2,3,4], [5,0,1,2,3,4] ];
+	pattern : InternalLayoutPattern;
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method constructor
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor() {
+	constructor(pattern: ExternalLayoutPattern) {
 		super(...arguments);
+		this.pattern = this.cleanPattern(pattern || [[5,0,1,2,3,4], [5,0,1,2,3,4] ]);
 		var thismodel : Layout = this;
 		// Clean out "*" shorthand
-		var pattern = thismodel.get('cleanPattern');
 		// Make pews from pattern
-		if (this.pews === null || this.pews.length !== this.pattern.length) {
-			var newpews = [];
-			for (var ptp = 0, ptpLen=pattern.length; ptp < ptpLen; ptp++) {
-				newpews.push(Pew.create({
-					x:30, 
-					y: 20 + ptp*40, 
-					seats: pattern[ptp][0]
-				}));
-			}
-			this.pews = newpews;
+		var newpews : Pew[] = [];
+		for (let p = 0, pLen = this.pattern.length; p < pLen; p++) {
+			let numSeats = this.pattern[p][0];
+			newpews.push(
+				new Pew( {x: 30, y: 20 + p * 40, seats: numSeats, width: 0}));
 		}
-		var pews = thismodel.get('pews');
+		thismodel.set('pews', newpews);
 
 		// Make saints from pattern
-		if (this.saints === null) {
-			var newsaints = [];
-			for (var p = 0, pLen = pews.length; p < pLen; p++) {
-				var pewpattern = pattern[p].slice(1), 
-					pew = pews[p];
-				for (var s = 0, sLen = pewpattern.length; s < sLen; s++) {
-					var coords = pew.getSaintPosition(pewpattern[s]);
-					newsaints.push(Saint.create({
-						x: coords.x, 
-						y: coords.y, 
-						pew: pew, 
-						seat: pewpattern[s]
-					}));
+		if (!this.saints) {
+			let newsaints = [];
+			for (let p = 0, pLen = this.pews.length; p < pLen; p++) {
+				let pewpattern = this.pattern[p].slice(1), //everything but the count
+					pew = this.pews[p];
+				for (let s = 0, sLen = pewpattern.length; s < sLen; s++) {					
+					newsaints.push(new Saint ( {pew: pew, seat: pewpattern[s]} ));
 				}
 			}
 			thismodel.set('saints',newsaints);
 		}
-	} 
-	@computed('pattern') get cleanPattern() : number[][] {
+	}
+	cleanPattern(pattern: ExternalLayoutPattern) : InternalLayoutPattern {
 		var newpattern : number [][] = [];
-		for (var pt = 0, ptLen = this.pattern.length; pt < ptLen; pt++) {
-			var subpattern : number[] = []; 
-			if (this.pattern[pt].length === 2 && this.pattern[pt][1]==='*') {
-				var curr = 1, high = this.pattern[pt][0];
+		for (let p = 0, pLen = pattern.length; p < pLen; p++) {
+			let subpattern : number[] = []; 
+			if (pattern[p].length === 2 && pattern[p][1]==='*') {
+				var curr = 0, high = pattern[p][0];
 				if (typeof high === 'number') {
 					subpattern.push(high);
 				}
-				subpattern.push(0);
 				while(curr < high){
 					subpattern.push(curr++);
 				}
 			} else {
-				for (var ipt = 0, iptLen = this.pattern[pt].length; ipt < iptLen; ipt++) {
-					var item = this.pattern[pt][ipt];
+				for (let s = 0, sLen = pattern[p].length; s < sLen; s++) {
+					var item = pattern[p][s];
 					if (typeof item === 'number') {
 						subpattern.push(item);						
 					}

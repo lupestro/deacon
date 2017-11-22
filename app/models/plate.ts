@@ -4,6 +4,11 @@ import Pew from 'deacon/models/pew';
 * @module Deacon.Models
 */
 
+interface ILocation
+{
+	pew  : Pew,
+	seat: number
+}
 /**
 * Model of a plate.
 * 
@@ -17,20 +22,20 @@ export default class Plate extends EmberObject {
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	x : number | null = this.x || null;
+	x : number;
 	/**
 	* The vertical position of the plate within the diagram.
 	* @property y
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	y : number | null = this.y || null;
+	y : number;
 	/**
 	* The pew in which the plate currently resides.
 	* @property pew
 	* @type PewModel
 	*/
-	pew = this.pew ||  null;
+	pew : Pew; 
 	/**
 	* The seat in the pew which the plate currently resides: 
 	* * A seat of -1 is to the left of the pew (hint: where a deacon might be standing).
@@ -39,7 +44,7 @@ export default class Plate extends EmberObject {
 	* @property seat
 	* @type number
 	*/
-	seat : number | null = this.seat || null;
+	seat : number;
 	/**
 	* The direction in which the plate is moving: 
 	* * -1 : To the left.
@@ -48,22 +53,22 @@ export default class Plate extends EmberObject {
 	* @property direction
 	* @type number
 	*/
-	direction : number = this.direction || 0;
+	direction : number;
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method constructor
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor() {
+	constructor(location: ILocation ) {
 		super(...arguments);
+		this.pew = location.pew;
+		this.seat = location.seat;
 		if (this.seat !== null && this.pew !== null) {
 			this.seat = Math.min(this.seat, this.pew.get('seats'));
 			this.seat = Math.max(this.seat, -1);
 		}
-		if (this.x === null || this.y === null) {
-			this.move(this.pew, this.seat);
-		}
+		this.move(this.pew, this.seat);
 	}
 	/**
 	* Reset the behavior of the plate - set it to no longer be moving

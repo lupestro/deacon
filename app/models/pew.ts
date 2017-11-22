@@ -15,6 +15,12 @@ interface IPewPosition {
 	 x:number
 	 y:number
  }
+ interface IPewDimensions {
+	 x:number
+	 y:number
+	 width:number
+	 seats:number
+ }
 /**
 * Model of a pew. While the pew has no actual behavior, the pew drives and tracks the visible geometry of the elements in the 
 * animation. In consequence, it knows all of the deacons, saints, and plates associated with it. The pews keep the context
@@ -29,73 +35,69 @@ interface IPewPosition {
 	* @type number
 	* @default 0
 	*/
-	x : number = this.x || 0;
+	x : number;
 	/**
 	* The vertical position of the pew within the diagram.
 	* @property y
 	* @type number
 	* @default 0
 	*/
-	y : number = this.y || 0;
+	y : number;
 	/**
 	* The horizontal space taken by the pew.
 	* @property y
 	* @type number
 	* @default based on seats, if provided - otherwise 6 seats worth
 	*/
-	width : number | null = this.width || null;
+	width : number;
 	/**
 	* The vertical space taken by the pew.
 	* @property y
 	* @type number
 	* @default based on seats, if provided - otherwise 6 seats worth
 	*/
-	height = 32;
+	height : number;
 	/**
 	* The number of seats in the pew.
 	* @property seats
 	* @type number
 	* @default based on width, if provided - otherwise 6 seats
 	*/
-	seats : number | null = (typeof this.seats !== 'undefined') ? this.seats : null;;
+	seats : number;
 	/**
 	* The {{#crossLink "SaintModel"}}saints{{/crossLink}} to include in the pew.
 	* @property saints
 	* @type Array of SaintModel
 	* @default an empty array
 	*/
-	saints : Saint[] = this.saints || [];
+	saints : Saint[] = [];
 	/**
 	* The {{#crossLink "DeaconModel"}}deacons{{/crossLink}} to associate with the pew.
 	* @property deacons
 	* @type Array of DeaconModel
 	* @default an empty array
 	*/
-	deacons : Deacon[] = this.deacons || [];
+	deacons : Deacon[] = [];
 	/**
 	* The {{#crossLink "PlateModel"}}plates{{/crossLink}} to associate with the pew.
 	* @property plates
 	* @type Array of PlateModel
 	* @default an empty array
 	*/
-	plates : Plate[] = this.plates || [];
+	plates : Plate[] = [];
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor() {
+	constructor(dimensions : IPewDimensions) {
 		super(...arguments);
-		if (this.seats === null && this.width !== null) {
-			this.seats = (this.width - 20) / 30;
-		} else if (this.width === null && this.seats !== null) {
-			this.width = 20 + this.seats * 30;
-		} else if (this.width === null && this.seats === null) {
-			this.seats = 6;
-			this.width= 20 + this.seats * 30;
-		} 
-		return this._super();
+		this.x = dimensions.x;
+		this.y = dimensions.y;
+		this.height = 32;
+		this.seats = dimensions.seats ? dimensions.seats : dimensions.width ? (dimensions.width - 20) / 32 : 6;
+		this.width = dimensions.width ? dimensions.width : 20 + dimensions.seats * 30;
 	}
 	/**
 	* Get the x,y position to apply to a saint at a specified seat in the pew.
