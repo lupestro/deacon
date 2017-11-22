@@ -174,7 +174,8 @@ export default class Deacon extends EmberObject {
 					break;
 				}
 			}
-		} else if (!plate.pew.hasPlateInMotion() && this.plates.indexOf(plate) >= 0) {
+		} else if (!plate.pew.hasPlateInMotion() && 
+                    this.plates.indexOf(plate) >= 0) {
 			var somethingPassed = false;
 			for (var m = 0, mLen = this.plates.length; m < mLen; m++) {
 				if (this._passed[m]) {

@@ -45,7 +45,6 @@ export default class Saint extends EmberObject {
 	* @property seat
 	* @type number
 	*/
-	// Note that 0, a legitimate value, is falsy, so we need to check explicitly against undefined
 	seat : number;
 	/**
 	* Whether the saint has had access to the plate 
