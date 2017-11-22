@@ -1,6 +1,5 @@
 import Component from '@ember/component';
 import { tagName, classNames} from 'ember-decorators/component';
-//import { argument } from '@ember-decorators/argument';
 
 import Pew from 'deacon/models/pew';
 import Saint from 'deacon/models/saint';
@@ -53,23 +52,23 @@ export default class SanctuaryDiagram extends Component.extend({
 	* @property pews 
 	* @type Array of PewModel
 	*/	
-	/*@argument*/ pews : Pew[] = this.pews || [];
+	pews : Pew[] = this.pews || [];
 	/**
 	* <i>attribute:</i> the array of {{#crossLink "SaintModel"}}saints{{/crossLink}} to include in the SVG diagram
 	* @property saints
 	* @type Array of SaintModel
 	*/	
-	/*@argument*/ saints : Saint[] = this.saints || [];
+	saints : Saint[] = this.saints || [];
 	/**
 	* <i>attribute:</i> the array of {{#crossLink "DeaconModel"}}deacons{{/crossLink}} to include in the SVG diagram
 	* @property deacons
 	* @type Array of DeaconModel
 	*/	
-	/*@argument*/ deacons : Deacon[] = this.deacons || [];
+	deacons : Deacon[] = this.deacons || [];
 	/**
 	* <i>attribute:</i> the array of {{#crossLink "PlateModel"}}plates{{/crossLink}} to include in the SVG diagram
 	* @property plates
 	* @type Array of PlateModel
 	*/	
-	/*@argument*/ plates : Plate[]  = this.plates || [];
+	plates : Plate[]  = this.plates || [];
 }

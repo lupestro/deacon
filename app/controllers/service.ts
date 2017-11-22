@@ -33,7 +33,7 @@ export default class ServiceController extends Controller {
 	* @method simulate
 	*/
 	simulate() {
-		var self=this;
+		var self = this;
 		this.timer = setInterval(function() {
 			self._iterate();
 		}, 500);

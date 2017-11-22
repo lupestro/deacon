@@ -2,7 +2,7 @@ import EmberObject from '@ember/object';
 import Deacon from './deacon';
 import Plate from './plate';
 import Layout from './layout';
-import Pew from 'deacon/models/pew';
+import Pew from './pew';
 /**
 * @module Deacon.Models
 */
