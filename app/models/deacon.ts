@@ -63,7 +63,7 @@ export default class Deacon extends EmberObject {
 	* @return whatever its parent returns
 	*/
 	constructor(position : IDeaconStart ) {
-		super(...arguments);
+		super();
 		this.pew = position.pew;
 		this.plates = position.plates;
 		
@@ -87,9 +87,8 @@ export default class Deacon extends EmberObject {
 	* @param {Array of PlateModel} plates - The {{#crossLink "PlateModel"}}plates{{/crossLink}} to hold
 	* @param {Pew} pew - The pew to stand next to
 	*/
-	reset(plates : Plate[], pew: Pew) {
-		var thismodel : Deacon = this;
-		thismodel.set('plates', plates);
+	reset(this: Deacon, plates : Plate[], pew: Pew) {
+		this.set('plates', plates);
 		this._passed = [];
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
 			this._passed.push(false);
@@ -101,16 +100,15 @@ export default class Deacon extends EmberObject {
 	* @method move
 	* @param {Pew} pew - The pew to which to move
 	*/
-	move(pew : Pew){
-		var thismodel : Deacon = this;		
+	move(this: Deacon, pew : Pew){
 		if (this.pew !== null) {		
 			this.pew.removeDeacon(this);
 		}
-		thismodel.set('pew',pew);
-		thismodel.set('seat', pew.getDeaconSeat(this));
+		this.set('pew',pew);
+		this.set('seat', pew.getDeaconSeat(this));
 		var coords = pew.getDeaconPosition(this.seat);
-		thismodel.set('x',coords.x);
-		thismodel.set('y',coords.y);
+		this.set('x',coords.x);
+		this.set('y',coords.y);
 		this.pew.addDeacon(this);
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
 			this.plates[p].move(pew, this.seat);
@@ -123,7 +121,7 @@ export default class Deacon extends EmberObject {
 	* @param {Plate} plate - The plate to pass
 	* @param {Saint|Deacon} neighbor - The neighbor to which to pass the plate
 	*/
-	passPlate(plate: Plate, neighbor : INeighbor){
+	passPlate(this: Deacon, plate: Plate, neighbor : INeighbor){
 		var idx = -1;
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
 			if (plate === this.plates[p]) {
@@ -153,7 +151,7 @@ export default class Deacon extends EmberObject {
 	* @method plateArriving
 	* @param {Plate} plate - The plate that's arriving
 	*/
-	plateArriving(plate: Plate) {
+	plateArriving(this: Deacon, plate: Plate) {
 		if (plate.pew !== this.pew) {
 			this.move(plate.pew);			
 		}
@@ -165,7 +163,7 @@ export default class Deacon extends EmberObject {
 	* @param {Array of PewModel} pews = The full set of {{#crossLink "PewModel"}}pews{{/crossLink}} 
 	* in which you might do something with the plate.
 	*/
-	plateInHands(plate: Plate, pews: Pew[]) {
+	plateInHands(this: Deacon, plate: Plate, pews: Pew[]) {
 		if (plate.pew.allAreFed()) { // Time to move on to another pew
 			var p = pews.indexOf(plate.pew);
 			while (--p >= 0) {
@@ -202,7 +200,7 @@ export default class Deacon extends EmberObject {
 	* @method receivePlate
 	* @param {Plate} plate - The plate you're being offered
 	*/
-	receivePlate(plate: Plate) {
+	receivePlate(this:Deacon, plate: Plate) {
 		plate.move(this.pew, this.seat);
 		plate.direction = 0;
 		this.plates.push(plate);

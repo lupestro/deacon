@@ -1,6 +1,6 @@
 import Component from '@ember/component';
-import { tagName, classNames } from 'ember-decorators/component';
-import { computed } from 'ember-decorators/object';
+import { tagName, classNames } from '@ember-decorators/component';
+import { computed } from '@ember-decorators/object';
 //import { argument } from '@ember-decorators/argument';
 
 /**

@@ -92,7 +92,7 @@ interface IPewPosition {
 	* @return whatever its parent returns
 	*/
 	constructor(dimensions : IPewDimensions) {
-		super(...arguments);
+		super();
 		this.x = dimensions.x;
 		this.y = dimensions.y;
 		this.height = 32;
@@ -106,7 +106,7 @@ interface IPewPosition {
 	* @param {number} seat - The seat at which the saint will be placed
 	* @return {hash}
 	*/
-	getSaintPosition(seat : number) : IPewPosition{
+	getSaintPosition(this: Pew, seat : number) : IPewPosition{
 		var realSeat = seat;
 		if (seat > this.seats) {
 			realSeat = this.seats-1;
@@ -123,7 +123,7 @@ interface IPewPosition {
 	* @param {number} seat - The seat at which the deacon will be placed
 	* @return {hash}
 	*/
-	getDeaconPosition(seat:number) : IPosition {
+	getDeaconPosition(this: Pew, seat:number) : IPosition {
 		var result = {x: 0, y: this.y };
 		if (seat < 0) {
 			result.x = this.x - 30;
@@ -141,7 +141,7 @@ interface IPewPosition {
 	* @param {number} seat - The seat at which the plate will be placed
 	* @return {hash} 
 	*/
-	getPlatePosition(seat:number) : IPosition {
+	getPlatePosition(this: Pew, seat:number) : IPosition {
 		var result = {x: 0, y: this.y + 5};
 		if (seat < 0) {
 			result.x = this.x - 10;
@@ -158,7 +158,7 @@ interface IPewPosition {
 	* @param {Deacon} deacon - The deacon in question
 	* @return {number}
 	*/
-	getDeaconSeat(deacon: Deacon): number {
+	getDeaconSeat(this: Pew, deacon: Deacon): number {
 		if (deacon.seat < 0) {
 			return deacon.seat;
 		}
@@ -171,7 +171,7 @@ interface IPewPosition {
 	* @method allAreFed
 	* @return {boolean}
 	*/
-	allAreFed(): boolean {
+	allAreFed(this: Pew): boolean {
 		var unfed = this.saints.filter(function (elem) {
 			return (elem.fed === false);
 		});
@@ -182,7 +182,7 @@ interface IPewPosition {
 	* @method hasPlateInMotion
 	* @return {boolean}
 	*/
-	hasPlateInMotion(): boolean {
+	hasPlateInMotion(this: Pew): boolean {
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
 			if (this.plates[p].direction !== 0 && (this.plates[p].seat >= 0 || this.plates[p].seat < this.seats)) {
 				return true;
@@ -195,7 +195,7 @@ interface IPewPosition {
 	* @method addSaint
 	* @param {Saint} saint - The saint to add
 	*/
-	addSaint(saint:Saint) {
+	addSaint(this: Pew, saint:Saint) {
 		if (-1 === this.saints.indexOf(saint)) {
 			this.saints.push(saint);
 		}
@@ -205,7 +205,7 @@ interface IPewPosition {
 	* @method removeSaint
 	* @param {Saint} saint - The saint to remove
 	*/
-	removeSaint(saint:Saint) {
+	removeSaint(this: Pew, saint:Saint) {
 		var index = this.saints.indexOf(saint);
 		if (index >= 0) {
 			this.saints.splice(index,index+1);
@@ -217,7 +217,7 @@ interface IPewPosition {
 	* @param {number} - The seat to look in
 	* @return {Saint} 
 	*/
-	findSaint(seat:number) : Saint | null {
+	findSaint(this:Pew, seat:number) : Saint | null {
 		var saint = this.saints.filter(function(elem) {
 			return (elem.seat === seat);
 		});
@@ -232,7 +232,7 @@ interface IPewPosition {
 	* @method addDeacon
 	* @param {Deacon} deacon - The deacon to add
 	*/
-	addDeacon(deacon: Deacon) {
+	addDeacon(this:Pew, deacon: Deacon) {
 		if (-1 === this.deacons.indexOf(deacon)) {
 			this.deacons.push(deacon);
 		}
@@ -242,7 +242,7 @@ interface IPewPosition {
 	* @method removeDeacon
 	* @param {Deacon} deacon - The deacon to remove
 	*/
-	removeDeacon(deacon: Deacon) {
+	removeDeacon(this: Pew, deacon: Deacon) {
 		var index = this.deacons.indexOf(deacon);
 		if (index >= 0) {
 			this.deacons.splice(index,index+1);
@@ -254,7 +254,7 @@ interface IPewPosition {
 	* @param {number} seat - The seat to look in
 	* @return {Deacon}
 	*/
-	findDeacon(seat:number): Deacon | null {
+	findDeacon(this:Pew, seat:number): Deacon | null {
 		var deacon = this.deacons.filter(function(elem) {
 			return (elem.seat === seat);
 		});
@@ -269,7 +269,7 @@ interface IPewPosition {
 	* @method addPlate
 	* @param {Plate} plate - The plate to add
 	*/
-	addPlate(plate: Plate) {
+	addPlate(this:Pew, plate: Plate) {
 		if (-1 === this.plates.indexOf(plate)) {
 			this.plates.push(plate);
 		}		
@@ -279,7 +279,7 @@ interface IPewPosition {
 	* @method removePlate
 	* @param {Plate} plate - The plate to remove
 	*/
-	removePlate(plate: Plate) {
+	removePlate(this: Pew, plate: Plate) {
 		var index = this.plates.indexOf(plate);
 		if (index >= 0) {
 			this.plates.splice(index,index+1);

@@ -45,9 +45,8 @@ export default class Layout extends EmberObject {
 	* @return whatever its parent returns
 	*/
 	constructor(pattern: ExternalLayoutPattern) {
-		super(...arguments);
+		super();
 		this.pattern = this.cleanPattern(pattern || [[5,0,1,2,3,4], [5,0,1,2,3,4] ]);
-		var thismodel : Layout = this;
 		// Clean out "*" shorthand
 		// Make pews from pattern
 		var newpews : Pew[] = [];
@@ -56,7 +55,7 @@ export default class Layout extends EmberObject {
 			newpews.push(
 				new Pew( {x: 30, y: 20 + p * 40, seats: numSeats, width: 0}));
 		}
-		thismodel.set('pews', newpews);
+		this.pews = newpews;
 
 		// Make saints from pattern
 		if (!this.saints) {
@@ -68,10 +67,10 @@ export default class Layout extends EmberObject {
 					newsaints.push(new Saint ( {pew: pew, seat: pewpattern[s]} ));
 				}
 			}
-			thismodel.set('saints',newsaints);
+			this.saints = newsaints;
 		}
 	}
-	cleanPattern(pattern: ExternalLayoutPattern) : InternalLayoutPattern {
+	cleanPattern(this:Layout, pattern: ExternalLayoutPattern) : InternalLayoutPattern {
 		var newpattern : number [][] = [];
 		for (let p = 0, pLen = pattern.length; p < pLen; p++) {
 			let subpattern : number[] = []; 
@@ -99,7 +98,7 @@ export default class Layout extends EmberObject {
 	* Reset the "fed" state of all the saints in the layout
 	* @method resetFed
 	*/
-	resetFed() {
+	resetFed(this: Layout) {
 		for (var s = 0, sLen = this.saints.length; s < sLen; s++) {
 			this.saints[s].set('fed', false);
 		}

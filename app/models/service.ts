@@ -72,7 +72,7 @@ export default class ServiceModel extends EmberObject {
 	* @return whatever its parent returns
 	*/
 	constructor (pattern : ExternalLayoutPattern) {
-		super(...arguments);
+		super();
 
 		this.pattern = pattern || [ [5,"*"], [5,"*"]];
 		this.layout = new Layout(this.pattern);
@@ -99,9 +99,8 @@ export default class ServiceModel extends EmberObject {
 	* @param {number} index of the pew
 	* @return {number} the number of seats in the pew
 	*/
-	getPewSeats(pewIndex: number): number {
-		var thismodel : ServiceModel = this;
-		var pews = thismodel.get('layout').pews;
+	getPewSeats(this: ServiceModel, pewIndex: number): number {
+		var pews = this.get('layout').pews;
 		if (pewIndex < 0 || pewIndex >= pews.length) {
 			return 0;
 		}
@@ -113,9 +112,8 @@ export default class ServiceModel extends EmberObject {
 	* Reset the position and condition of the deacons and the plates
 	* @method resetPlatesAndDeacons
 	*/
-	resetPlatesAndDeacons () {
-		var thismodel : ServiceModel = this;
-		var pews = thismodel.get('layout').pews;
+	resetPlatesAndDeacons (this: ServiceModel) {
+		var pews = this.get('layout').pews;
 		this.plates[0].reset();
 		this.plates[1].reset();
 		this.deacons[0].reset ([this.plates[0]], pews[pews.length-1]);

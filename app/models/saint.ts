@@ -59,7 +59,8 @@ export default class Saint extends EmberObject {
 	* @return whatever its parent returns
 	*/
 	constructor(location: ILocation) {
-		super(...arguments);
+		super();
+		this.pew = location.pew;
 		this.pew.addSaint(this);
 		this.move(location.pew, location.seat);
 	}
@@ -69,8 +70,7 @@ export default class Saint extends EmberObject {
 	* @param {Pew} pew - The pew to which to move
 	* @param {number} seat - The seat to which to move
 	*/
-	move (pew : Pew, seat:number) {
-		var thismodel: Saint = this;
+	move (this:Saint, pew : Pew, seat:number) {
 		var realseat;
 		if (seat > this.pew.get('seats')) {
 			realseat = this.pew.get('seats');
@@ -82,11 +82,11 @@ export default class Saint extends EmberObject {
 		if (this.pew !== null) {
 			this.pew.removeSaint(this);
 		}
-		thismodel.set('pew', pew);
-		thismodel.set('seat', realseat);
+		this.set('pew', pew);
+		this.set('seat', realseat);
 		var coords = pew.getSaintPosition(realseat);
-		thismodel.set('x', coords.x);
-		thismodel.set('y', coords.y);
+		this.set('x', coords.x);
+		this.set('y', coords.y);
 		this.pew.addSaint(this);
 	}
 	/**
@@ -95,7 +95,7 @@ export default class Saint extends EmberObject {
 	* @param {Plate} plate - The plate that the saint is passing
 	* @param {Saint|DeaconModel} neighbor - The neighbor being offered the plate
 	*/
-	passPlate(plate : Plate, neighbor : INeighbor){
+	passPlate(this:Saint, plate : Plate, neighbor : INeighbor){
 		if (neighbor) {
 			if (!neighbor.receivePlate(plate)) {
 				plate.direction = 0;

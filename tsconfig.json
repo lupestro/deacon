@@ -3,24 +3,28 @@
     "target": "es2017",
     "allowJs": true,
     "moduleResolution": "node",
-    "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "noImplicitThis": true,
     "noEmitOnError": false,
     "noEmit": true,
     "sourceMap": true,
     "baseUrl": ".",
     "module": "es6",
     "paths": {
-      "deacon/tests/*": ["tests/*"],
+      "deacon/tests/*": [
+        "tests/*"
+      ],
       "deacon/*": [
         "app/*"
+      ],
+      "*": [
+        "types/*"
       ]
     }
   },
-  "exclude": [
-    "tmp",
-    "dist",
-    "node_modules",
-    "bower_components"
+  "include": [
+    "app",
+    "tests"
   ]
 }

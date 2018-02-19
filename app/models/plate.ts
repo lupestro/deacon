@@ -61,7 +61,7 @@ export default class Plate extends EmberObject {
 	* @return whatever its parent returns
 	*/
 	constructor(location: ILocation ) {
-		super(...arguments);
+		super();
 		this.pew = location.pew;
 		this.seat = location.seat;
 		if (this.seat !== null && this.pew !== null) {
@@ -74,7 +74,7 @@ export default class Plate extends EmberObject {
 	* Reset the behavior of the plate - set it to no longer be moving
 	* @method reset
 	*/
-	reset() {
+	reset(this: Plate) {
 		this.direction = 0;
 	}
 	/**
@@ -83,17 +83,16 @@ export default class Plate extends EmberObject {
 	* @param {Pew} pew - the pew to move it to
 	* @param {number} seat - the seat to move it to 
 	*/	
-	move(pew : Pew, seat : number) {
-		var thismodel: Plate = this;
+	move(this: Plate, pew : Pew, seat : number) {
 		var movingPews = (this.pew !== pew);
 		if (movingPews && this.pew) {
 			this.pew.removePlate(this);
 		}
 		var coord = pew.getPlatePosition(seat);
-		thismodel.set('x',coord.x);
-		thismodel.set('y',coord.y);
-		thismodel.set('pew', pew);
-		thismodel.set('seat', seat);
+		this.set('x',coord.x);
+		this.set('y',coord.y);
+		this.set('pew', pew);
+		this.set('seat', seat);
 		if (movingPews && this.pew) {			
 			this.pew.addPlate(this);
 		}

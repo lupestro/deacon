@@ -1,5 +1,5 @@
 import Component from '@ember/component';
-import { tagName, classNames} from 'ember-decorators/component';
+import { tagName, classNames} from '@ember-decorators/component';
 
 import Pew from 'deacon/models/pew';
 import Saint from 'deacon/models/saint';
