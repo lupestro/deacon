@@ -55,28 +55,26 @@ export default class Deacon extends EmberObject {
 	* @property _passed
 	* @type Array of boolean
 	*/
-	_passed : boolean[] = this._passed || [];
+	_passed : boolean[];
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor(position : IDeaconStart ) {
+	constructor() {
 		super();
-		this.pew = position.pew;
-		this.plates = position.plates;
-		
-		if (position.seat > this.pew.get('seats')) {
+		this._passed = this._passed || [];	
+		if (this.seat > this.pew.get('seats')) {
 			this.seat = this.pew.get('seats');
-		} else if (position.seat < -1) {
+		} else if (this.seat < -1) {
 			this.seat = -1;
 		} else {
-			this.seat = position.seat;
+			this.seat = this.seat;
 		}
 
 		this._passed = [];
-		for (let p = 0, pLen = position.plates.length; p < pLen; p++) {
+		for (let p = 0, pLen = this.plates.length; p < pLen; p++) {
 			this._passed.push(false);
 		}
 		this.move(this.pew); /* sets x & y */

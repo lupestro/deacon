@@ -60,10 +60,8 @@ export default class Plate extends EmberObject {
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor(location: ILocation ) {
+	constructor( ) {
 		super();
-		this.pew = location.pew;
-		this.seat = location.seat;
 		if (this.seat !== null && this.pew !== null) {
 			this.seat = Math.min(this.seat, this.pew.get('seats'));
 			this.seat = Math.max(this.seat, -1);

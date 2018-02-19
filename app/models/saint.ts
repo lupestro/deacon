@@ -26,14 +26,14 @@ export default class Saint extends EmberObject {
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	x : number ;
+	x : number;
 	/**
 	* The vertical position of the saint within the diagram.
 	* @property y
 	* @type number
 	* @default a position determined by a pew and seat, if provided
 	*/
-	y : number ;
+	y : number;
 	/**
 	* The pew in which the saint currently resides.
 	* @property pew
@@ -51,18 +51,18 @@ export default class Saint extends EmberObject {
 	* @property fed
 	* @type boolean
 	*/
-	fed : boolean = false;
+	fed : boolean;
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor(location: ILocation) {
+	constructor() {
 		super();
-		this.pew = location.pew;
+		this.fed = false;
 		this.pew.addSaint(this);
-		this.move(location.pew, location.seat);
+		this.move(this.pew, this.seat);
 	}
 	/**
 	* <i>Behavior:</i> Move to the specified pew and seat

@@ -20,7 +20,7 @@ export default class ServiceModel extends EmberObject {
 	* @type string
 	* @default "Offertory"
 	*/
-	stageName : string = "Offertory";
+	stageName : string;
 	/**
 	* Height on screen of the entire service 
 	* @property height
@@ -71,11 +71,11 @@ export default class ServiceModel extends EmberObject {
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor (pattern : ExternalLayoutPattern) {
+	constructor () {
 		super();
-
-		this.pattern = pattern || [ [5,"*"], [5,"*"]];
-		this.layout = new Layout(this.pattern);
+		this.stageName = "Offertory";
+		this.pattern = this.pattern || [ [5,"*"], [5,"*"]];
+		this.layout = Layout.create({patternInput: this.pattern});
 		var pews = this.layout.pews;
 		this.height = 40 + pews.length * 40;
 		this.width = 60 + pews.reduce( (prev, pew) => { return Math.max(prev, pew.get('width')); }, 0);
@@ -83,13 +83,13 @@ export default class ServiceModel extends EmberObject {
 		var pew0 =  pews[pews.length-1],
 			pew1 = pews[pews.length-2];
 
-		var plate0 = new Plate({pew:pew0, seat:-1}),
-			plate1 = new Plate({pew: pew1, seat:1000000});
+		var plate0 = Plate.create({pew:pew0, seat:-1}),
+			plate1 = Plate.create({pew: pew1, seat:1000000});
 		this.plates = [ plate0, plate1 ];
 
 		this.deacons = [
-			new Deacon({pew: pew0, seat: -1, plates:[ plate0 ]}),
-			new Deacon({pew: pew1, seat: 1000000, plates: [ plate1 ]})
+			Deacon.create({pew: pew0, seat: -1, plates:[ plate0 ]}),
+			Deacon.create({pew: pew1, seat: 1000000, plates: [ plate1 ]})
 		]; 
 	}
 	/**

@@ -1,7 +1,7 @@
 import EmberObject from '@ember/object';
-import Saint from 'deacon/models/saint';
-import Deacon from 'deacon/models/deacon';
-import Plate from 'deacon/models/plate';
+import Saint from './saint';
+import Deacon from './deacon';
+import Plate from './plate';
 /**
 * @module Deacon.Models
 */
@@ -28,7 +28,9 @@ interface IPewPosition {
 * 
 * @class PewModel
 * @extends Ember.Object
-*/export default class Pew extends EmberObject {
+*/
+export default class Pew extends EmberObject.extend({
+}) {
 	/**
 	* The horizontal position of the pew within the diagram.
 	* @property x
@@ -70,34 +72,35 @@ interface IPewPosition {
 	* @type Array of SaintModel
 	* @default an empty array
 	*/
-	saints : Saint[] = [];
+	saints : Saint[];
 	/**
 	* The {{#crossLink "DeaconModel"}}deacons{{/crossLink}} to associate with the pew.
 	* @property deacons
 	* @type Array of DeaconModel
 	* @default an empty array
 	*/
-	deacons : Deacon[] = [];
+	deacons : Deacon[];
 	/**
 	* The {{#crossLink "PlateModel"}}plates{{/crossLink}} to associate with the pew.
 	* @property plates
 	* @type Array of PlateModel
 	* @default an empty array
 	*/
-	plates : Plate[] = [];
+	plates : Plate[];
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @method init
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor(dimensions : IPewDimensions) {
+	constructor() {
 		super();
-		this.x = dimensions.x;
-		this.y = dimensions.y;
 		this.height = 32;
-		this.seats = dimensions.seats ? dimensions.seats : dimensions.width ? (dimensions.width - 20) / 32 : 6;
-		this.width = dimensions.width ? dimensions.width : 20 + dimensions.seats * 30;
+		this.saints = [];
+		this.deacons = [];
+		this.plates = [];
+		this.seats = this.seats ? this.seats : (this.width ? (this.width - 20) / 32 : 6);
+		this.width = this.width ? this.width : (20 + this.seats * 30);
 	}
 	/**
 	* Get the x,y position to apply to a saint at a specified seat in the pew.
@@ -195,7 +198,7 @@ interface IPewPosition {
 	* @method addSaint
 	* @param {Saint} saint - The saint to add
 	*/
-	addSaint(this: Pew, saint:Saint) {
+	addSaint(this: Pew, saint: Saint) {
 		if (-1 === this.saints.indexOf(saint)) {
 			this.saints.push(saint);
 		}
@@ -205,7 +208,7 @@ interface IPewPosition {
 	* @method removeSaint
 	* @param {Saint} saint - The saint to remove
 	*/
-	removeSaint(this: Pew, saint:Saint) {
+	removeSaint(this: Pew, saint: Saint) {
 		var index = this.saints.indexOf(saint);
 		if (index >= 0) {
 			this.saints.splice(index,index+1);
@@ -217,7 +220,7 @@ interface IPewPosition {
 	* @param {number} - The seat to look in
 	* @return {Saint} 
 	*/
-	findSaint(this:Pew, seat:number) : Saint | null {
+	findSaint(this:Pew, seat: number) : Saint | null {
 		var saint = this.saints.filter(function(elem) {
 			return (elem.seat === seat);
 		});
@@ -254,7 +257,7 @@ interface IPewPosition {
 	* @param {number} seat - The seat to look in
 	* @return {Deacon}
 	*/
-	findDeacon(this:Pew, seat:number): Deacon | null {
+	findDeacon(this: Pew, seat: number): Deacon | null {
 		var deacon = this.deacons.filter(function(elem) {
 			return (elem.seat === seat);
 		});
@@ -269,7 +272,7 @@ interface IPewPosition {
 	* @method addPlate
 	* @param {Plate} plate - The plate to add
 	*/
-	addPlate(this:Pew, plate: Plate) {
+	addPlate(this: Pew, plate: Plate) {
 		if (-1 === this.plates.indexOf(plate)) {
 			this.plates.push(plate);
 		}		

@@ -37,6 +37,14 @@ export default class Layout extends EmberObject {
 	* @type string
 	* @default two pews filled with five saints each
 	*/
+	patternInput : ExternalLayoutPattern;	
+	/**
+	* The pattern of pews and the arrangement of saints in those pews. 
+	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
+	* @property pattern
+	* @type string
+	* @default two pews filled with five saints each
+	*/
 	pattern : InternalLayoutPattern;
 	/**
 	* Initialize the model with defaults for any information not supplied
@@ -44,16 +52,16 @@ export default class Layout extends EmberObject {
 	* @private
 	* @return whatever its parent returns
 	*/
-	constructor(pattern: ExternalLayoutPattern) {
+	constructor() {
 		super();
-		this.pattern = this.cleanPattern(pattern || [[5,0,1,2,3,4], [5,0,1,2,3,4] ]);
+		this.pattern = this.cleanPattern(this.patternInput || [[5,0,1,2,3,4], [5,0,1,2,3,4] ]);
 		// Clean out "*" shorthand
 		// Make pews from pattern
 		var newpews : Pew[] = [];
 		for (let p = 0, pLen = this.pattern.length; p < pLen; p++) {
 			let numSeats = this.pattern[p][0];
-			newpews.push(
-				new Pew( {x: 30, y: 20 + p * 40, seats: numSeats, width: 0}));
+			let pew = Pew.create({x: 30, y: 20 + p * 40, seats: numSeats, width: 0});
+			newpews.push(pew);
 		}
 		this.pews = newpews;
 
@@ -64,7 +72,7 @@ export default class Layout extends EmberObject {
 				let pewpattern = this.pattern[p].slice(1), //everything but the count
 					pew = this.pews[p];
 				for (let s = 0, sLen = pewpattern.length; s < sLen; s++) {					
-					newsaints.push(new Saint ( {pew: pew, seat: pewpattern[s]} ));
+					newsaints.push(Saint.create({pew: pew, seat: pewpattern[s]} ));
 				}
 			}
 			this.saints = newsaints;
