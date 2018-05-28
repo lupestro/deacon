@@ -1,4 +1,5 @@
 import EmberObject from '@ember/object';
+
 import Saint from './saint';
 import Deacon from './deacon';
 import Plate from './plate';
@@ -15,101 +16,66 @@ interface IPewPosition {
 	 x:number
 	 y:number
  }
- interface IPewDimensions {
-	 x:number
-	 y:number
-	 width:number
-	 seats:number
- }
 /**
 * Model of a pew. While the pew has no actual behavior, the pew drives and tracks the visible geometry of the elements in the 
 * animation. In consequence, it knows all of the deacons, saints, and plates associated with it. The pews keep the context
 * used by deacons and saints to guide their behavior throughout the animation. 
-* 
-* @class PewModel
-* @extends Ember.Object
 */
-export default class Pew extends EmberObject.extend({
-}) {
+export default class Pew extends EmberObject {
 	/**
 	* The horizontal position of the pew within the diagram.
-	* @property x
-	* @type number
-	* @default 0
 	*/
-	x : number;
+	x! : number;
 	/**
 	* The vertical position of the pew within the diagram.
-	* @property y
-	* @type number
-	* @default 0
 	*/
-	y : number;
+	y! : number;
 	/**
 	* The horizontal space taken by the pew.
-	* @property y
-	* @type number
-	* @default based on seats, if provided - otherwise 6 seats worth
 	*/
-	width : number;
+	width! : number;
+	/**
+	* The number of seats in the pew.
+	*/
+	seats! : number;
 	/**
 	* The vertical space taken by the pew.
-	* @property y
-	* @type number
-	* @default based on seats, if provided - otherwise 6 seats worth
 	*/
 	height : number;
 	/**
-	* The number of seats in the pew.
-	* @property seats
-	* @type number
-	* @default based on width, if provided - otherwise 6 seats
-	*/
-	seats : number;
-	/**
 	* The {{#crossLink "SaintModel"}}saints{{/crossLink}} to include in the pew.
-	* @property saints
-	* @type Array of SaintModel
-	* @default an empty array
 	*/
 	saints : Saint[];
 	/**
 	* The {{#crossLink "DeaconModel"}}deacons{{/crossLink}} to associate with the pew.
-	* @property deacons
-	* @type Array of DeaconModel
-	* @default an empty array
 	*/
 	deacons : Deacon[];
 	/**
 	* The {{#crossLink "PlateModel"}}plates{{/crossLink}} to associate with the pew.
-	* @property plates
-	* @type Array of PlateModel
-	* @default an empty array
 	*/
 	plates : Plate[];
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @method init
-	* @private
-	* @return whatever its parent returns
 	*/
 	constructor() {
-		super();
+		super(...arguments);
 		this.height = 32;
 		this.saints = [];
 		this.deacons = [];
 		this.plates = [];
 		this.seats = this.seats ? this.seats : (this.width ? (this.width - 20) / 32 : 6);
-		this.width = this.width ? this.width : (20 + this.seats * 30);
+		this._initializeWidth(this.seats, this.width);
+	}
+
+	_initializeWidth(this:Pew, seats : number, width? : number) {
+		this.set('width', width ? width : (20 + seats * 30));
 	}
 	/**
 	* Get the x,y position to apply to a saint at a specified seat in the pew.
 	* Result is supplied as a hash with x and y keys.
-	* @method getSaintPosition
 	* @param {number} seat - The seat at which the saint will be placed
-	* @return {hash}
 	*/
-	getSaintPosition(this: Pew, seat : number) : IPewPosition{
+	getSaintPosition(this: Pew, seat : number) : IPewPosition {
 		var realSeat = seat;
 		if (seat > this.seats) {
 			realSeat = this.seats-1;
@@ -122,9 +88,7 @@ export default class Pew extends EmberObject.extend({
 	/**
 	* Get the x.y position to apply to a deacon at a specified seat in the pew.
 	* Result is supplied as a hash with x and y keys.
-	* @method getDeaconPosition
 	* @param {number} seat - The seat at which the deacon will be placed
-	* @return {hash}
 	*/
 	getDeaconPosition(this: Pew, seat:number) : IPosition {
 		var result = {x: 0, y: this.y };
@@ -140,9 +104,7 @@ export default class Pew extends EmberObject.extend({
 	/**
 	* Get the x.y position to apply to a plate at a specified seat in the pew.
 	* Result is supplied as a hash with x and y keys.
-	* @method getPlatePosition
 	* @param {number} seat - The seat at which the plate will be placed
-	* @return {hash} 
 	*/
 	getPlatePosition(this: Pew, seat:number) : IPosition {
 		var result = {x: 0, y: this.y + 5};
@@ -157,9 +119,7 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Get the seat position for a deacon on the end of the row, given where the deacon was before. Adjusts for rows of different widths.
-	* @method getDeaconSeat
 	* @param {Deacon} deacon - The deacon in question
-	* @return {number}
 	*/
 	getDeaconSeat(this: Pew, deacon: Deacon): number {
 		if (deacon.seat < 0) {
@@ -171,8 +131,6 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Test whether all saints in this pew are fed.
-	* @method allAreFed
-	* @return {boolean}
 	*/
 	allAreFed(this: Pew): boolean {
 		var unfed = this.saints.filter(function (elem) {
@@ -182,8 +140,6 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Test whether there is a plate in motion in this pew.
-	* @method hasPlateInMotion
-	* @return {boolean}
 	*/
 	hasPlateInMotion(this: Pew): boolean {
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
@@ -195,7 +151,6 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Add a saint to this row.
-	* @method addSaint
 	* @param {Saint} saint - The saint to add
 	*/
 	addSaint(this: Pew, saint: Saint) {
@@ -205,7 +160,6 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Remove a saint from this row if present.
-	* @method removeSaint
 	* @param {Saint} saint - The saint to remove
 	*/
 	removeSaint(this: Pew, saint: Saint) {
@@ -216,9 +170,7 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Find a saint in the specified seat of this row if present or null if not.
-	* @method findSaint
 	* @param {number} - The seat to look in
-	* @return {Saint} 
 	*/
 	findSaint(this:Pew, seat: number) : Saint | null {
 		var saint = this.saints.filter(function(elem) {
@@ -232,7 +184,6 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Add a deacon to this row.
-	* @method addDeacon
 	* @param {Deacon} deacon - The deacon to add
 	*/
 	addDeacon(this:Pew, deacon: Deacon) {
@@ -242,7 +193,6 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Remove a deacon from this row if present.
-	* @method removeDeacon
 	* @param {Deacon} deacon - The deacon to remove
 	*/
 	removeDeacon(this: Pew, deacon: Deacon) {
@@ -253,9 +203,7 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Find a deacon in the specified seat of this row if present or null if not.
-	* @method findDeacon
 	* @param {number} seat - The seat to look in
-	* @return {Deacon}
 	*/
 	findDeacon(this: Pew, seat: number): Deacon | null {
 		var deacon = this.deacons.filter(function(elem) {
@@ -269,7 +217,6 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Add a plate to this row.
-	* @method addPlate
 	* @param {Plate} plate - The plate to add
 	*/
 	addPlate(this: Pew, plate: Plate) {
@@ -279,7 +226,6 @@ export default class Pew extends EmberObject.extend({
 	}
 	/**
 	* Remove a plate from this row if present.
-	* @method removePlate
 	* @param {Plate} plate - The plate to remove
 	*/
 	removePlate(this: Pew, plate: Plate) {

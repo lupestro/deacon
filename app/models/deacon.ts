@@ -1,70 +1,49 @@
 import EmberObject from '@ember/object';
-import Pew from 'deacon/models/pew';
-import Plate from 'deacon/models/plate';
-import { INeighbor } from 'deacon/models/saint';
-/**
-* @module Deacon.Models
-*/
+import { assert } from '@ember/debug';
 
-interface IDeaconStart {
-	pew: Pew,
-	seat: number,
-	plates: Plate[]
-}
+import Pew from './pew';
+import Plate from './plate';
+import { INeighbor } from './saint';
+
 /**
 * Model of a deacon.
-* 
-* @class DeaconModel
-* @extends Ember.Object
 */
 export default class Deacon extends EmberObject {
 	/**
 	* The pew by which the deacon currently resides.
-	* @property pew
-	* @type PewModel
 	*/
-	pew : Pew;
+	pew! : Pew;
 	/**
 	* The seat in the pew where the deacon currently resides. Typically -1 or pew.seats.
-	* @property seat
-	* @type number
 	*/
-	seat : number;
+	seat! : number;
 	/**
 	* The {{#crossLink "PlateModel"}}plates{{/crossLink}} that the deacon is currently holding 
-	* @property plates
-	* @type Array of PlateModel
 	*/
-	plates : Plate[];
+	plates! : Plate[];
 	/**
 	* The horizontal position of the deacon within the diagram.
-	* @property x
-	* @type number
-	* @default a position determined by a pew and seat, if provided
 	*/
 	x : number;
 	/**
 	* The vertical position of the deacon within the diagram.
-	* @property y
-	* @type number
-	* @default a position determined by a pew and seat, if provided
 	*/
 	y : number;
 	/**
 	* For each plate, whether this deacon received it on this row. Internal bookkeeping
-	* @property _passed
-	* @type Array of boolean
 	*/
 	_passed : boolean[];
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @method init
-	* @private
-	* @return whatever its parent returns
 	*/
 	constructor() {
-		super();
-		this._passed = this._passed || [];	
+		super(...arguments);
+		assert("Deacon must be constructed with pew assigned", this.pew !== undefined);
+		assert("Deacon must be constructed with seat assigned", this.seat !== undefined);
+		assert("Deacon must be constructed with plates assigned", this.plates !== undefined);
+		this.x = 0;
+		this.y = 0;
+		this._passed = [];	
 		if (this.seat > this.pew.get('seats')) {
 			this.seat = this.pew.get('seats');
 		} else if (this.seat < -1) {
@@ -81,7 +60,6 @@ export default class Deacon extends EmberObject {
 	}
 	/**
 	* Reset state to supplied state
-	* @method reset
 	* @param {Array of PlateModel} plates - The {{#crossLink "PlateModel"}}plates{{/crossLink}} to hold
 	* @param {Pew} pew - The pew to stand next to
 	*/
@@ -95,7 +73,6 @@ export default class Deacon extends EmberObject {
 	}
 	/**
 	* <i>Behavior:</i> Move to a specfic pew
-	* @method move
 	* @param {Pew} pew - The pew to which to move
 	*/
 	move(this: Deacon, pew : Pew){
@@ -115,7 +92,6 @@ export default class Deacon extends EmberObject {
 	} 
 	/**
 	* <i>Behavior:</i> Pass the plate to a neighbor, presumably a saint
-	* @method passPlate
 	* @param {Plate} plate - The plate to pass
 	* @param {Saint|Deacon} neighbor - The neighbor to which to pass the plate
 	*/
@@ -146,7 +122,6 @@ export default class Deacon extends EmberObject {
 	}
 	/**
 	* <i>Opportunity:</i> A plate has reached the end of a pew - Do you go retrieve it?
-	* @method plateArriving
 	* @param {Plate} plate - The plate that's arriving
 	*/
 	plateArriving(this: Deacon, plate: Plate) {
@@ -156,8 +131,7 @@ export default class Deacon extends EmberObject {
 	}
 	/**
 	* <i>Opportunity:</i> A plate is in your hands - What are you going to do about it?
-	* @method plateInHands
-	* @param {Plate} plate - The plate in question
+\	* @param {Plate} plate - The plate in question
 	* @param {Array of PewModel} pews = The full set of {{#crossLink "PewModel"}}pews{{/crossLink}} 
 	* in which you might do something with the plate.
 	*/
@@ -195,7 +169,6 @@ export default class Deacon extends EmberObject {
 	}
 	/**
 	* <i>Opportunity:</i> A plate is being passed to you - Do you accept it?
-	* @method receivePlate
 	* @param {Plate} plate - The plate you're being offered
 	*/
 	receivePlate(this:Deacon, plate: Plate) {

@@ -1,8 +1,6 @@
 import Route from '@ember/routing/route';
+
 import ServiceModel from '../models/service';
-/**
-* @module Deacon.Routes
-*/
 
 /**
 * Route leading to the service controller - initial route in application.
@@ -11,15 +9,10 @@ import ServiceModel from '../models/service';
 * *	[# seats,"*"] - if you are filling the pew
 * * [# seats, 1, 3, 5] - if you are partially seating a pew - first position is 0
 * * [# seats] - if you are leaving the pew empty
-* 
-* @class ServiceRoute
-* @extends Ember.Route
 */
 export default class ServiceRoute extends Route {
 	/**
 	* Provide the model to use for the service controller that drives everything.
-	* @method model
-	* @return {ServiceModel}
 	*/
 	model(): ServiceModel {
 		/*var pattern = [

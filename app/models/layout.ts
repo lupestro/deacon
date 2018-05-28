@@ -1,84 +1,48 @@
 import EmberObject from '@ember/object';
+
 import Saint from './saint';
 import Pew from './pew';
 
-/**
-* @module Deacon.Models
-*/
-
-type ExternalLayoutPattern = (number | string)[][];
-type InternalLayoutPattern = number[][];
+type ShorthandLayoutPattern = (number | string)[][];
+type ExplicitLayoutPattern = number[][];
 
 /**
 * Model of a sanctuary layout.
-* 
-* @class LayoutModel
-* @extends ember/object
 */
 export default class Layout extends EmberObject {
 	/**
+	* The pattern of pews and the arrangement of saints in those pews supplied upon creation. 
+	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
+	*/
+	patternInput? : ShorthandLayoutPattern;	
+	/**
 	* Models of the {{#crossLink "PewModel"}}pews{{/crossLink}} defined 
-	* @property pews
-	* @type Array of PewModel
-	* @default Number and arrangement of pews determined by the pattern
 	*/
 	pews : Pew[];
 	/**
 	* Models of the {{#crossLink "SaintModel"}}saints{{/crossLink}} defined 
-	* @property saints
-	* @type Array of SaintModel
-	* @default Number and arrangement of saints determined by the pattern
 	*/
 	saints : Saint[];
 	/**
 	* The pattern of pews and the arrangement of saints in those pews. 
 	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
-	* @property pattern
-	* @type string
-	* @default two pews filled with five saints each
 	*/
-	patternInput : ExternalLayoutPattern;	
-	/**
-	* The pattern of pews and the arrangement of saints in those pews. 
-	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
-	* @property pattern
-	* @type string
-	* @default two pews filled with five saints each
-	*/
-	pattern : InternalLayoutPattern;
+	pattern : ExplicitLayoutPattern;
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @method constructor
-	* @private
-	* @return whatever its parent returns
 	*/
 	constructor() {
-		super();
-		this.pattern = this.cleanPattern(this.patternInput || [[5,0,1,2,3,4], [5,0,1,2,3,4] ]);
-		// Clean out "*" shorthand
-		// Make pews from pattern
-		var newpews : Pew[] = [];
-		for (let p = 0, pLen = this.pattern.length; p < pLen; p++) {
-			let numSeats = this.pattern[p][0];
-			let pew = Pew.create({x: 30, y: 20 + p * 40, seats: numSeats, width: 0});
-			newpews.push(pew);
-		}
-		this.pews = newpews;
+		super(...arguments);
+		this.pattern = this._cleanPattern(this.patternInput || [[5,0,1,2,3,4], [5,0,1,2,3,4] ]);
+		this.pews = this._initializePews(this.pattern);
+		this.saints = this._initializeSaints(this.pattern, this.pews);
 
 		// Make saints from pattern
-		if (!this.saints) {
-			let newsaints = [];
-			for (let p = 0, pLen = this.pews.length; p < pLen; p++) {
-				let pewpattern = this.pattern[p].slice(1), //everything but the count
-					pew = this.pews[p];
-				for (let s = 0, sLen = pewpattern.length; s < sLen; s++) {					
-					newsaints.push(Saint.create({pew: pew, seat: pewpattern[s]} ));
-				}
-			}
-			this.saints = newsaints;
-		}
 	}
-	cleanPattern(this:Layout, pattern: ExternalLayoutPattern) : InternalLayoutPattern {
+	/**
+	* Transform shorthand patterns involving wildcards into patterns with explicit values
+	*/
+	_cleanPattern(pattern: ShorthandLayoutPattern) : ExplicitLayoutPattern {
 		var newpattern : number [][] = [];
 		for (let p = 0, pLen = pattern.length; p < pLen; p++) {
 			let subpattern : number[] = []; 
@@ -103,13 +67,38 @@ export default class Layout extends EmberObject {
 		return newpattern;
 	}
 	/**
+	* Create pews specified by the pattern
+	*/
+	_initializePews(pattern: ExplicitLayoutPattern) {
+		var newpews : Pew[] = [];
+		for (let p = 0, pLen = pattern.length; p < pLen; p++) {
+			let numSeats = pattern[p][0];
+			let pew = Pew.create({x: 30, y: 20 + p * 40, seats: numSeats, width: 0});
+			newpews.push(pew);
+		}
+		return newpews;
+	}
+	/**
+	* Populate pews with saints specified by the pattern
+	*/
+	_initializeSaints(pattern: ExplicitLayoutPattern, pews: Pew[]) {
+		let newsaints = [];
+		for (let p = 0, pLen = pews.length; p < pLen; p++) {
+			let pewpattern = pattern[p].slice(1), //everything but the count
+				pew = pews[p];
+			for (let s = 0, sLen = pewpattern.length; s < sLen; s++) {					
+				newsaints.push(Saint.create({pew: pew, seat: pewpattern[s]} ));
+			}
+		}
+		return newsaints;
+	}
+	/**
 	* Reset the "fed" state of all the saints in the layout
-	* @method resetFed
 	*/
 	resetFed(this: Layout) {
 		for (var s = 0, sLen = this.saints.length; s < sLen; s++) {
 			this.saints[s].set('fed', false);
-		}
+		}	
 	}
 
 }

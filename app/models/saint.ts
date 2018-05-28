@@ -1,17 +1,11 @@
 import EmberObject from '@ember/object';
-import Pew from 'deacon/models/pew';
-import DeaconModel from 'deacon/models/deacon';
-import Plate from 'deacon/models/plate';
-/**
-* @module Deacon.Models
-*/
+import { assert } from '@ember/debug';
+
+import Pew from './pew';
+import Plate from './plate';
 
 export interface INeighbor {
 	receivePlate(plate: Plate) : boolean
-}
-interface ILocation {
-	pew : Pew
-	seat: number
 }
 /**
 * Model of a saint.
@@ -21,52 +15,43 @@ interface ILocation {
 */
 export default class Saint extends EmberObject {
 	/**
+	* The pew in which the saint currently resides.
+	*/
+	pew! : Pew;
+	/**
+	* The seat in the pew where the saint currently resides. Between 0 and pew.seats-1, inclusive.
+	*/
+	seat! : number;
+	/**
 	* The horizontal position of the saint within the diagram.
 	* @property x
-	* @type number
-	* @default a position determined by a pew and seat, if provided
 	*/
 	x : number;
 	/**
 	* The vertical position of the saint within the diagram.
 	* @property y
-	* @type number
-	* @default a position determined by a pew and seat, if provided
 	*/
 	y : number;
 	/**
-	* The pew in which the saint currently resides.
-	* @property pew
-	* @type PewModel
-	*/
-	pew : Pew;
-	/**
-	* The seat in the pew where the saint currently resides. Between 0 and pew.seats-1, inclusive.
-	* @property seat
-	* @type number
-	*/
-	seat : number;
-	/**
 	* Whether the saint has had access to the plate 
-	* @property fed
-	* @type boolean
 	*/
 	fed : boolean;
 	/**
 	* Initialize the model with defaults for any information not supplied
-	* @method init
 	* @private
-	* @return whatever its parent returns
 	*/
 	constructor() {
-		super();
+		super(...arguments);
+		assert("Saint must be created with a pew", this.pew !== undefined);
+		assert("Saint must be created with a seat", this.seat !== undefined);
+		this.x = 0;
+		this.y = 0;
 		this.fed = false;
 		this.pew.addSaint(this);
 		this.move(this.pew, this.seat);
 	}
 	/**
 	* <i>Behavior:</i> Move to the specified pew and seat
-	* @method move
 	* @param {Pew} pew - The pew to which to move
 	* @param {number} seat - The seat to which to move
 	*/
@@ -91,7 +76,6 @@ export default class Saint extends EmberObject {
 	}
 	/**
 	* <i>Behavior:</i> Pass the plate to a neighbor, whether a saint or a deacon
-	* @method passPlate
 	* @param {Plate} plate - The plate that the saint is passing
 	* @param {Saint|DeaconModel} neighbor - The neighbor being offered the plate
 	*/
@@ -110,7 +94,6 @@ export default class Saint extends EmberObject {
 	}
 	/**
 	* <i>Opportunity:</i> The saint has a plate in hand this iteration and has the opportunity to act
-	* @method plateInHands
 	* @param {Plate} plate - The plate that the saint can act upon
 	*/
 	plateInHands(plate: Plate) {
@@ -132,7 +115,6 @@ export default class Saint extends EmberObject {
 	}
 	/**
 	* <i>Opportunity:</i> The saint has been offered a plate and has the opportunity to act
-	* @method receivePlate
 	* @param {Plate} plate - The plate that the saint can act upon
 	*/
 	receivePlate(plate: Plate) : boolean {

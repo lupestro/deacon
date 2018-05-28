@@ -1,31 +1,18 @@
 import Controller from '@ember/controller';
 import { action } from '@ember-decorators/object';
 /**
-* @module Deacon.Controllers
-*/
-
-/**
 * Controller for the service path. This handles all the button clicks and provides the timer loop to drive the dynamics. 
 *
 * N.B. The controller presents the deacons and saints with situations, but behavior should be left strictly to the implementation of 
 * these moral agents. Discovering those effective behaviors is the central point of this whole exercise.
-* 
-* @class ServiceController
-* @extends Ember.Controller
 */
 export default class ServiceController extends Controller {
 	/**
 	* The interval timer that drives the animation
-	* @property timer
-	* @private
-	* @type Timer
 	*/
-	timer : number | null = null;
+	timer? : number;
 	/**
 	* The names of the three cycles of deacons going up the rows
-	* @property stageNames
-	* @final
-	* @type Array of String
 	*/
 	stageNames = ['Offertory','Communion: Bread','Communion: Wine'];
 	/**
@@ -44,7 +31,7 @@ export default class ServiceController extends Controller {
 	*/
 	terminate(){
 		clearInterval(this.timer);
-		this.timer = null;
+		this.timer = undefined;
 	}
 	/**
 	* Reset the state of the simulation. This doesn't affect whether it continues. 

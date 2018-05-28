@@ -1,42 +1,34 @@
 import Component from '@ember/component';
-import { tagName, classNames } from '@ember-decorators/component';
+import { assert } from '@ember/debug';
+import { tagName, classNames, attribute } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
-/**
-* @module Deacon.Components
-*/
+
+import Deacon from '../models/deacon';
 
 /**
 * Component to implement the GUI representation of a deacon within the SVG canvas.
 *
 * 	{deacon-figure x="12" y="24"}
 *
-* @class DeaconFigure
-* @extends Ember.Component
 */
 @tagName('g')
 @classNames('deacon')
-export default class DeaconFigure extends Component.extend({
-	attributeBindings: ['x','y','transform']
-})  {
+export default class DeaconFigure extends Component {
 	/**
-	* <i>attribute:</i> used to position the deacon SVG group
-	* @property x
-	* @type number
+	* The model for the saint
 	*/
-	x : number;
+	model! : Deacon;
 	/**
-	* <i>attribute:</i> used to position the deacon SVG group
-	* @property y
-	* @type number
-	*/
-	y : number;
-	/**
-	* transform SVG attribute for deacon SVG group - computed from supplied x and y attributes (also rotates 90 degrees)
-	* 
-	* @property transform
-	* @type string
+	* transform SVG attribute for deacon SVG group - computed from x and y of supplied model
 	*/	
-	@computed('x','y') get transform() : string {
-			return "translate(" + this.x + "," + this.y + ") rotate(90,16,16)";
+	@attribute @computed('model.x','model.y') get transform() : string {
+		return "translate(" + this.model.x + "," + this.model.y + ")";
+	}
+	/**
+	 * Constructor validates proper construction
+	 */
+	constructor() {
+		super(...arguments);
+		assert("deacon-figure must be created with a model", this.model !== undefined);
 	}
 }

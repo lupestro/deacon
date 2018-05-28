@@ -1,42 +1,37 @@
 import Component from '@ember/component';
-import { tagName, classNames } from '@ember-decorators/component';
+import { assert } from '@ember/debug';
+import { tagName, classNames, attribute } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
-/**
-* @module Deacon.Components
-*/
+
+import Plate from '../models/plate';
 
 /**
 * Component to implement the GUI representation of a plate within the SVG canvas.
 *
 * 	{{plate-figure x="30" y="50"}}
 *
-* @class PlateFigure
-* @extends Ember.Component
 */
 @tagName('g')
 @classNames('plate')
-export default class PlateFigure extends Component.extend({
-	attributeBindings:['x','y','transform']
-}) {	
+export default class PlateFigure extends Component {
 	/**
-	* <i>attribute:</i> used to position the plate SVG group
-	* @property x
-	* @type number
-	*/
-	x : number;
+	 * The plate that this represents
+	 */
+	model! : Plate;
 	/**
-	* <i>attribute:</i> used to position the plate SVG group
-	* @property y
-	* @type number
-	*/
-	y : number;
-	/**
-	* transform SVG attribute for plate SVG group - computed from supplied x and y attributes
+	* transform SVG attribute for plate SVG group - ccomputed from x and y of supplied model
 	* 
 	* @property transform
 	* @type string
 	*/	
-	@computed('x','y') get transform() : string {
-			return "translate(" + this.x + "," + this.y + ")";
+	@attribute @computed('model.x','model.y') get transform() : string {
+			return "translate(" + this.model.x + "," + this.model.y + ")";
+	}
+	/**
+	 * Constructor validates proper construction
+	 */
+	constructor() {
+		super(...arguments);
+		assert("plate-figure must be created with a model", this.model !== undefined);
 	}
 }

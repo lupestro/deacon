@@ -1,44 +1,34 @@
 import Component from '@ember/component';
-import { tagName, classNames } from '@ember-decorators/component';
+import { assert } from '@ember/debug';
+import { tagName, classNames, attribute } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
 
-/**
-* @module Deacon.Components
-*/
+import Saint from '../models/saint';
 
 /**
 * Component to implement the GUI representation of a saint within the SVG canvas.
 *
 * 	{{saint-figure x="30" y="50"}}
 *
-* @class SaintFigure
-* @extends Ember.Component
 */
 @tagName('g')
 @classNames('saint')
-export default class SaintFigure extends Component.extend({
-	attributeBindings: ['x','y','transform']
-}) {
-	// Tag generation bindings
+export default class SaintFigure extends Component {
 	/**
-	* <i>attribute:</i> used to position the saint SVG group
-	* @property x
-	* @type number
+	* The model for the saint
 	*/
-	x : number;
+	model! : Saint;
 	/**
-	* <i>attribute:</i> used to position the saint SVG group
-	* @property y
-	* @type number
-	*/
-	y : number;
-	/**
-	* transform SVG attribute for saint SVG group - computed from supplied x and y attributes
-	* 
-	* @property transform
-	* @type string
+	* transform SVG attribute for saint SVG group - computed from x and y of supplied model
 	*/	
-	@computed('x','y') get transform() : string {
-			return "translate(" + this.x + "," + this.y + ")";
+	@attribute @computed('model.x','model.y') get transform() : string {
+			return "translate(" + this.model.x + "," + this.model.y + ")";
+	}
+	/**
+	 * Constructor validates proper construction
+	 */
+	constructor() {
+		super(...arguments);
+		assert("saint-figure must be created with a model", this.model !== undefined);
 	}
 }

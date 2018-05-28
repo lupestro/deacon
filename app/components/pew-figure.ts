@@ -1,50 +1,40 @@
 import Component from '@ember/component';
-import { tagName, classNames } from '@ember-decorators/component';
+import { assert } from '@ember/debug';
+import { tagName, classNames, attribute } from '@ember-decorators/component';
 import { computed } from '@ember-decorators/object';
-//import { argument } from '@ember-decorators/argument';
+import { alias } from '@ember-decorators/object/computed';
 
-/**
-* @module Deacon.Components
-*/
+import Pew from '../models/pew';
 
 /**
 * Component to implement the GUI representation of a pew within the SVG canvas.
 *
 * 	{{pew-figure x="30" y="50" width="200"}}
 *
-* @class PewFigure
-* @extends Ember.Component
 */
 @tagName('g')
 @classNames('pew')
-export default class PewFigure extends Component.extend({
-	attributeBindings:['x','y','transform']
-}) {
+export default class PewFigure extends Component {
 	/**
-	* <i>attribute:</i> used to position the pew SVG group
-	* @property x
-	* @type number
+	* The model for the saint
 	*/
-	x : number;
+	model! : Pew;
 	/**
-	* <i>attribute:</i> used to position the pew SVG group
-	* @property y
-	* @type number
+	* <i>attribute:</i> used to position the saint SVG group
 	*/
-	y : number;
+	@attribute @alias('model.width') width! : number;
 	/**
-	* <i>attribute:</i> used to set the width of the elements in the pew SVG group
-	* @property width
-	* @type number
-	*/
-	/*@argument*/ width;
-	/**
-	* transform SVG attribute for pew SVG group - computed from x and y attributes 
-	* 
-	* @property transform
-	* @type string
+	* transform SVG attribute for pew SVG group - ccomputed from x and y of supplied model
 	*/	
-	@computed('x','y') get transform() : string {
-			return "translate(" + this.x + "," + this.y + ")";
+	@attribute @computed('model.x','model.y') get transform() : string {
+			return "translate(" + this.model.x + "," + this.model.y + ")";
 	}
+	/**
+	 * Constructor validates proper construction
+	 */
+	constructor() {
+		super(...arguments);
+		assert("pew-figure must be created with a model", this.model !== undefined);
+	}
+
 }

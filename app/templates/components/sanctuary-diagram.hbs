@@ -1,12 +1,12 @@
 {{#each pews as |pew| }}
-	{{pew-figure x=pew.x y=pew.y width=pew.width}}
+	{{pew-figure model=pew}}
 {{/each}}
 {{#each saints as |saint|}}
-	{{saint-figure x=saint.x y=saint.y }}
+	{{saint-figure model=saint}}
 {{/each}}
 {{#each deacons as |deacon| }}
-  	{{deacon-figure x=deacon.x y=deacon.y}}
+  	{{deacon-figure model=deacon}}
 {{/each}}
 {{#each plates as |plate| }}
-	{{plate-figure x=plate.x y=plate.y}}
+	{{plate-figure model=plate}}
 {{/each}}
