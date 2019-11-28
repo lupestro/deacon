@@ -45,11 +45,11 @@ Make use of the many generators for code, try `ember help generate` for more det
 ### Building
 
 * `ember build` (development)
-* `ember build --environment production` (production)
+* `yarn build` (production)
 
 ### Building documentation
 
-* `ember ember-cli-yuidoc`
+* `yarn doc`
 
 ### Deploying
 
@@ -67,7 +67,11 @@ Deliver the contents of the `dist` tree to the website.
 
 ## Recent Changes:
 
-0.1.0 - Finished initial YUIdoc documentation support. Cleaned up existing unit tests.
+0.1.0 - April 9, 2017 - Finished initial YUIdoc documentation support. Cleaned up existing unit tests.
+      - November 22, 2017 - Updated to Typescript
+      - February 19, 2018 - Prepared for deployment on site
+      - May 28, 2018 - Version bump
+0.2.0 - November 28, 2019 (Thankgiving Day) - Upgraded to 3.14, Octane stem to stern, and using typedoc.
 
 ## Needs Work:
 
