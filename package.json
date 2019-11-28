@@ -14,6 +14,7 @@
     "build": "ember build -prod",
     "lint:hbs": "ember-template-lint .",
     "lint:js": "eslint .",
+    "doc" : "typedoc",
     "start": "ember serve",
     "test": "ember test"
   },
