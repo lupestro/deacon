@@ -1,4 +1,4 @@
-import EmberObject from '@ember/object';
+import EmberObject, { set }  from '@ember/object';
 
 import Saint from './saint';
 import Deacon from './deacon';
@@ -41,34 +41,30 @@ export default class Pew extends EmberObject {
 	/**
 	* The vertical space taken by the pew.
 	*/
-	height : number;
+	height : number = 32;
 	/**
 	* The {{#crossLink "SaintModel"}}saints{{/crossLink}} to include in the pew.
 	*/
-	saints : Saint[];
+	saints : Saint[] = [];
 	/**
 	* The {{#crossLink "DeaconModel"}}deacons{{/crossLink}} to associate with the pew.
 	*/
-	deacons : Deacon[];
+	deacons : Deacon[] = [];
 	/**
 	* The {{#crossLink "PlateModel"}}plates{{/crossLink}} to associate with the pew.
 	*/
-	plates : Plate[];
+	plates : Plate[] = [];
 	/**
 	* Initialize the model with defaults for any information not supplied
 	*/
-	constructor() {
-		super(...arguments);
-		this.height = 32;
-		this.saints = [];
-		this.deacons = [];
-		this.plates = [];
+	init() {
+		super.init();
 		this.seats = this.seats ? this.seats : (this.width ? (this.width - 20) / 32 : 6);
 		this._initializeWidth(this.seats, this.width);
 	}
 
 	_initializeWidth(this:Pew, seats : number, width? : number) {
-		this.set('width', width ? width : (20 + seats * 30));
+		set(this, 'width', width ? width : (20 + seats * 30));
 	}
 	/**
 	* Get the x,y position to apply to a saint at a specified seat in the pew.

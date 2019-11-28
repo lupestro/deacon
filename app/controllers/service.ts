@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { action } from '@ember-decorators/object';
+import { action, set } from '@ember/object';
 /**
 * Controller for the service path. This handles all the button clicks and provides the timer loop to drive the dynamics. 
 *
@@ -21,7 +21,7 @@ export default class ServiceController extends Controller {
 	*/
 	simulate() {
 		var self = this;
-		this.timer = setInterval(function() {
+		this.timer = window.setInterval(function() {
 			self._iterate();
 		}, 500);
 	}
@@ -70,7 +70,7 @@ export default class ServiceController extends Controller {
 	* @method start
 	*/
 	@action start() {
-		this.model.set('stageName', this.stageNames[0]);
+		set(this.model,'stageName', this.stageNames[0]);
 		this.reset();
 		if (!this.timer) {
 			this.simulate();
@@ -92,11 +92,11 @@ export default class ServiceController extends Controller {
 	*/
 	@action next() {
 		for (var i=0,iLen=this.stageNames.length; i< iLen; i++) {
-			if (this.model.get('stageName') === this.stageNames[i]) {
+			if (this.model.stageName === this.stageNames[i]) {
 				if (i === iLen - 1) {
 					this.terminate();
 				} else {
-					this.model.set('stageName', this.stageNames[i+1]);
+					set(this.model, 'stageName', this.stageNames[i+1]);
 					this.reset();
 				}
 				break;

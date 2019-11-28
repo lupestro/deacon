@@ -1,5 +1,3 @@
-import EmberObject from '@ember/object';
-
 import Deacon from './deacon';
 import Plate from './plate';
 import Layout from './layout';
@@ -8,7 +6,7 @@ type ShorthandLayoutPattern = (number | string)[][];
 /**
 * Master model for the service controller and route.
 */
-export default class ServiceModel extends EmberObject {
+export default class ServiceModel {
 	/**
 	* Name of current stage of service 
 	*/
@@ -24,7 +22,7 @@ export default class ServiceModel extends EmberObject {
 	/**
 	* The pattern of pews and the arrangement of saints in those pews. 
 	*/
-	pattern? : ShorthandLayoutPattern;
+	pattern : ShorthandLayoutPattern;
 	/**
 	* Model of internal layout of the service, including all pews and saints
 	* @private
@@ -41,14 +39,13 @@ export default class ServiceModel extends EmberObject {
 	/**
 	* Initialize the model with defaults for any information not supplied
 	*/
-	constructor () {
-		super(...arguments);
+	constructor (pattern: ShorthandLayoutPattern) {
 		this.stageName = "Offertory";
-		this.pattern = this.pattern || [ [5,"*"], [5,"*"]];
+		this.pattern = pattern || [ [5,"*"], [5,"*"]];
 		this.layout = Layout.create({patternInput: this.pattern});
 		var pews = this.layout.pews;
 		this.height = 40 + pews.length * 40;
-		this.width = 60 + pews.reduce( (prev, pew) => { return Math.max(prev, pew.get('width')); }, 0);
+		this.width = 60 + pews.reduce( (prev, pew) => { return Math.max(prev, pew.width); }, 0);
 
 		var pew0 =  pews[pews.length-1],
 			pew1 = pews[pews.length-2];
@@ -69,19 +66,19 @@ export default class ServiceModel extends EmberObject {
 	* @return {number} the number of seats in the pew
 	*/
 	getPewSeats(this: ServiceModel, pewIndex: number): number {
-		var pews = this.get('layout').pews;
+		var pews = this.layout.pews;
 		if (pewIndex < 0 || pewIndex >= pews.length) {
 			return 0;
 		}
 		else {
-			return pews[pewIndex].get('seats');
+			return pews[pewIndex].seats;
 		}
 	}
 	/**
 	* Reset the position and condition of the deacons and the plates
 	*/
 	resetPlatesAndDeacons (this: ServiceModel) {
-		var pews = this.get('layout').pews;
+		var pews = this.layout.pews;
 		this.plates[0].reset();
 		this.plates[1].reset();
 		this.deacons[0].reset ([this.plates[0]], pews[pews.length-1]);

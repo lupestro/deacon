@@ -26,27 +26,24 @@ export default class Saint extends EmberObject {
 	* The horizontal position of the saint within the diagram.
 	* @property x
 	*/
-	x : number;
+	x : number = 0;
 	/**
 	* The vertical position of the saint within the diagram.
 	* @property y
 	*/
-	y : number;
+	y : number = 0;
 	/**
 	* Whether the saint has had access to the plate 
 	*/
-	fed : boolean;
+	fed : boolean = false;
 	/**
 	* Initialize the model with defaults for any information not supplied
 	* @private
 	*/
-	constructor() {
-		super(...arguments);
+	init() {
+		super.init();
 		assert("Saint must be created with a pew", this.pew !== undefined);
 		assert("Saint must be created with a seat", this.seat !== undefined);
-		this.x = 0;
-		this.y = 0;
-		this.fed = false;
 		this.pew.addSaint(this);
 		this.move(this.pew, this.seat);
 	}

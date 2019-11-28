@@ -21,30 +21,27 @@ export default class Plate extends EmberObject {
 	/**
 	* The horizontal position of the plate within the diagram.
 	*/
-	x : number;
+	x : number = 0;
 	/**
 	* The vertical position of the plate within the diagram.
 	*/
-	y : number;
+	y : number = 0;
 	/**
 	* The direction in which the plate is moving: 
 	* * -1 : To the left.
 	* * +1 : To the right.
 	* * 0 : Not moving.
 	*/
-	direction : number;
+	direction : number = 0;
 	/**
 	* Initialize the model with defaults for any information not supplied
 	*/
-	constructor() {
-		super(...arguments);
-		assert("The pew must always be supplied when creating a plate.", this.pew !== undefined);
-		assert("The seat must always be supplied when creating a plate", this.seat !== undefined);
-		this.seat = Math.min(this.seat, this.pew.get('seats'));
+	init() {
+		super.init();
+		assert("The pew must be supplied when creating a plate.", this.pew !== undefined);
+		assert("The seat must be supplied when creating a plate", this.seat !== undefined);
+		this.seat = Math.min(this.seat, this.pew.seats);
 		this.seat = Math.max(this.seat, -1);
-		this.x = 0;
-		this.y = 0;
-		this.direction = 0;
 		this.move(this.pew, this.seat);
 	}
 	/**

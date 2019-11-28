@@ -1,12 +1,14 @@
-{{#each pews as |pew| }}
-	{{pew-figure model=pew}}
-{{/each}}
-{{#each saints as |saint|}}
-	{{saint-figure model=saint}}
-{{/each}}
-{{#each deacons as |deacon| }}
-  	{{deacon-figure model=deacon}}
-{{/each}}
-{{#each plates as |plate| }}
-	{{plate-figure model=plate}}
-{{/each}}
+<svg class="sanctuary" width={{this._width}} height={{this._height}}>
+  {{#each this._pews as |pew| }}
+    <PewFigure @model={{pew}} />
+  {{/each}}
+  {{#each this._saints as |saint|}}
+    <SaintFigure @model={{saint}} />
+  {{/each}}
+  {{#each this._deacons as |deacon| }}
+    <DeaconFigure @model={{deacon}} />
+  {{/each}}
+  {{#each this._plates as |plate| }}
+    <PlateFigure @model={{plate}} />
+  {{/each}}
+</svg>

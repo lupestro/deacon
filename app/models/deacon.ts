@@ -24,28 +24,25 @@ export default class Deacon extends EmberObject {
 	/**
 	* The horizontal position of the deacon within the diagram.
 	*/
-	x : number;
+	x : number = 0;
 	/**
 	* The vertical position of the deacon within the diagram.
 	*/
-	y : number;
+	y : number = 0;
 	/**
 	* For each plate, whether this deacon received it on this row. Internal bookkeeping
 	*/
-	_passed : boolean[];
+	_passed : boolean[] = [];
 	/**
 	* Initialize the model with defaults for any information not supplied
 	*/
-	constructor() {
-		super(...arguments);
+	init() {
+		super.init();
 		assert("Deacon must be constructed with pew assigned", this.pew !== undefined);
 		assert("Deacon must be constructed with seat assigned", this.seat !== undefined);
 		assert("Deacon must be constructed with plates assigned", this.plates !== undefined);
-		this.x = 0;
-		this.y = 0;
-		this._passed = [];	
-		if (this.seat > this.pew.get('seats')) {
-			this.seat = this.pew.get('seats');
+		if (this.seat > this.pew.seats) {
+			this.seat = this.pew.seats;
 		} else if (this.seat < -1) {
 			this.seat = -1;
 		} else {

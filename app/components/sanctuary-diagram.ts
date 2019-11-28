@@ -1,5 +1,4 @@
 import Component from '@ember/component';
-import { tagName, classNames, attribute} from '@ember-decorators/component';
 
 import Pew from '../models/pew';
 import Saint from '../models/saint';
@@ -14,32 +13,41 @@ import Plate from '../models/plate';
 *                       width="500" height="600"}}
 *
 */
-@tagName('svg')
-@classNames('sanctuary')
 export default class SanctuaryDiagram extends Component {
-		// Tag generation bindings
+	tagName = '';
+	height? : number;
+	width? : number;
 	/**
-	* <i>attribute:</i> the width of the SVG diagram
+	* the array of {{#crossLink "PewModel"}}pews{{/crossLink}} to include in the SVG diagram
 	*/	
-	@attribute width : number = this.width || 400;
+	pews? : Pew[];
 	/**
-	* <i>attribute:</i> the height of the SVG diagram
+	* the array of {{#crossLink "SaintModel"}}saints{{/crossLink}} to include in the SVG diagram
 	*/	
-	@attribute height : number = this.height || 300;
+	saints?: Saint[];
 	/**
-	* <i>attribute:</i> the array of {{#crossLink "PewModel"}}pews{{/crossLink}} to include in the SVG diagram
+	* the array of {{#crossLink "DeaconModel"}}deacons{{/crossLink}} to include in the SVG diagram
 	*/	
-	pews : Pew[] = this.pews || [];
+	deacons?: Deacon[];
 	/**
-	* <i>attribute:</i> the array of {{#crossLink "SaintModel"}}saints{{/crossLink}} to include in the SVG diagram
+	* the array of {{#crossLink "PlateModel"}}plates{{/crossLink}} to include in the SVG diagram
 	*/	
-	saints : Saint[] = this.saints || [];
-	/**
-	* <i>attribute:</i> the array of {{#crossLink "DeaconModel"}}deacons{{/crossLink}} to include in the SVG diagram
-	*/	
-	deacons : Deacon[] = this.deacons || [];
-	/**
-	* <i>attribute:</i> the array of {{#crossLink "PlateModel"}}plates{{/crossLink}} to include in the SVG diagram
-	*/	
-	plates : Plate[]  = this.plates || [];
+	plates? : Plate[];
+
+	_height = 300;
+	_width = 400;
+	_pews : Pew[] = [];
+	_saints: Saint[] = [];
+	_deacons: Deacon[] = [];
+	_plates : Plate[] = [];
+
+	init() {
+		super.init();
+		this._height = this.height || 300;
+		this._width = this.width || 400;
+		this._pews = this.pews || this._pews;
+		this._saints = this.saints || this._saints;
+		this._deacons = this.deacons || this._deacons;
+		this._plates = this.plates || this._plates;
+	}
 }

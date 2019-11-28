@@ -37,6 +37,6 @@ export default class ServiceRoute extends Route {
 			[3, "*"],
 			[2, "*"]
 		];
-		return ServiceModel.create({pattern: pattern});
+		return new ServiceModel(pattern);
 	}
 }

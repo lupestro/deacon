@@ -18,21 +18,21 @@ export default class Layout extends EmberObject {
 	/**
 	* Models of the {{#crossLink "PewModel"}}pews{{/crossLink}} defined 
 	*/
-	pews : Pew[];
+	pews : Pew[] = [];
 	/**
 	* Models of the {{#crossLink "SaintModel"}}saints{{/crossLink}} defined 
 	*/
-	saints : Saint[];
+	saints : Saint[] = [];
 	/**
 	* The pattern of pews and the arrangement of saints in those pews. 
 	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
 	*/
-	pattern : ExplicitLayoutPattern;
+	pattern : ExplicitLayoutPattern = [];
 	/**
 	* Initialize the model with defaults for any information not supplied
 	*/
-	constructor() {
-		super(...arguments);
+	init() {
+		super.init();
 		this.pattern = this._cleanPattern(this.patternInput || [[5,0,1,2,3,4], [5,0,1,2,3,4] ]);
 		this.pews = this._initializePews(this.pattern);
 		this.saints = this._initializeSaints(this.pattern, this.pews);
