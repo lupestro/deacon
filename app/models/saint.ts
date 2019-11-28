@@ -1,4 +1,4 @@
-import EmberObject from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 
 import Pew from './pew';
@@ -13,25 +13,25 @@ export interface INeighbor {
 * @class SaintModel
 * @extends Ember.Object
 */
-export default class Saint extends EmberObject {
+export default class Saint {
 	/**
 	* The pew in which the saint currently resides.
 	*/
-	pew! : Pew;
+	@tracked pew : Pew;
 	/**
 	* The seat in the pew where the saint currently resides. Between 0 and pew.seats-1, inclusive.
 	*/
-	seat! : number;
+	@tracked seat : number;
 	/**
 	* The horizontal position of the saint within the diagram.
 	* @property x
 	*/
-	x : number = 0;
+	@tracked x : number = 0;
 	/**
 	* The vertical position of the saint within the diagram.
 	* @property y
 	*/
-	y : number = 0;
+	@tracked y : number = 0;
 	/**
 	* Whether the saint has had access to the plate 
 	*/
@@ -40,10 +40,11 @@ export default class Saint extends EmberObject {
 	* Initialize the model with defaults for any information not supplied
 	* @private
 	*/
-	init() {
-		super.init();
-		assert("Saint must be created with a pew", this.pew !== undefined);
-		assert("Saint must be created with a seat", this.seat !== undefined);
+	constructor(pew : Pew, seat : number) {
+		assert("Saint must be created with a pew", pew !== undefined);
+		assert("Saint must be created with a seat", seat !== undefined);
+		this.pew = pew;
+		this.seat = seat;
 		this.pew.addSaint(this);
 		this.move(this.pew, this.seat);
 	}
@@ -54,8 +55,8 @@ export default class Saint extends EmberObject {
 	*/
 	move (this:Saint, pew : Pew, seat:number) {
 		var realseat;
-		if (seat > this.pew.get('seats')) {
-			realseat = this.pew.get('seats');
+		if (seat > this.pew.seats) {
+			realseat = this.pew.seats;
 		} else if (seat < -1) {
 			realseat = -1;
 		} else {
@@ -64,11 +65,11 @@ export default class Saint extends EmberObject {
 		if (this.pew !== null) {
 			this.pew.removeSaint(this);
 		}
-		this.set('pew', pew);
-		this.set('seat', realseat);
+		this.pew = pew;
+		this.seat = realseat;
 		var coords = pew.getSaintPosition(realseat);
-		this.set('x', coords.x);
-		this.set('y', coords.y);
+		this.x = coords.x;
+		this.y = coords.y;
 		this.pew.addSaint(this);
 	}
 	/**

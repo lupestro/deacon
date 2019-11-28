@@ -1,5 +1,3 @@
-import EmberObject, { set }  from '@ember/object';
-
 import Saint from './saint';
 import Deacon from './deacon';
 import Plate from './plate';
@@ -21,23 +19,23 @@ interface IPewPosition {
 * animation. In consequence, it knows all of the deacons, saints, and plates associated with it. The pews keep the context
 * used by deacons and saints to guide their behavior throughout the animation. 
 */
-export default class Pew extends EmberObject {
+export default class Pew {
 	/**
 	* The horizontal position of the pew within the diagram.
 	*/
-	x! : number;
+	x : number;
 	/**
 	* The vertical position of the pew within the diagram.
 	*/
-	y! : number;
+	y : number;
 	/**
 	* The horizontal space taken by the pew.
 	*/
-	width! : number;
+	width : number;
 	/**
 	* The number of seats in the pew.
 	*/
-	seats! : number;
+	seats : number;
 	/**
 	* The vertical space taken by the pew.
 	*/
@@ -57,15 +55,13 @@ export default class Pew extends EmberObject {
 	/**
 	* Initialize the model with defaults for any information not supplied
 	*/
-	init() {
-		super.init();
-		this.seats = this.seats ? this.seats : (this.width ? (this.width - 20) / 32 : 6);
-		this._initializeWidth(this.seats, this.width);
+	constructor(pewConfig: {x:number, y:number, seats?:number, width?: number}) {
+		this.x = pewConfig.x;
+		this.y = pewConfig.y;
+		this.seats = pewConfig.seats ? pewConfig.seats : (pewConfig.width ? (pewConfig.width - 20) / 32 : 6);
+		this.width = pewConfig.width ? pewConfig.width : (20 + this.seats * 30);
 	}
 
-	_initializeWidth(this:Pew, seats : number, width? : number) {
-		set(this, 'width', width ? width : (20 + seats * 30));
-	}
 	/**
 	* Get the x,y position to apply to a saint at a specified seat in the pew.
 	* Result is supplied as a hash with x and y keys.

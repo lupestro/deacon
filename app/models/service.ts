@@ -1,8 +1,12 @@
+import { tracked } from '@glimmer/tracking';
 import Deacon from './deacon';
 import Plate from './plate';
 import Layout from './layout';
 
 type ShorthandLayoutPattern = (number | string)[][];
+const OFF_LEFT_SEAT = -1;
+const OFF_RIGHT_SEAT = 1000000;
+
 /**
 * Master model for the service controller and route.
 */
@@ -10,7 +14,7 @@ export default class ServiceModel {
 	/**
 	* Name of current stage of service 
 	*/
-	stageName : string;
+	@tracked stageName : string;
 	/**
 	* Height on screen of the entire service 
 	*/
@@ -42,7 +46,7 @@ export default class ServiceModel {
 	constructor (pattern: ShorthandLayoutPattern) {
 		this.stageName = "Offertory";
 		this.pattern = pattern || [ [5,"*"], [5,"*"]];
-		this.layout = Layout.create({patternInput: this.pattern});
+		this.layout = new Layout(this.pattern);
 		var pews = this.layout.pews;
 		this.height = 40 + pews.length * 40;
 		this.width = 60 + pews.reduce( (prev, pew) => { return Math.max(prev, pew.width); }, 0);
@@ -50,13 +54,13 @@ export default class ServiceModel {
 		var pew0 =  pews[pews.length-1],
 			pew1 = pews[pews.length-2];
 
-		var plate0 = Plate.create({pew:pew0, seat:-1}),
-			plate1 = Plate.create({pew: pew1, seat:1000000});
+		var plate0 = new Plate(pew0, OFF_LEFT_SEAT),
+			plate1 = new Plate(pew1, OFF_RIGHT_SEAT);
 		this.plates = [ plate0, plate1 ];
 
 		this.deacons = [
-			Deacon.create({pew: pew0, seat: -1, plates:[ plate0 ]}),
-			Deacon.create({pew: pew1, seat: 1000000, plates: [ plate1 ]})
+			new Deacon(pew0, OFF_LEFT_SEAT, [ plate0 ]),
+			new Deacon(pew1, OFF_RIGHT_SEAT, [ plate1 ])
 		]; 
 	}
 	/**

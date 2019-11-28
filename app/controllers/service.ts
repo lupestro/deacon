@@ -1,5 +1,5 @@
 import Controller from '@ember/controller';
-import { action, set } from '@ember/object';
+import { action } from '@ember/object';
 /**
 * Controller for the service path. This handles all the button clicks and provides the timer loop to drive the dynamics. 
 *
@@ -70,7 +70,7 @@ export default class ServiceController extends Controller {
 	* @method start
 	*/
 	@action start() {
-		set(this.model,'stageName', this.stageNames[0]);
+		this.model.stageName = this.stageNames[0];
 		this.reset();
 		if (!this.timer) {
 			this.simulate();
@@ -96,7 +96,7 @@ export default class ServiceController extends Controller {
 				if (i === iLen - 1) {
 					this.terminate();
 				} else {
-					set(this.model, 'stageName', this.stageNames[i+1]);
+					this.model.stageName = this.stageNames[i+1];
 					this.reset();
 				}
 				break;

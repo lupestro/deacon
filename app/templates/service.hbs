@@ -2,13 +2,15 @@
 <SanctuaryDiagram 
   @pews={{this.model.layout.pews}} 
   @saints={{this.model.layout.saints}} 
-  @deacons={{model.deacons}} 
-  @plates={{model.plates}} 
-  @width={{model.width}} 
-  @height={{model.height}} />
-<div class="control">
-  <button {{on "click" this.start}} >Start</button>
-  <button {{on "click" this.restart}} >Restart</button>
-  <button {{on "click" this.next}} >Next</button>
-</div>
+  @deacons={{this.model.deacons}} 
+  @plates={{this.model.plates}} 
+  @width={{this.model.width}} 
+  @height={{this.model.height}} 
+/>
+<ControlPanel
+  @start={{this.start}}
+  @restart={{this.restart}}
+  @next={{this.next}}
+/>
+
 

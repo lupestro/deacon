@@ -1,4 +1,4 @@
-import EmberObject from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 
 import Pew from './pew';
@@ -6,26 +6,26 @@ import Pew from './pew';
 /**
 * Model of a plate.
 */
-export default class Plate extends EmberObject {
+export default class Plate {
 	/**
 	* The pew in which the plate currently resides.
 	*/
-	pew! : Pew; 
+	@tracked pew : Pew; 
 	/**
 	* The seat in the pew which the plate currently resides: 
 	* * A seat of -1 is to the left of the pew (hint: where a deacon might be standing).
 	* * A seat of pew.seats is to the right of the pew (hint: where a deacon might be standing).
 	* * A seat between these values is within the pew (hint: where a saint might be sitting).
 	*/
-	seat! : number;
+	@tracked seat : number;
 	/**
 	* The horizontal position of the plate within the diagram.
 	*/
-	x : number = 0;
+	@tracked x : number = 0;
 	/**
 	* The vertical position of the plate within the diagram.
 	*/
-	y : number = 0;
+	@tracked y : number = 0;
 	/**
 	* The direction in which the plate is moving: 
 	* * -1 : To the left.
@@ -36,12 +36,11 @@ export default class Plate extends EmberObject {
 	/**
 	* Initialize the model with defaults for any information not supplied
 	*/
-	init() {
-		super.init();
-		assert("The pew must be supplied when creating a plate.", this.pew !== undefined);
-		assert("The seat must be supplied when creating a plate", this.seat !== undefined);
-		this.seat = Math.min(this.seat, this.pew.seats);
-		this.seat = Math.max(this.seat, -1);
+	constructor(pew: Pew, seat: number) {
+		assert("The pew must be supplied when creating a plate.", pew !== undefined);
+		assert("The seat must be supplied when creating a plate", seat !== undefined);
+		this.pew = pew;
+		this.seat = Math.max(Math.min(seat, this.pew.seats), -1);
 		this.move(this.pew, this.seat);
 	}
 	/**
@@ -61,10 +60,10 @@ export default class Plate extends EmberObject {
 			this.pew.removePlate(this);
 		}
 		var coord = pew.getPlatePosition(seat);
-		this.set('x',coord.x);
-		this.set('y',coord.y);
-		this.set('pew', pew);
-		this.set('seat', seat);
+		this.x = coord.x;
+		this.y = coord.y;
+		this.pew = pew;
+		this.seat = seat;
 		if (movingPews && this.pew) {			
 			this.pew.addPlate(this);
 		}

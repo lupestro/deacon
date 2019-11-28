@@ -1,14 +1,14 @@
-<svg class="sanctuary" width={{this._width}} height={{this._height}}>
-  {{#each this._pews as |pew| }}
+<svg class="sanctuary" width={{@width}} height={{@height}}>
+  {{#each @pews as |pew| }}
     <PewFigure @model={{pew}} />
   {{/each}}
-  {{#each this._saints as |saint|}}
+  {{#each @saints as |saint|}}
     <SaintFigure @model={{saint}} />
   {{/each}}
-  {{#each this._deacons as |deacon| }}
+  {{#each @deacons as |deacon| }}
     <DeaconFigure @model={{deacon}} />
   {{/each}}
-  {{#each this._plates as |plate| }}
+  {{#each @plates as |plate| }}
     <PlateFigure @model={{plate}} />
   {{/each}}
 </svg>

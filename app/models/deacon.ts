@@ -1,4 +1,4 @@
-import EmberObject from '@ember/object';
+import { tracked } from '@glimmer/tracking';
 import { assert } from '@ember/debug';
 
 import Pew from './pew';
@@ -8,27 +8,27 @@ import { INeighbor } from './saint';
 /**
 * Model of a deacon.
 */
-export default class Deacon extends EmberObject {
+export default class Deacon {
 	/**
 	* The pew by which the deacon currently resides.
 	*/
-	pew! : Pew;
+	@tracked pew : Pew;
 	/**
 	* The seat in the pew where the deacon currently resides. Typically -1 or pew.seats.
 	*/
-	seat! : number;
+	@tracked seat : number;
 	/**
 	* The {{#crossLink "PlateModel"}}plates{{/crossLink}} that the deacon is currently holding 
 	*/
-	plates! : Plate[];
+	@tracked plates : Plate[];
 	/**
 	* The horizontal position of the deacon within the diagram.
 	*/
-	x : number = 0;
+	@tracked x : number = 0;
 	/**
 	* The vertical position of the deacon within the diagram.
 	*/
-	y : number = 0;
+	@tracked y : number = 0;
 	/**
 	* For each plate, whether this deacon received it on this row. Internal bookkeeping
 	*/
@@ -36,17 +36,18 @@ export default class Deacon extends EmberObject {
 	/**
 	* Initialize the model with defaults for any information not supplied
 	*/
-	init() {
-		super.init();
-		assert("Deacon must be constructed with pew assigned", this.pew !== undefined);
-		assert("Deacon must be constructed with seat assigned", this.seat !== undefined);
-		assert("Deacon must be constructed with plates assigned", this.plates !== undefined);
-		if (this.seat > this.pew.seats) {
+	constructor(pew: Pew, seat: number, plates: Plate[]) {
+		assert("Deacon must be constructed with pew assigned", pew !== undefined);
+		assert("Deacon must be constructed with seat assigned", seat !== undefined);
+		assert("Deacon must be constructed with plates assigned", plates !== undefined);
+		this.pew = pew;
+		this.plates = plates;
+		if (seat > this.pew.seats) {
 			this.seat = this.pew.seats;
-		} else if (this.seat < -1) {
+		} else if (seat < -1) {
 			this.seat = -1;
 		} else {
-			this.seat = this.seat;
+			this.seat = seat;
 		}
 
 		this._passed = [];
@@ -61,7 +62,7 @@ export default class Deacon extends EmberObject {
 	* @param {Pew} pew - The pew to stand next to
 	*/
 	reset(this: Deacon, plates : Plate[], pew: Pew) {
-		this.set('plates', plates);
+		this.plates = plates;
 		this._passed = [];
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
 			this._passed.push(false);
@@ -76,11 +77,11 @@ export default class Deacon extends EmberObject {
 		if (this.pew !== null) {		
 			this.pew.removeDeacon(this);
 		}
-		this.set('pew',pew);
-		this.set('seat', pew.getDeaconSeat(this));
+		this.pew = pew;
+		this.seat = pew.getDeaconSeat(this);
 		var coords = pew.getDeaconPosition(this.seat);
-		this.set('x',coords.x);
-		this.set('y',coords.y);
+		this.x = coords.x;
+		this.y = coords.y;
 		this.pew.addDeacon(this);
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
 			this.plates[p].move(pew, this.seat);

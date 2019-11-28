@@ -1,5 +1,3 @@
-import EmberObject from '@ember/object';
-
 import Saint from './saint';
 import Pew from './pew';
 
@@ -9,7 +7,7 @@ type ExplicitLayoutPattern = number[][];
 /**
 * Model of a sanctuary layout.
 */
-export default class Layout extends EmberObject {
+export default class Layout {
 	/**
 	* The pattern of pews and the arrangement of saints in those pews supplied upon creation. 
 	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
@@ -18,25 +16,20 @@ export default class Layout extends EmberObject {
 	/**
 	* Models of the {{#crossLink "PewModel"}}pews{{/crossLink}} defined 
 	*/
-	pews : Pew[] = [];
+	pews : Pew[];
 	/**
 	* Models of the {{#crossLink "SaintModel"}}saints{{/crossLink}} defined 
 	*/
-	saints : Saint[] = [];
+	saints : Saint[];
 	/**
 	* The pattern of pews and the arrangement of saints in those pews. 
 	* See {{#crossLink "ServiceRoute"}}{{/crossLink}} for details.
 	*/
 	pattern : ExplicitLayoutPattern = [];
-	/**
-	* Initialize the model with defaults for any information not supplied
-	*/
-	init() {
-		super.init();
-		this.pattern = this._cleanPattern(this.patternInput || [[5,0,1,2,3,4], [5,0,1,2,3,4] ]);
+	constructor (inputPattern: ShorthandLayoutPattern) {
+		this.pattern = this._cleanPattern(inputPattern || [[5,0,1,2,3,4], [5,0,1,2,3,4] ]);
 		this.pews = this._initializePews(this.pattern);
 		this.saints = this._initializeSaints(this.pattern, this.pews);
-
 		// Make saints from pattern
 	}
 	/**
@@ -73,7 +66,7 @@ export default class Layout extends EmberObject {
 		var newpews : Pew[] = [];
 		for (let p = 0, pLen = pattern.length; p < pLen; p++) {
 			let numSeats = pattern[p][0];
-			let pew = Pew.create({x: 30, y: 20 + p * 40, seats: numSeats, width: 0});
+			let pew = new Pew({x: 30, y: 20 + p * 40, seats: numSeats, width: 0});
 			newpews.push(pew);
 		}
 		return newpews;
@@ -87,7 +80,7 @@ export default class Layout extends EmberObject {
 			let pewpattern = pattern[p].slice(1), //everything but the count
 				pew = pews[p];
 			for (let s = 0, sLen = pewpattern.length; s < sLen; s++) {					
-				newsaints.push(Saint.create({pew: pew, seat: pewpattern[s]} ));
+				newsaints.push(new Saint(pew, pewpattern[s]));
 			}
 		}
 		return newsaints;
@@ -97,7 +90,7 @@ export default class Layout extends EmberObject {
 	*/
 	resetFed(this: Layout) {
 		for (var s = 0, sLen = this.saints.length; s < sLen; s++) {
-			this.saints[s].set('fed', false);
+			this.saints[s].fed = false;
 		}	
 	}
 
