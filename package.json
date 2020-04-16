@@ -65,7 +65,7 @@
     "typescript": "^3.7.2"
   },
   "resolutions": {
-    "minimist": "1.2.2"
+    "minimist": "1.2.5"
   },
   "engines": {
     "node": "8.* || >= 10.*"
