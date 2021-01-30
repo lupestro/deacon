@@ -1,9 +1,9 @@
 /* eslint-env node */
 'use strict';
-const { setEdition } = require("@ember/edition-utils");
+const { setEdition } = require('@ember/edition-utils');
 
-setEdition("octane");
+setEdition('octane');
 
 module.exports = {
-  "disableAnalytics": false
-}
+  disableAnalytics: false,
+};

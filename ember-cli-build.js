@@ -3,11 +3,11 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
-module.exports = function(defaults) {
+module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     'ember-cli-babel': {
-      includePolyfill: true
-    }
+      includePolyfill: true,
+    },
     // Add options here
   });
 
