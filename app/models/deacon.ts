@@ -134,7 +134,8 @@ export default class Deacon {
 	* in which you might do something with the plate.
 	*/
 	plateInHands(this: Deacon, plate: Plate, pews: Pew[]) {
-		if (plate.pew.allAreFed()) { // Time to move on to another pew
+      	// If everyone in the row is fed, move on, unless you're stacked up with plates
+		if (plate.pew.allAreFed() && this.plates.length <= 1) { // Time to move on to another pew
 			var p = pews.indexOf(plate.pew);
 			while (--p >= 0) {
 				if (!pews[p].allAreFed()) {
@@ -150,7 +151,11 @@ export default class Deacon {
 					somethingPassed = true;
 				}
 			}
-			if (!somethingPassed) {
+        	// If you didn't just get a plate from this row, send this plate down the row.
+        	// If you just got the plate but you've got multiple plates, 
+        	// send it back down the row of fed saints to the other deacon.
+        	// Otherwise, there's no plate to send to folks only the ohter deacon can reach.
+			if (!somethingPassed || (this.plates.length > 1)) {
 				if (this.seat < 0) {
 					plate.direction = 1;
 				} else {
@@ -173,7 +178,7 @@ export default class Deacon {
 		plate.move(this.pew, this.seat);
 		plate.direction = 0;
 		this.plates.push(plate);
-		this._passed.push(true);		
+		this._passed.push(true);
 		return true;
 	}
 }
