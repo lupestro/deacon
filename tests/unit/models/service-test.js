@@ -31,10 +31,8 @@ module('Unit | Model | service', function (hooks) {
       [3, '*'],
       [1, '*'],
     ]);
-    assert.ok(model.getPewSeats(-1) === 0, 'Bogus index handled correctly');
-    assert.ok(model.getPewSeats(0) === 2, 'First row is right');
-    assert.ok(model.getPewSeats(1) === 3, 'Second row is right');
-    assert.ok(model.getPewSeats(2) === 1, 'Third row is right');
-    assert.ok(model.getPewSeats(3) === 0, 'Overshot index handled correctly');
+    assert.ok(model.layout.pews[0].seats === 2, 'First row is right');
+    assert.ok(model.layout.pews[1].seats === 3, 'Second row is right');
+    assert.ok(model.layout.pews[2].seats === 1, 'Third row is right');
   });
 });
