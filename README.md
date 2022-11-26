@@ -11,8 +11,9 @@ deacons with interesting opportunities and challenges. Hopefully, this should al
 You will need the following things properly installed on your computer.
 
 * [Git](https://git-scm.com/)
-* [Node.js](https://nodejs.org/) (with NPM)
-* [Ember CLI](https://ember-cli.com/)
+* [Node.js](https://nodejs.org/)
+* [Yarn](https://yarnpkg.com/)
+* [Ember CLI](https://cli.emberjs.com/release/)
 * [Google Chrome](https://google.com/chrome/)
 
 ## Installation
@@ -57,9 +58,7 @@ Deliver the contents of the `dist` tree to the website.
 ## Further Reading / Useful Links
 
 * [ember.js](https://emberjs.com/)
-* [ember-cli](https://ember-cli.com/)
-* [QUnit](https://qunitjs.com/) (Also see [Ember.Test](http://emberjs.com/api/classes/Ember.Test.html) class.)
-* [YUIDoc](http://yui.github.io/yuidoc/)
+* [ember-cli](https://cli.emberjs.com/release/)
 * Development Browser Extensions
   * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
   * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
