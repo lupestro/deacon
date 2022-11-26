@@ -22,8 +22,8 @@ module('Unit | Model | service', function (hooks) {
       [3, '*'],
       [1, '*'],
     ]);
-    assert.ok(model.plates.length === 2, 'Right number of plates');
-    assert.ok(model.deacons.length === 2, 'Right number of deacons');
+    assert.strictEqual(model.plates.length, 2, 'Right number of plates');
+    assert.strictEqual(model.deacons.length, 2, 'Right number of deacons');
   });
   test('seats are sane', function (assert) {
     let model = new ServiceModel([
@@ -31,8 +31,8 @@ module('Unit | Model | service', function (hooks) {
       [3, '*'],
       [1, '*'],
     ]);
-    assert.ok(model.layout.pews[0].seats === 2, 'First row is right');
-    assert.ok(model.layout.pews[1].seats === 3, 'Second row is right');
-    assert.ok(model.layout.pews[2].seats === 1, 'Third row is right');
+    assert.strictEqual(model.layout.pews[0].seats, 2, 'First row is right');
+    assert.strictEqual(model.layout.pews[1].seats, 3, 'Second row is right');
+    assert.strictEqual(model.layout.pews[2].seats, 1, 'Third row is right');
   });
 });

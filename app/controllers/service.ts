@@ -1,5 +1,6 @@
 import Controller from '@ember/controller';
 import { action } from '@ember/object';
+import ServiceModel from 'deacon/models/service';
 /**
 * Controller for the service path. This handles all the button clicks and provides the timer loop to drive the dynamics. 
 *
@@ -7,6 +8,7 @@ import { action } from '@ember/object';
 * these moral agents. Discovering those effective behaviors is the central point of this whole exercise.
 */
 export default class ServiceController extends Controller {
+	declare model: ServiceModel;
 	/**
 	* The interval timer that drives the animation
 	*/
