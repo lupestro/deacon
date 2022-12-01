@@ -37,19 +37,19 @@ export default class Layout {
 	*/
 	_cleanPattern(pattern: ShorthandLayoutPattern) : ExplicitLayoutPattern {
 		var newpattern : number [][] = [];
-		for (let p = 0, pLen = pattern.length; p < pLen; p++) {
+		for (const element of pattern) {
 			let subpattern : number[] = []; 
-			if (pattern[p].length === 2 && pattern[p][1]==='*') {
-				var curr = 0, high = pattern[p][0];
+			if (element.length === 2 && element[1]==='*') {
+				var curr = 0, high = element[0];
 				if (typeof high === 'number') {
 					subpattern.push(high);
 				}
-				while(curr < high){
+				while(high && curr < high){
 					subpattern.push(curr++);
 				}
 			} else {
-				for (let s = 0, sLen = pattern[p].length; s < sLen; s++) {
-					var item = pattern[p][s];
+				for (let s = 0, sLen = element.length; s < sLen; s++) {
+					var item = element[s];
 					if (typeof item === 'number') {
 						subpattern.push(item);						
 					}
@@ -64,9 +64,9 @@ export default class Layout {
 	*/
 	_initializePews(pattern: ExplicitLayoutPattern) {
 		var newpews : Pew[] = [];
-		for (let p = 0, pLen = pattern.length; p < pLen; p++) {
-			let numSeats = pattern[p][0];
-			let pew = new Pew({x: 30, y: 20 + p * 40, seats: numSeats, width: 0});
+		for (const [index, element] of pattern.entries()) {
+			let numSeats = element[0];
+			let pew = new Pew({x: 30, y: 20 + index * 40, seats: numSeats, width: 0});
 			newpews.push(pew);
 		}
 		return newpews;
@@ -76,11 +76,13 @@ export default class Layout {
 	*/
 	_initializeSaints(pattern: ExplicitLayoutPattern, pews: Pew[]) {
 		let newsaints = [];
-		for (let p = 0, pLen = pews.length; p < pLen; p++) {
-			let pewpattern = pattern[p].slice(1), //everything but the count
-				pew = pews[p];
-			for (let s = 0, sLen = pewpattern.length; s < sLen; s++) {					
-				newsaints.push(new Saint(pew, pewpattern[s]));
+		for (const [index, element] of pattern.entries()) {
+			let pewpattern = element.slice(1), //everything but the count
+				pew = pews[index];
+			for (let saintinfo of pewpattern) {
+				if (pew) {
+					newsaints.push(new Saint(pew, saintinfo));
+				}				
 			}
 		}
 		return newsaints;
@@ -89,8 +91,8 @@ export default class Layout {
 	* Reset the "fed" state of all the saints in the layout
 	*/
 	resetFed(this: Layout) {
-		for (var s = 0, sLen = this.saints.length; s < sLen; s++) {
-			this.saints[s].fed = false;
+		for (var saint of this.saints) {
+			saint.fed = false;
 		}	
 	}
 

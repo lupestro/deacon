@@ -61,7 +61,7 @@ export default class Deacon {
 	* @param {Array of PlateModel} plates - The {{#crossLink "PlateModel"}}plates{{/crossLink}} to hold
 	* @param {Pew} pew - The pew to stand next to
 	*/
-	reset(this: Deacon, plates : Plate[], pew: Pew) {
+	reset(plates : Plate[], pew: Pew) {
 		this.plates = plates;
 		this._passed = [];
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
@@ -73,7 +73,7 @@ export default class Deacon {
 	* <i>Behavior:</i> Move to a specfic pew
 	* @param {Pew} pew - The pew to which to move
 	*/
-	move(this: Deacon, pew : Pew){
+	move(pew : Pew){
 		if (this.pew !== null) {		
 			this.pew.removeDeacon(this);
 		}
@@ -83,9 +83,10 @@ export default class Deacon {
 		this.x = coords.x;
 		this.y = coords.y;
 		this.pew.addDeacon(this);
-		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
-			this.plates[p].move(pew, this.seat);
-			this._passed[p] = false;
+		for (const [index, plate] of this.plates.entries()) {
+			plate.move(pew, this.seat);
+			if (this._passed[index])
+			this._passed[index] = false;
 		}
 	} 
 	/**
@@ -93,7 +94,7 @@ export default class Deacon {
 	* @param {Plate} plate - The plate to pass
 	* @param {Saint|Deacon} neighbor - The neighbor to which to pass the plate
 	*/
-	passPlate(this: Deacon, plate: Plate, neighbor : INeighbor){
+	passPlate(plate: Plate, neighbor : INeighbor){
 		var idx = -1;
 		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
 			if (plate === this.plates[p]) {
@@ -122,7 +123,7 @@ export default class Deacon {
 	* <i>Opportunity:</i> A plate has reached the end of a pew - Do you go retrieve it?
 	* @param {Plate} plate - The plate that's arriving
 	*/
-	plateArriving(this: Deacon, plate: Plate) {
+	plateArriving(plate: Plate) {
 		if (plate.pew !== this.pew) {
 			this.move(plate.pew);			
 		}
@@ -133,13 +134,14 @@ export default class Deacon {
 	* @param {Array of PewModel} pews = The full set of {{#crossLink "PewModel"}}pews{{/crossLink}} 
 	* in which you might do something with the plate.
 	*/
-	plateInHands(this: Deacon, plate: Plate, pews: Pew[]) {
+	plateInHands(plate: Plate, pews: Pew[]) {
       	// If everyone in the row is fed, move on, unless you're stacked up with plates
 		if (plate.pew.allAreFed() && this.plates.length <= 1) { // Time to move on to another pew
 			var p = pews.indexOf(plate.pew);
 			while (--p >= 0) {
-				if (!pews[p].allAreFed()) {
-					this.move(pews[p]);
+				let pew = pews[p];
+				if (pew && !pew.allAreFed()) {
+					this.move(pew);
 					break;
 				}
 			}
@@ -174,7 +176,7 @@ export default class Deacon {
 	* <i>Opportunity:</i> A plate is being passed to you - Do you accept it?
 	* @param {Plate} plate - The plate you're being offered
 	*/
-	receivePlate(this:Deacon, plate: Plate) {
+	receivePlate(plate: Plate) {
 		plate.move(this.pew, this.seat);
 		plate.direction = 0;
 		this.plates.push(plate);

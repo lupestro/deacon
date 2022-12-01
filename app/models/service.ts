@@ -2,6 +2,7 @@ import { tracked } from '@glimmer/tracking';
 import Deacon from './deacon';
 import Plate from './plate';
 import Layout from './layout';
+import { assert } from '@ember/debug';
 
 type ShorthandLayoutPattern = (number | string)[][];
 const OFF_LEFT_SEAT = -1;
@@ -54,6 +55,8 @@ export default class ServiceModel {
 		var pew0 =  pews[pews.length-1],
 			pew1 = pews[pews.length-2];
 
+		assert("Last two pews exist", pew0 && pew1);
+
 		var plate0 = new Plate(pew0, OFF_LEFT_SEAT),
 			plate1 = new Plate(pew1, OFF_RIGHT_SEAT);
 		this.plates = [ plate0, plate1 ];
@@ -69,23 +72,37 @@ export default class ServiceModel {
 	* @param {number} index of the pew
 	* @return {number} the number of seats in the pew
 	*/
-	getPewSeats(this: ServiceModel, pewIndex: number): number {
+	getPewSeats(pewIndex: number): number {
 		var pews = this.layout.pews;
 		if (pewIndex < 0 || pewIndex >= pews.length) {
 			return 0;
 		}
 		else {
-			return pews[pewIndex].seats;
+			const pew = pews[pewIndex];
+			if (!pew) {
+				return 0;
+			} else {
+				return pew.seats;
+			}
 		}
 	}
 	/**
 	* Reset the position and condition of the deacons and the plates
 	*/
-	resetPlatesAndDeacons (this: ServiceModel) {
-		var pews = this.layout.pews;
-		this.plates[0].reset();
-		this.plates[1].reset();
-		this.deacons[0].reset ([this.plates[0]], pews[pews.length-1]);
-		this.deacons[1].reset ([this.plates[1]], pews[pews.length-2]);
+	resetPlatesAndDeacons () {
+		const pews = this.layout.pews;
+		const lastPew = pews[pews.length-1];
+		const nextLastPew = pews[pews.length-2];
+		const firstPlate = this.plates[0];
+		const otherPlate = this.plates[1];
+		const firstDeacon = this.deacons[0];
+		const otherDeacon = this.deacons[1];
+		assert("Two deacons exist", firstDeacon && otherDeacon);
+		assert("Each deacon has a plate", firstPlate && otherPlate);
+		assert("At least two pews exist", lastPew && nextLastPew);
+		firstPlate.reset();
+		otherPlate.reset();
+		firstDeacon.reset ([firstPlate], lastPew);
+		otherDeacon.reset ([otherPlate], nextLastPew);
 	}
 }

@@ -67,7 +67,7 @@ export default class Pew {
 	* Result is supplied as a hash with x and y keys.
 	* @param {number} seat - The seat at which the saint will be placed
 	*/
-	getSaintPosition(this: Pew, seat : number) : IPewPosition {
+	getSaintPosition(seat : number) : IPewPosition {
 		var realSeat = seat;
 		if (seat > this.seats) {
 			realSeat = this.seats-1;
@@ -82,7 +82,7 @@ export default class Pew {
 	* Result is supplied as a hash with x and y keys.
 	* @param {number} seat - The seat at which the deacon will be placed
 	*/
-	getDeaconPosition(this: Pew, seat:number) : IPosition {
+	getDeaconPosition(seat:number) : IPosition {
 		var result = {x: 0, y: this.y };
 		if (seat < 0) {
 			result.x = this.x - 30;
@@ -98,7 +98,7 @@ export default class Pew {
 	* Result is supplied as a hash with x and y keys.
 	* @param {number} seat - The seat at which the plate will be placed
 	*/
-	getPlatePosition(this: Pew, seat:number) : IPosition {
+	getPlatePosition(seat:number) : IPosition {
 		var result = {x: 0, y: this.y + 5};
 		if (seat < 0) {
 			result.x = this.x - 10;
@@ -113,7 +113,7 @@ export default class Pew {
 	* Get the seat position for a deacon on the end of the row, given where the deacon was before. Adjusts for rows of different widths.
 	* @param {Deacon} deacon - The deacon in question
 	*/
-	getDeaconSeat(this: Pew, deacon: Deacon): number {
+	getDeaconSeat(deacon: Deacon): number {
 		if (deacon.seat < 0) {
 			return deacon.seat;
 		}
@@ -124,7 +124,7 @@ export default class Pew {
 	/**
 	* Test whether all saints in this pew are fed.
 	*/
-	allAreFed(this: Pew): boolean {
+	allAreFed(): boolean {
 		var unfed = this.saints.filter(function (elem) {
 			return (elem.fed === false);
 		});
@@ -133,9 +133,9 @@ export default class Pew {
 	/**
 	* Test whether there is a plate in motion in this pew.
 	*/
-	hasPlateInMotion(this: Pew): boolean {
-		for (var p = 0, pLen = this.plates.length; p < pLen; p++) {
-			if (this.plates[p].direction !== 0 && (this.plates[p].seat >= 0 || this.plates[p].seat < this.seats)) {
+	hasPlateInMotion(): boolean {
+		for (const plate of this.plates) {
+			if (plate.direction !== 0 && (plate.seat >= 0 || plate.seat < this.seats)) {
 				return true;
 			}
 		}
@@ -145,7 +145,7 @@ export default class Pew {
 	* Add a saint to this row.
 	* @param {Saint} saint - The saint to add
 	*/
-	addSaint(this: Pew, saint: Saint) {
+	addSaint(saint: Saint) {
 		if (-1 === this.saints.indexOf(saint)) {
 			this.saints.push(saint);
 		}
@@ -154,7 +154,7 @@ export default class Pew {
 	* Remove a saint from this row if present.
 	* @param {Saint} saint - The saint to remove
 	*/
-	removeSaint(this: Pew, saint: Saint) {
+	removeSaint(saint: Saint) {
 		var index = this.saints.indexOf(saint);
 		if (index >= 0) {
 			this.saints.splice(index,index+1);
@@ -164,11 +164,11 @@ export default class Pew {
 	* Find a saint in the specified seat of this row if present or null if not.
 	* @param {number} - The seat to look in
 	*/
-	findSaint(this:Pew, seat: number) : Saint | null {
+	findSaint(seat: number) : Saint | null {
 		var saint = this.saints.filter(function(elem) {
 			return (elem.seat === seat);
 		});
-		if (saint.length === 0) { 
+		if (saint.length === 0 || !saint[0]) { 
 			return null;
 		} else { 
 			return saint[0];
@@ -178,7 +178,7 @@ export default class Pew {
 	* Add a deacon to this row.
 	* @param {Deacon} deacon - The deacon to add
 	*/
-	addDeacon(this:Pew, deacon: Deacon) {
+	addDeacon(deacon: Deacon) {
 		if (-1 === this.deacons.indexOf(deacon)) {
 			this.deacons.push(deacon);
 		}
@@ -187,7 +187,7 @@ export default class Pew {
 	* Remove a deacon from this row if present.
 	* @param {Deacon} deacon - The deacon to remove
 	*/
-	removeDeacon(this: Pew, deacon: Deacon) {
+	removeDeacon(deacon: Deacon) {
 		var index = this.deacons.indexOf(deacon);
 		if (index >= 0) {
 			this.deacons.splice(index,index+1);
@@ -197,11 +197,11 @@ export default class Pew {
 	* Find a deacon in the specified seat of this row if present or null if not.
 	* @param {number} seat - The seat to look in
 	*/
-	findDeacon(this: Pew, seat: number): Deacon | null {
+	findDeacon(seat: number): Deacon | null {
 		var deacon = this.deacons.filter(function(elem) {
 			return (elem.seat === seat);
 		});
-		if (deacon.length === 0) { 
+		if (deacon.length === 0 || !deacon[0]) { 
 			return null;
 		} else { 
 			return deacon[0];
@@ -211,7 +211,7 @@ export default class Pew {
 	* Add a plate to this row.
 	* @param {Plate} plate - The plate to add
 	*/
-	addPlate(this: Pew, plate: Plate) {
+	addPlate(plate: Plate) {
 		if (-1 === this.plates.indexOf(plate)) {
 			this.plates.push(plate);
 		}		
@@ -220,7 +220,7 @@ export default class Pew {
 	* Remove a plate from this row if present.
 	* @param {Plate} plate - The plate to remove
 	*/
-	removePlate(this: Pew, plate: Plate) {
+	removePlate(plate: Plate) {
 		var index = this.plates.indexOf(plate);
 		if (index >= 0) {
 			this.plates.splice(index,index+1);

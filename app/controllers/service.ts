@@ -1,4 +1,5 @@
 import Controller from '@ember/controller';
+import { assert } from '@ember/debug';
 import { action } from '@ember/object';
 import ServiceModel from 'deacon/models/service';
 /**
@@ -49,13 +50,15 @@ export default class ServiceController extends Controller {
 	* @method _iterate
 	*/
 	_iterate() {
-		for (var p = 0, pLen = this.model.plates.length; p < pLen; p++) {
-			var plate = this.model.plates[p];
+		for (const plate of this.model.plates) {
+			let deacon0 = this.model.deacons[0];
+			let deacon1 = this.model.deacons[1];
+			assert("Both deacons exist", deacon0 && deacon1);
 			// Give the deacons opportunity to respond to plates about to finish their journey
 			if (plate.direction < 0 && plate.seat === 0) {
-				this.model.deacons[0].plateArriving(plate);
+				deacon0.plateArriving(plate);
 			} else if (plate.direction > 0 && plate.seat === plate.pew.seats - 1) {
-				this.model.deacons[1].plateArriving(plate);				
+				deacon1.plateArriving(plate);				
 			}
 			// Give the hand holding the plate an opportunity to do something with it
 			var saint = plate.pew.findSaint(plate.seat);
@@ -72,7 +75,9 @@ export default class ServiceController extends Controller {
 	* @method start
 	*/
 	@action start() {
-		this.model.stageName = this.stageNames[0];
+		let firstStage = this.stageNames[0];
+		assert("Stages exist", firstStage);
+		this.model.stageName = firstStage;
 		this.reset();
 		if (!this.timer) {
 			this.simulate();
@@ -93,15 +98,16 @@ export default class ServiceController extends Controller {
 	* @method next
 	*/
 	@action next() {
-		for (var i=0,iLen=this.stageNames.length; i< iLen; i++) {
-			if (this.model.stageName === this.stageNames[i]) {
-				if (i === iLen - 1) {
-					this.terminate();
-				} else {
-					this.model.stageName = this.stageNames[i+1];
-					this.reset();
-				}
-				break;
+		let index = this.stageNames.findIndex( (name) => name === this.model.stageName);
+		if (index === this.stageNames.length - 1) {
+			this.terminate;
+		} else {
+			let nextStage = this.stageNames[index + 1];
+			if (!nextStage) {
+				this.terminate;
+			} else {
+				this.model.stageName = nextStage;
+				this.reset();	
 			}
 		}
 	}
