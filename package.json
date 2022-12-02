@@ -28,6 +28,9 @@
     "@ember/edition-utils": "^1.1.1",
     "@ember/optional-features": "^2.0.0",
     "@ember/test-helpers": "^2.8.1",
+    "@embroider/compat": "^2.0.2",
+    "@embroider/core": "^2.0.2",
+    "@embroider/webpack": "^2.0.2",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@tsconfig/ember": "^1.0.1",
@@ -70,7 +73,6 @@
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-cli-typescript": "^5.2.1",
-    "ember-cli-typescript-blueprints": "^3.0.0",
     "ember-fetch": "^8.1.2",
     "ember-load-initializers": "^2.1.2",
     "ember-page-title": "^7.0.0",
@@ -78,7 +80,6 @@
     "ember-resolver": "^8.0.3",
     "ember-source": "~4.8.0",
     "ember-template-lint": "^4.16.1",
-    "ember-welcome-page": "^6.2.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-ember": "^11.1.0",
@@ -92,7 +93,7 @@
     "qunit-dom": "^2.0.0",
     "typedoc": "^0.15.3",
     "typescript": "^4.9.3",
-    "webpack": "^5.74.0"
+    "webpack": "^5.75.0"
   },
   "resolutions": {
     "@types/express-serve-static-core": ">=4.17.21",
@@ -121,7 +122,6 @@
     "shelljs": ">=0.8.5",
     "ssri": ">=6.0.2 <7.0.0 || >=7.1.1 < 8.0.0 || >= 8.0.1",
     "testem": "^3.10.0",
-    "terser-webpack-plugin": "^1.4.3",
     "tmpl": ">=1.0.5",
     "underscore": ">=1.12.1",
     "validator": ">=13.7.0",
