@@ -2,9 +2,14 @@
 'use strict';
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
+const {
+  createEmberCLIConfig,
+  createWebpackConfig
+} = require('ember-cli-bundle-analyzer/create-config');
 
 module.exports = function (defaults) {
   const app = new EmberApp(defaults, {
+    ...createEmberCLIConfig()
     // Add options here
   });
 
@@ -21,5 +26,13 @@ module.exports = function (defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
   const { Webpack } = require('@embroider/webpack');
-  return require('@embroider/compat').compatBuild(app, Webpack);
+  return require('@embroider/compat').compatBuild(app, Webpack,{
+    // your Embroider options...
+    packagerOptions: {
+      webpackConfig: {
+        // any custom webpack options you might have
+        ...createWebpackConfig(),
+      },
+    },
+  });
 };
