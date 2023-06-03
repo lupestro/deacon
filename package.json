@@ -1,8 +1,8 @@
 {
   "name": "deacon",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "private": true,
-  "description": "Small description for deacon goes here",
+  "description": "Simulation of passing the plate and the elements",
   "repository": "",
   "license": "MIT",
   "author": "",
@@ -27,11 +27,11 @@
     "@babel/core": "7.7.4",
     "@ember/edition-utils": "^1.2.0",
     "@ember/optional-features": "^2.0.0",
-    "@ember/string": "^3.0.1",
+    "@ember/string": "^3.1.1",
     "@ember/test-helpers": "^2.9.3",
-    "@embroider/compat": "*",
-    "@embroider/core": "*",
-    "@embroider/webpack": "*",
+    "@embroider/compat": "^3.0.0",
+    "@embroider/core": "^3.0.0",
+    "@embroider/webpack": "^3.0.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@tsconfig/ember": "^2.0.0",
@@ -57,10 +57,10 @@
     "ember-qunit": "^6.2.0",
     "ember-resolver": "^8.1.0",
     "ember-source": "~4.8.0",
-    "ember-template-lint": "^5.7.3",
+    "ember-template-lint": "^5.10.0",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-plugin-ember": "^11.1.0",
+    "eslint-plugin-ember": "^11.8.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-qunit": "^7.3.1",
@@ -72,18 +72,20 @@
     "qunit-dom": "^2.0.0",
     "typedoc": "^0.24.7",
     "typescript": "^4.9.3",
-    "webpack": "^5.75.0"
+    "webpack": "^5.85.0"
   },
   "resolutions": {
     "ansi-html": "^0.0.8",
     "clean-css": "^4.1.11",
+    "find-babel-config": "^2.0.0",
     "glob-parent": "^5.1.2",
     "highlight.js": "^10.4.1",
     "markdown-it-terminal": "^0.4.0",
+    "socket.io-parser": "^4.2.4",
     "validator": "^13.7.0"
   },
   "engines": {
-    "node": "14.* || 16.* || >= 18"
+    "node": "16.* || >= 18"
   },
   "ember": {
     "edition": "octane"
