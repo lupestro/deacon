@@ -24,6 +24,13 @@ module.exports = {
   },
   rules: {},
   overrides: [
+    // typescript files
+    {
+      files: ['*.{ts,gts}'],
+      plugins: ['@typescript-eslint'],
+      parser: '@typescript-eslint/parser',
+      extends: ['plugin:@typescript-eslint/recommended'],
+    },
     // node files
     {
       files: [
