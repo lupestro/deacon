@@ -1,6 +1,13 @@
 'use strict';
 
 module.exports = {
-  singleQuote: true,
-  endOfLine: 'auto',
+  overrides: [
+    {
+      files: '*.{js,ts}',
+      options: {
+        singleQuote: true,
+        endOfLine: 'auto',
+      },
+    },
+  ],
 };

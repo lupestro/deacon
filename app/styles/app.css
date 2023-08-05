@@ -1,6 +1,8 @@
+/* Ember supports plain CSS out of the box. More info: https://cli.emberjs.com/release/advanced-use/stylesheets/ */
 .sanctuary {
-	border:solid;
+  border: solid;
 }
+
 body {
-	font-family: Arial,Helvetica,sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
