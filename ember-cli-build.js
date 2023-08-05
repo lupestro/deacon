@@ -27,7 +27,11 @@ module.exports = function (defaults) {
   // along with the exports of each module as its value.
   const { Webpack } = require('@embroider/webpack');
   return require('@embroider/compat').compatBuild(app, Webpack, {
-    // your Embroider options...
+    staticAddonTestSupportTrees: true,
+    staticAddonTrees: true,
+    staticHelpers: true,
+    staticModifiers: true,
+    staticComponents: true,
     packagerOptions: {
       webpackConfig: {
         // any custom webpack options you might have
