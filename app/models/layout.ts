@@ -32,7 +32,7 @@ export default class Layout {
       inputPattern || [
         [5, 0, 1, 2, 3, 4],
         [5, 0, 1, 2, 3, 4],
-      ]
+      ],
     );
     this.pews = this._initializePews(this.pattern);
     this.saints = this._initializeSaints(this.pattern, this.pews);
@@ -51,7 +51,7 @@ export default class Layout {
         if (typeof high === 'number') {
           subpattern.push(high);
         }
-        while (high && curr < high) {
+        while (high && typeof high === 'number' && curr < high) {
           subpattern.push(curr++);
         }
       } else {

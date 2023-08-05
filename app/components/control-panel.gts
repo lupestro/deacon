@@ -6,8 +6,8 @@ export interface ControlPanelSignature {
     start: () => void;
     restart: () => void;
     next: () => void;
-  }
-};
+  };
+}
 
 export default class ControlPanel extends Component<ControlPanelSignature> {
   <template>

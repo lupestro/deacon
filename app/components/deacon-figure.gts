@@ -1,7 +1,9 @@
 import Component from '@glimmer/component';
 import type Deacon from '../models/deacon';
 
-export default class DeaconFigure extends Component <{Args: { deacon: Deacon; }}>{
+export default class DeaconFigure extends Component<{
+  Args: { deacon: Deacon };
+}> {
   <template>
     <g class="deacon" transform="translate({{@deacon.x}},{{@deacon.y}})">
       <circle class="left-shoulder" r="5" cy="11" cx="6" stroke-width="2" stroke="#000000" fill="#FF7777"/>

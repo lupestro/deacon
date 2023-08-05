@@ -99,7 +99,7 @@ export default class ServiceController extends Controller {
    */
   @action next() {
     const index = this.stageNames.findIndex(
-      (name) => name === this.model.stageName
+      (name) => name === this.model.stageName,
     );
     if (index === this.stageNames.length - 1) {
       this.terminate;

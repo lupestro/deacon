@@ -16,10 +16,10 @@ export interface SanctuaryDiagramSignature {
     saints: Saint[];
     deacons: Deacon[];
     plates: Plate[];
-  }
-};
+  };
+}
 
-export default class SanctuaryDiagram extends Component <SanctuaryDiagramSignature> {
+export default class SanctuaryDiagram extends Component<SanctuaryDiagramSignature> {
   <template>
     <svg class="sanctuary" width={{@width}} height={{@height}}>
       {{#each @pews as |pew| }}
@@ -43,5 +43,3 @@ declare module '@glint/environment-ember-loose/registry' {
     SanctuaryDiagram: typeof SanctuaryDiagram;
   }
 }
-
-

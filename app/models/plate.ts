@@ -40,7 +40,7 @@ export default class Plate {
     assert('The pew must be supplied when creating a plate', pew !== undefined);
     assert(
       'The seat must be supplied when creating a plate',
-      seat !== undefined
+      seat !== undefined,
     );
     this.pew = pew;
     this.seat = Math.max(Math.min(seat, this.pew.seats), -1);

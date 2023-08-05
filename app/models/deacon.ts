@@ -41,7 +41,7 @@ export default class Deacon {
     assert('Deacon must be constructed with seat assigned', seat !== undefined);
     assert(
       'Deacon must be constructed with plates assigned',
-      plates !== undefined
+      plates !== undefined,
     );
     this.pew = pew;
     this.plates = plates;

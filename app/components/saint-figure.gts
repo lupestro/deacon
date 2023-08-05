@@ -1,7 +1,9 @@
 import Component from '@glimmer/component';
 import type Saint from '../models/saint';
 
-export default class SaintFigure extends Component <{Args: { saint: Saint; }}>{
+export default class SaintFigure extends Component<{
+  Args: { saint: Saint };
+}> {
   <template>
     <g class="saint" transform="translate({{@saint.x}},{{@saint.y}})">
       <circle fill="#FF7777" stroke="#000000" stroke-width="2" cx="6" cy="11" r="5" class="left-shoulder"/>
